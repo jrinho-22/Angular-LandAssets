@@ -1,0 +1,33 @@
+<div>
+    <!-- <ng-template let-product pTemplate="item">
+        <div class="contentWrapper">
+            <div class="topWrapper">
+                <span> {{product.name}}</span>
+            </div>
+            <div class="bottomWrapper">
+                <ng-container *ngIf="product.url">
+                    <div class="imageWrapper">
+                        <img src={{product.url}}>
+                    </div>
+                </ng-container>
+            </div>
+
+        </div>
+    </ng-template> -->
+    <h1>headerrr</h1>
+
+    <ng-container *ngFor="let item of teste">
+        <ng-template [ngTemplateOutlet]="item == templateRefName ? templateRef : default"
+            [ngTemplateOutletContext]="{ $implicit: item }" />
+    </ng-container>
+
+    <ng-template #default let-item>
+        {{item}}
+    </ng-template>
+
+
+    <!-- <ng-template #templateRef let-item>
+        <h1>{{ item }}</h1>
+    </ng-template> -->
+    <ng-content></ng-content>
+</div>

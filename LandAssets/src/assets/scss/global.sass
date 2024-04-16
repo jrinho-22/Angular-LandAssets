@@ -1,0 +1,38 @@
+@import "./variables"
+    
+*
+    box-sizing: border-box
+    margin: 0
+    
+span, li, h1, h2, h3, h4, h5
+    font-family: Averta
+
+.Background
+    background-image: url("../images/back.webp")
+    background-size: cover
+    position: absolute
+    top: 0
+    bottom: 20%
+    left: 0
+    right: 0
+
+img
+    height: -webkit-fill-available
+    width: -webkit-fill-available
+
+// caroulsel 
+.p-carousel-indicators
+    display: none
+
+// textfield
+mat-form-field 
+    .mdc-line-ripple::after
+        border-bottom-color: $cor_fundo !important 
+        
+    .mdc-text-field--focused,
+    .mdc-floating-label--float-above
+        color: $cor_fundo !important
+    .mdc-text-field--filled
+        background-color: transparent !important
+    .mat-mdc-form-field-focus-overlay
+        background-color: transparent

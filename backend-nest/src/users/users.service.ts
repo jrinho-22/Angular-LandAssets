@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { usersSeed } from './data';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Users } from './entities/user.entity';
-import { IUser } from './IUser';
+import { Users } from './user.entity';
 
 @Injectable()
 export class UsersService {
@@ -14,8 +12,8 @@ export class UsersService {
     private usersRepository: Repository<Users>,
   ) {}
 
-  createBefore(): Array<Promise<Users>> {
-    return usersSeed.map(async (user: IUser) => {
+  createSeed(usersSeed: CreateUserDto[]): Array<Promise<Users>> {
+    return usersSeed.map(async (user: CreateUserDto) => {
       return await this.usersRepository
         .findOne({
           where: {
@@ -23,13 +21,10 @@ export class UsersService {
           },
         })
         .then(async (dbLangauge) => {
-          // We check if a user already exists.
-          // If it does don't create a new one.
           if (dbLangauge) {
             return Promise.resolve(null);
           }
           return Promise.resolve(
-            // or create(user).then(() => { ... });
             await this.usersRepository.save(user),
           );
         })
@@ -49,7 +44,7 @@ export class UsersService {
   findOne(userId: number): Promise<Users | null> {
     return this.usersRepository.findOne({
       where: {
-        name: 'luiz',
+        userId: userId,
       },
     });
   }

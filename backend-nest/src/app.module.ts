@@ -3,11 +3,13 @@ import { Logger, Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { Users } from './users/entities/user.entity';
-import { Seeder } from './seeder.service';
+import { Users } from './users/user.entity';
+import { Estate } from './estate/estate.entity';
+import { Seeder } from './database/seeder/seeder.service';
+import { EstateModule } from './estate/estate.module';
 
 @Module({
-  imports: [UsersModule, 
+  imports: [UsersModule, EstateModule, 
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -15,7 +17,7 @@ import { Seeder } from './seeder.service';
       username: 'root',
       password: 'juninho22',
       database: 'nest',
-      entities: [Users],
+      entities: [Users, Estate],
       synchronize: true,
     }),
   ],

@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { Seeder } from './database/seeder/seeder.service';
 
 async function bootstrap() {
-  NestFactory.createApplicationContext(AppModule)
+  await NestFactory.createApplicationContext(AppModule)
     .then(appContext => {
       const logger = appContext.get(Logger);
       const seeder = appContext.get(Seeder);
@@ -23,6 +23,8 @@ async function bootstrap() {
       throw error;
     });
 
-  // await app.listen(3001);
+    const app = await NestFactory.create(AppModule)
+    app.enableCors();
+    await app.listen(3001);
 }
 bootstrap();

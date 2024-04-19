@@ -1,33 +1,32 @@
 <div>
-    <!-- <ng-template let-product pTemplate="item">
-        <div class="contentWrapper">
-            <div class="topWrapper">
-                <span> {{product.name}}</span>
-            </div>
-            <div class="bottomWrapper">
-                <ng-container *ngIf="product.url">
-                    <div class="imageWrapper">
-                        <img src={{product.url}}>
-                    </div>
-                </ng-container>
-            </div>
+    <p-carousel [value]="states" [circular]="true">
+        <ng-template let-state pTemplate="item">
+            <div class="contentWrapper">
+                <div class="topWrapper">
+                    <span> {{state.name}}</span>
+                </div>
+                <div class="bottomWrapper">
+                    <ng-container *ngIf="state.map">
+                        <div class="imageWrapper">
+                            <img [src]="'data:image/png;base64,' + state.map" alt="">
+                        </div>
+                    </ng-container>
+                </div>
 
-        </div>
-    </ng-template> -->
-    <h1>headerrr</h1>
+            </div>
+        </ng-template>
+    </p-carousel>
+    <!-- <h1>headerrr</h1>
 
-    <ng-container *ngFor="let item of teste">
-        <ng-template [ngTemplateOutlet]="item == templateRefName ? templateRef : default"
-            [ngTemplateOutletContext]="{ $implicit: item }" />
+    <ng-container *ngFor="let item of states">
+        <ng-container *ngFor="let item2 of customRef">
+            <ng-template [ngTemplateOutlet]="item == item2.item ? item2.ref : default"
+                [ngTemplateOutletContext]="{ $implicit: item }" />
+
+            <ng-template #default let-item>
+                {{item}}
+            </ng-template>
+        </ng-container>
     </ng-container>
-
-    <ng-template #default let-item>
-        {{item}}
-    </ng-template>
-
-
-    <!-- <ng-template #templateRef let-item>
-        <h1>{{ item }}</h1>
-    </ng-template> -->
-    <ng-content></ng-content>
+    <ng-content></ng-content> -->
 </div>

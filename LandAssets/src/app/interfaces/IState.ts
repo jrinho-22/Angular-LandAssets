@@ -1,4 +1,5 @@
-export class CreateEstateDto {
+export default interface IState {
+  estateId: number;
   name: string;
   map: string;
   size: string;

@@ -1,7 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Res,
+  HttpStatus,
+} from '@nestjs/common';
 import { EstateService } from './estate.service';
 import { CreateEstateDto } from './dto/create-estate.dto';
 import { UpdateEstateDto } from './dto/update-estate.dto';
+import * as fs from 'fs';
+import { Response } from 'express'
 
 @Controller('estate')
 export class EstateController {
@@ -15,6 +27,13 @@ export class EstateController {
   @Get()
   findAll() {
     return this.estateService.findAll();
+  }
+
+  @Get('/img')
+  async getImage(@Res() res: Response) {
+    const filePath = 'src/assets/imgs/estateMap.png';
+    const readStream = fs.createReadStream(filePath);
+    readStream.pipe(res);
   }
 
   @Get(':id')

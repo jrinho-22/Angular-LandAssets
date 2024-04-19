@@ -12,6 +12,7 @@ import { ShortSummaryComponent } from './views/dashboard/components/short-summar
 import { PlotActionsComponent } from './views/dashboard/components/plot-actions/plot-actions.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { TextfieldComponent } from './components/inputs/textfield/textfield.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { TextfieldComponent } from './components/inputs/textfield/textfield.comp
     BrowserModule,
     LogoComponent,
     AppRoutingModule,
+    HttpClientModule, 
     FlatButtonComponent,
     CarouselComponent,
     TextfieldComponent,

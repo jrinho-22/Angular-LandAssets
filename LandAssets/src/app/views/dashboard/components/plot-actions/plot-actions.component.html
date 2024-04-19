@@ -1,42 +1,44 @@
 <section class="contentWrapper">
     <div class="content">
         <div class="contentLeft">
-            <input #mytext type="text">
-            <!-- <corounsel> -->
-            <app-carousel templateRefName="Item1" [templateRef]="myref" [teste2]="testes">
+            <app-carousel [customRef]='[{item: "Item 2", ref: myref}, {item: "Item1", ref: myref2}]' [states]="states">
                 <ng-template #myref let-item>
                     <!-- Use item here -->
                     <h1>{{ item.toUpperCase() }}</h1>
                 </ng-template>
 
+                <ng-template #myref2 let-item>
+                    <!-- Use item here -->
+                    <h1>{{ item.toUpperCase() }}</h1>
+                </ng-template>
             </app-carousel>
-            <!-- <corounsel> -->
         </div>
         <div class="contentMiddle">
             <div class="verticalLine"></div>
         </div>
         <div class="contentRight">
-            <ng-container [ngTemplateOutlet]="'state1' == teste[0] ? estateFields : plotsFields"></ng-container>
-            <ng-template #estateFields>
-                <app-textfield placeholder="Estate Name" />
-                <app-textfield placeholder="Estate Name" />
-                <app-textfield placeholder="Estate Name" />
-                <app-textfield placeholder="Estate Name" />
-                <app-textfield placeholder="Estate Name" />
-                <app-textfield placeholder="Estate Name" />
-                <app-textfield placeholder="Estate Name" />
-                <app-textfield placeholder="Estate Name" />
-            </ng-template>
-            <ng-template #plotsFields>
-                <app-textfield placeholder="Plots Name" />
-                <app-textfield placeholder="Plots Name" />
-                <app-textfield placeholder="Plots Name" />
-                <app-textfield placeholder="Plots Name" />
-                <app-textfield placeholder="Plots Name" />
-                <app-textfield placeholder="Plots Name" />
-                <app-textfield placeholder="Plots Name" />
-                <app-textfield placeholder="Plots Name" />
-            </ng-template>
+            <ng-container [ngTemplateOutlet]="'state1' == teste[0] ? estateFields : plotsFields">
+                <ng-template #estateFields>
+                    <app-textfield placeholder="Estate Name" />
+                    <app-textfield placeholder="Estate Name" />
+                    <app-textfield placeholder="Estate Name" />
+                    <app-textfield placeholder="Estate Name" />
+                    <app-textfield placeholder="Estate Name" />
+                    <app-textfield placeholder="Estate Name" />
+                    <app-textfield placeholder="Estate Name" />
+                    <app-textfield placeholder="Estate Name" />
+                </ng-template>
+                <ng-template #plotsFields>
+                    <app-textfield placeholder="Plots Name" />
+                    <app-textfield placeholder="Plots Name" />
+                    <app-textfield placeholder="Plots Name" />
+                    <app-textfield placeholder="Plots Name" />
+                    <app-textfield placeholder="Plots Name" />
+                    <app-textfield placeholder="Plots Name" />
+                    <app-textfield placeholder="Plots Name" />
+                    <app-textfield placeholder="Plots Name" />
+                </ng-template>
+            </ng-container>
         </div>
     </div>
 </section>

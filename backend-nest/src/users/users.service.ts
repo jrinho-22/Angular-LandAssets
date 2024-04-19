@@ -20,8 +20,8 @@ export class UsersService {
             name: user.name,
           },
         })
-        .then(async (dbLangauge) => {
-          if (dbLangauge) {
+        .then(async (dbUser) => {
+          if (dbUser) {
             return Promise.resolve(null);
           }
           return Promise.resolve(

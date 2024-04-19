@@ -10,9 +10,8 @@ import { CarouselModule } from 'primeng/carousel';
   standalone: true
 })
 export class CarouselComponent implements AfterViewInit {
-  @Input() teste2:Array<any> = [];
-  @Input() templateRef!: TemplateRef<any>;
-  @Input() templateRefName: string= 'Item1'
+  @Input() states:Array<any> = [];
+  @Input() customRef: any;
 
 
   // @ViewChild('templateRef') templateRef!: TemplateRef<any>;
@@ -22,62 +21,8 @@ export class CarouselComponent implements AfterViewInit {
   projectedContentRef!: ElementRef;
 
   ngAfterViewInit() {
-    console.log(this.templateRef, 'refffffffff')
     if (this.projectedContentRef) {
       console.log(this.projectedContentRef); // Do whatever you need with the projected content
     }
   }
-
-  // products: string[] = ["<span>test</span>", "<span>test</span>"];
-
-  // products: any = [
-  //   {    
-  //     id: '1000',
-  //     code: 'f230fh0g3',
-  //     name: 'Bamboo Watch',
-  //     description: 'Product Description',
-  //     image: 'bamboo-watch.jpg',
-  //     price: 65,
-  //     category: 'Accessories',
-  //     quantity: 24,
-  //     inventoryStatus: 'INSTOCK',
-  //     rating: 5
-  //   },
-  //   {    
-  //     id: '1000',
-  //     code: 'f230fh0g3',
-  //     name: 'Bamboo Watch',
-  //     description: 'Product Description',
-  //     image: 'bamboo-watch.jpg',
-  //     price: 65,
-  //     category: 'Accessories',
-  //     quantity: 24,
-  //     inventoryStatus: 'INSTOCK',
-  //     rating: 5
-  //   },
-  //   {    
-  //     id: '1000',
-  //     code: 'f230fh0g3',
-  //     name: 'Bamboo Watch',
-  //     description: 'Product Description',
-  //     image: 'bamboo-watch.jpg',
-  //     price: 65,
-  //     category: 'Accessories',
-  //     quantity: 24,
-  //     inventoryStatus: 'INSTOCK',
-  //     rating: 5
-  //   },
-  //   {    
-  //     id: '1000',
-  //     code: 'f230fh0g3',
-  //     name: 'Bamboo Watch',
-  //     description: 'Product Description',
-  //     image: 'bamboo-watch.jpg',
-  //     price: 65,
-  //     category: 'Accessories',
-  //     quantity: 24,
-  //     inventoryStatus: 'INSTOCK',
-  //     rating: 5
-  //   }
-  // ];
 }

@@ -38,7 +38,7 @@ export class Seeder {
     return await Promise.all(this.EstateService.createSeed(estateSeed))
       .then((createdEstate) => {
         this.logger.debug(
-          'No. of languages created: ' +
+          'No. of languages creaed: ' +
             createdEstate.filter(
               (nullValueOrCreatedLanguage) => nullValueOrCreatedLanguage,
             ).length,

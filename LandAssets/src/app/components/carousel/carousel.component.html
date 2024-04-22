@@ -1,5 +1,5 @@
 <div>
-    <p-carousel [value]="states" [circular]="true">
+    <p-carousel (onPage)="handlePageChange($event)" [page]=activeStateIndex [value]="states" [circular]="true">
         <ng-template let-state pTemplate="item">
             <div class="contentWrapper">
                 <div class="topWrapper">

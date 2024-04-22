@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentInit, AfterViewInit, Component, ContentChild, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { CarouselModule } from 'primeng/carousel';
+import { AfterContentInit, AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { CarouselModule, CarouselPageEvent } from 'primeng/carousel';
 
 @Component({
   selector: 'app-carousel',
@@ -12,6 +12,8 @@ import { CarouselModule } from 'primeng/carousel';
 export class CarouselComponent implements AfterViewInit {
   @Input() states:Array<any> = [];
   @Input() customRef: any;
+  @Input() activeStateIndex: number = 0;
+  @Output() pageEvent = new EventEmitter<number>();
 
 
   // @ViewChild('templateRef') templateRef!: TemplateRef<any>;
@@ -19,6 +21,10 @@ export class CarouselComponent implements AfterViewInit {
 
   // @ContentChild('templateRef', {static: false})
   projectedContentRef!: ElementRef;
+
+  handlePageChange(e: CarouselPageEvent) {
+    this.pageEvent.emit(e.page);
+  }
 
   ngAfterViewInit() {
     if (this.projectedContentRef) {

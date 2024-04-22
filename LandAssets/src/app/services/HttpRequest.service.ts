@@ -2,19 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class HttpRequestService {
-    public _resource: string = '';
+@Injectable()
+export abstract class HttpRequestService {
     private _apiUrl: string = `http://localhost:3001`;
-    public _params: string = '';
+    private _params: string = '';
+    // protected _resource: String = '';
+    private _config: { resource: string } = { resource: '' };
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+        this._config = this.config();
+    }
 
     get updatedUrl() {
-        return `${this._apiUrl}/${this._resource}`
+        return `${this._apiUrl}/${this._config.resource}`;
     }
+
+    abstract config(): { resource: string };
 
     getData<T>(): Observable<T> {
         return this.http.get<T>(this.updatedUrl);

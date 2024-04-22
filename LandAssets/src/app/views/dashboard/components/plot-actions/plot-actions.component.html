@@ -1,7 +1,9 @@
-<section class="contentWrapper">
+<div class="contentWrapper">
     <div class="content">
         <div class="contentLeft">
-            <app-carousel [customRef]='[{item: "Item 2", ref: myref}, {item: "Item1", ref: myref2}]' [states]="states">
+            <app-carousel (pageEvent)="handlePageChange($event)"
+                [customRef]='[{item: "Item 2", ref: myref}, {item: "Item1", ref: myref2}]' [states]="states"
+                [activeStateIndex]="activeStateIndex">
                 <ng-template #myref let-item>
                     <!-- Use item here -->
                     <h1>{{ item.toUpperCase() }}</h1>
@@ -19,8 +21,8 @@
         <div class="contentRight">
             <ng-container [ngTemplateOutlet]="'state1' == teste[0] ? estateFields : plotsFields">
                 <ng-template #estateFields>
-                    <app-textfield placeholder="Estate Name" />
-                    <app-textfield placeholder="Estate Name" />
+                    <app-textfield [(ngModel)]="myValue" placeholder="Estate Name" />
+                    <app-textfield [(ngModel)]="myValue" placeholder="Estate Name" />
                     <app-textfield placeholder="Estate Name" />
                     <app-textfield placeholder="Estate Name" />
                     <app-textfield placeholder="Estate Name" />
@@ -41,4 +43,4 @@
             </ng-container>
         </div>
     </div>
-</section>
+</div>

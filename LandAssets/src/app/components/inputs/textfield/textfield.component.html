@@ -1,4 +1,4 @@
 <mat-form-field appearance="fill" style="width: 100%">
     <mat-label>{{placeholder}}</mat-label>
-    <input matInput [disabled]="disabled">
+    <input [value]="value" (input)="onChange($any($event.target).value)" matInput [disabled]="disabled">
 </mat-form-field>

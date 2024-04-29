@@ -14,8 +14,8 @@ export class EstateService {
     private estateRepository: Repository<Estate>,
   ) {}
 
-  createSeed(estateSeed: CreateEstateDto[]): Array<Promise<Estate>> {
-    return estateSeed.map(async (estate: CreateEstateDto) => {
+  createSeed(estateSeed: Estate[]): Array<Promise<Estate>> {
+    return estateSeed.map(async (estate: Estate) => {
       return await this.estateRepository
         .findOne({
           where: {

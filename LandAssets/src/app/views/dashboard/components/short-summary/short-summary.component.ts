@@ -1,34 +1,57 @@
-import { Component } from '@angular/core';
-import IState from 'src/app/interfaces/IState';
+import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
+import IState, { IStateEmpty, StateEmpty } from 'src/app/interfaces/IState';
 import { EstateModel } from '../../models/estate.service';
 import { DashboardService } from '../../dashboard.service';
+import { ViewportScroller } from '@angular/common';
+import { skip, take } from 'rxjs';
 
 @Component({
   selector: 'app-short-summary',
   templateUrl: './short-summary.component.html',
   styleUrls: ['./short-summary.component.sass'],
 })
-
 export class ShortSummaryComponent {
   states: IState[] | [] = [];
-  selectedState: IState | undefined = undefined;
+  selectedState: IState | IStateEmpty = StateEmpty;
 
-  constructor(private EstateModel: EstateModel, private DashboardService: DashboardService) {}
+  constructor(
+    private elementRef: ElementRef,
+    private viewportScroller: ViewportScroller,
+    private EstateModel: EstateModel,
+    private DashboardService: DashboardService
+  ) {}
 
   ngOnInit() {
     this.getStates();
-    this.DashboardService.activeStateObs$.subscribe((activeState) => {
-      this.selectedState = activeState
-    });
+    this.DashboardService.activeStateObs$
+      .pipe(
+        skip(1),
+      )
+      .subscribe((activeState) => {
+        this.selectedState = activeState;
+        const plotActionEl = this.elementRef.nativeElement.parentNode.children[1];
+        const wrapperDiv = plotActionEl.getElementsByClassName('plotActionsWrapper');
+        const rect = wrapperDiv[0].getBoundingClientRect();
+
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+        const offsetTop = rect.top + scrollTop;
+
+        window.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth',
+        });
+      });
   }
 
   getStates() {
-    this.EstateModel.getData<IState[]>().subscribe((response) => {
+    this.EstateModel.getData<IState[]>('').subscribe((response) => {
       this.states = response;
     });
   }
 
-  receiveData(data: string) {
-    this.DashboardService.setState(this.states.find(v => v.name == data)) 
+  receiveSelectData(data: string) {
+    const activeState = this.states.find((v) => v.name == data);
+    if (activeState) this.DashboardService.setState(activeState);
   }
 }

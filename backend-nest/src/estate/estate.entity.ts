@@ -1,9 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Plot } from 'src/plot/plot.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity({name: "estate", schema: 'public'})
 export class Estate {
     @PrimaryGeneratedColumn()
-    estateId: number;
+    estateId?: number;
 
     @Column()
     name: string;
@@ -19,6 +20,9 @@ export class Estate {
 
     @Column()
     plotsAvailable: number;
+
+    @OneToMany(() => Plot, (plot) => plot.estate)
+    plots?: Plot[];
 
     @Column()
     population: string;

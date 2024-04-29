@@ -12,6 +12,7 @@ import { TextfieldComponent } from 'src/app/components/inputs/textfield/textfiel
 import { FormsModule } from '@angular/forms';
 import { SelectComponent } from 'src/app/components/inputs/select/select.component';
 import { DashboardService } from './dashboard.service';
+import { PlotModel } from './models/plot.service';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,6 @@ import { DashboardService } from './dashboard.service';
     FlatButtonComponent,
     TextfieldComponent,
   ],
-  providers: [EstateModel, DashboardService],
+  providers: [EstateModel, DashboardService, PlotModel],
 })
 export class DashboardModule {}

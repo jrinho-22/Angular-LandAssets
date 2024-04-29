@@ -4,14 +4,19 @@ import { HttpClient } from '@angular/common/http';
 import resources from '../../../config';
 
 @Injectable()
-export class EstateModel extends HttpRequestService {
+export class PlotModel extends HttpRequestService {
+
   constructor(http: HttpClient) {
     super(http);
   }
 
   config() {
     return {
-      resource: resources.ESTATE,
+      resource: resources.PLOT,
     };
+  }
+
+  dataByState(stateId: number) {
+    return this.http.get(`${this.updatedUrl}`, {params: {"estate.estateId": stateId}, });
   }
 }

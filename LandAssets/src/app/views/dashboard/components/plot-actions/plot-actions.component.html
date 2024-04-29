@@ -1,4 +1,4 @@
-<div class="contentWrapper">
+<div class="plotActionsWrapper">
     <div class="content">
         <div class="contentLeft">
             <app-carousel (pageEvent)="handlePageChange($event)"
@@ -19,28 +19,47 @@
             <div class="verticalLine"></div>
         </div>
         <div class="contentRight">
-            <ng-container [ngTemplateOutlet]="'state1' == teste[0] ? estateFields : plotsFields">
-                <ng-template #estateFields>
-                    <app-textfield [(ngModel)]="myValue" placeholder="Estate Name" />
-                    <app-textfield [(ngModel)]="myValue" placeholder="Estate Name" />
-                    <app-textfield placeholder="Estate Name" />
-                    <app-textfield placeholder="Estate Name" />
-                    <app-textfield placeholder="Estate Name" />
-                    <app-textfield placeholder="Estate Name" />
-                    <app-textfield placeholder="Estate Name" />
-                    <app-textfield placeholder="Estate Name" />
-                </ng-template>
-                <ng-template #plotsFields>
-                    <app-textfield placeholder="Plots Name" />
-                    <app-textfield placeholder="Plots Name" />
-                    <app-textfield placeholder="Plots Name" />
-                    <app-textfield placeholder="Plots Name" />
-                    <app-textfield placeholder="Plots Name" />
-                    <app-textfield placeholder="Plots Name" />
-                    <app-textfield placeholder="Plots Name" />
-                    <app-textfield placeholder="Plots Name" />
-                </ng-template>
-            </ng-container>
+            <div class="plotSearch">
+                <!-- <app-select placeholder="Plot Number"  /> -->
+                <app-select [syncValue]="activePlot" placeholder="Num." value="number" label="number"
+                    [options]="plotsByState" />
+            </div>
+            <div class="fields">
+                <ng-container [ngTemplateOutlet]="'state1' == teste[0] ? estateFields : plotsFields">
+                    <ng-template #estateFields>
+                        <app-textfield [disabled]="true" [value]="stateFields.name" placeholder="State" />
+                        <app-textfield [disabled]="true" [value]="stateFields.size" placeholder="Size" />
+                        <app-textfield [disabled]="true" [value]="stateFields.oceanDistance"
+                            placeholder="Ocean Distance" />
+                        <app-textfield [disabled]="true" [value]="stateFields.plotsAvailable"
+                            placeholder="Plots Available" />
+                        <app-textfield [disabled]="true" [value]="stateFields.population" placeholder="Population" />
+                        <app-textfield [disabled]="true" [value]="stateFields.counties" placeholder="Conties" />
+                        <app-textfield [disabled]="true" [value]="stateFields.paymentTerm" placeholder="Payment Term" />
+                        <app-textfield [disabled]="true" [value]="stateFields.averagePricePerSQM"
+                            placeholder="Average Price Per SQM " />
+                        <app-textfield [disabled]="true" [value]="stateFields.averagePartialPaymentPrice"
+                            placeholder="Average Partial Payment Price" />
+                    </ng-template>
+                    <ng-template #plotsFields>
+                        <app-textfield placeholder="Plots Name" />
+                        <app-textfield placeholder="Plots Name" />
+                        <app-textfield placeholder="Plots Name" />
+                        <app-textfield placeholder="Plots Name" />
+                        <app-textfield placeholder="Plots Name" />
+                        <app-textfield placeholder="Plots Name" />
+                        <app-textfield placeholder="Plots Name" />
+                        <app-textfield placeholder="Plots Name" />
+                    </ng-template>
+                </ng-container>
+            </div>
         </div>
     </div>
+    <h1>jhbh</h1>
+    <h1>jhbh</h1>
+    <h1>jhbh</h1>
+    <h1>jhbh</h1>
+    <h1>jhbh</h1>
+    <h1>jhbh</h1>
+    <h1>jhbh</h1>
 </div>

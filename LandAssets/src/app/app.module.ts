@@ -12,12 +12,14 @@ import { TextfieldComponent } from './components/inputs/textfield/textfield.comp
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardModule } from './views/dashboard/dashboard.module';
 import { SelectComponent } from './components/inputs/select/select.component';
+import { CadastroEstadoComponent } from './modules/cadastro-estado/cadastro-estado.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    CadastroEstadoComponent,
   ],
   imports: [
     SelectComponent,

@@ -9,7 +9,7 @@ export abstract class HttpRequestService {
     // protected _resource: String = '';
     private _config: { resource: string } = { resource: '' };
 
-    constructor(private http: HttpClient) {
+    constructor(protected http: HttpClient) {
         this._config = this.config();
     }
 
@@ -19,8 +19,8 @@ export abstract class HttpRequestService {
 
     abstract config(): { resource: string };
 
-    getData<T>(): Observable<T> {
-        return this.http.get<T>(this.updatedUrl);
+    getData<T>(id: string | number): Observable<T> {
+        return this.http.get<T>(`${this.updatedUrl}/${id}`);
     }
 
     getDataa(): Observable<Blob> {

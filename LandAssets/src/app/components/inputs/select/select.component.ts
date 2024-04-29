@@ -1,16 +1,18 @@
-import {Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import IState from 'src/app/interfaces/IState';
+import IState, { IStateEmpty, StateEmpty } from 'src/app/interfaces/IState';
+import IPlot, { IPlotEmpty } from 'src/app/interfaces/IPlot';
 
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.sass'],
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   imports: [CommonModule, FormsModule, MatFormFieldModule, MatSelectModule, MatInputModule],
 })
 
@@ -19,7 +21,7 @@ export class SelectComponent<T> {
   @Input() disabled: boolean = false
   @Input() value: string = 'value'
   @Input() label: string = 'label'
-  @Input() selectedState: IState | undefined = undefined
+  @Input() syncValue: Object | false = false
   @Input() options: T[] = [] 
 
   @Output() dataEvent = new EventEmitter();
@@ -31,7 +33,9 @@ export class SelectComponent<T> {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.selectedValue = changes['selectedState'].currentValue.name
+    if (this.syncValue) {
+      this.selectedValue = changes['syncValue']?.currentValue?.name 
+    }
   }
 }
 

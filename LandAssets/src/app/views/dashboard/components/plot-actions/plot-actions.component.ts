@@ -8,39 +8,66 @@ import {
   TemplateRef,
   ViewChild,
   ViewChildren,
+  ViewEncapsulation,
 } from '@angular/core';
-import IState from 'src/app/interfaces/IState';
+import IState, { IStateEmpty, StateEmpty } from 'src/app/interfaces/IState';
+import IPlot, { IPlotEmpty, PlotEmpty } from 'src/app/interfaces/IPlot';
 import { HttpRequestService } from '../../../../services/HttpRequest.service';
 // import { factoryProvider } from './plot-actions.http.service.provider';
 import { EstateModel } from '../../models/estate.service';
+import { PlotModel } from '../../models/plot.service';
 import { DashboardService } from '../../dashboard.service';
 
 @Component({
   selector: 'app-plot-actions',
   templateUrl: './plot-actions.component.html',
   styleUrls: ['./plot-actions.component.sass'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PlotActionsComponent {
   // @ViewChild('templateRef') item1!: TemplateRef<any>;
-  states: IState[] | [] = [];
-  activeStateIndex: number = 0
+  defaultStateIndex = 0
+
+  states: IState[] = [];
+  activeStateIndex: number = this.defaultStateIndex
+  stateFields: IState | IStateEmpty = StateEmpty
+  plots: IPlot[] = [];
+  plotsByState: IPlot[] = [];
+  activePlot: IPlot | IPlotEmpty = PlotEmpty
 
   constructor(
-    private PlotActions: EstateModel,
-    private DashboardService: DashboardService
+    private EstateModel: EstateModel,
+    private PlotModel: PlotModel,
+    private DashboardService: DashboardService,
   ) {}
 
   ngOnInit() {
     this.getStates();
-    this.DashboardService.activeStateObs$.subscribe((activeState) => {
-      const index = this.states.findIndex((Item: IState) => Item.name == activeState?.name )
-      index != -1 ? this.activeStateIndex = index : this.activeStateIndex = 0  
+
+    this.DashboardService.activeStateObs$.subscribe((activeState: IState | IStateEmpty) => {
+      if (activeState.estateId != null) {
+        const index = this.states.findIndex((Item: IState | IStateEmpty) => Item.name == activeState.name )
+        index != -1 ? this.activeStateIndex = index : this.activeStateIndex = 0 
+        this.stateFields = activeState
+        this.getPlots(activeState.estateId) 
+      }
     });
   }
 
-  getStates() {
-    this.PlotActions.getData<IState[]>().subscribe((response) => {
+  async getStates() {
+    this.EstateModel.getData<IState[]>('').subscribe((response) => {
       this.states = response;
+      this.stateFields = response[this.defaultStateIndex]
+      this.getPlots(response[this.defaultStateIndex].estateId)
+    });
+  }
+
+  getPlots(estateId: number) {
+    // this.PlotModel.getData<IPlot[]>('').subscribe((response) => {
+    //   this.plots = response;
+    this.PlotModel.dataByState(estateId).subscribe((response: any) => {
+      this.plotsByState = response
+      // this.stateFields = response[this.defaultStateIndex]
     });
   }
 

@@ -12,8 +12,8 @@ export class UsersService {
     private usersRepository: Repository<Users>,
   ) {}
 
-  createSeed(usersSeed: CreateUserDto[]): Array<Promise<Users>> {
-    return usersSeed.map(async (user: CreateUserDto) => {
+  createSeed(usersSeed: Users[]): Array<Promise<Users>> {
+    return usersSeed.map(async (user: Users) => {
       return await this.usersRepository
         .findOne({
           where: {

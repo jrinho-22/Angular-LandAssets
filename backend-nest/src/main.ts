@@ -11,10 +11,10 @@ async function bootstrap() {
       seeder
         .seed()
         .then(() => {
-          logger.debug('Seeding complete!');
+          logger.debug('Seeding complete !');
         })
         .catch(error => {
-          logger.error('Seeding failed!');
+          logger.error('Seeding fal ed!');
           throw error;
         })
         .finally(() => appContext.close());

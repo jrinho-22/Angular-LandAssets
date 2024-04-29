@@ -21,7 +21,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class TextfieldComponent implements ControlValueAccessor {
   @Input() placeholder: string = ""
   @Input() disabled: boolean = false
-  value: string = '';
+  @Input() value: string | number | null = null;
 
   onChange: any = () => {};
   onTouch: any = () => {};

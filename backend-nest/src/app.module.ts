@@ -7,9 +7,14 @@ import { Users } from './users/user.entity';
 import { Estate } from './estate/estate.entity';
 import { Seeder } from './database/seeder/seeder.service';
 import { EstateModule } from './estate/estate.module';
+import { PlotModule } from './plot/plot.module';
+import { Plot } from './plot/plot.entity';
 
 @Module({
-  imports: [UsersModule, EstateModule, 
+  imports: [
+    UsersModule,
+    EstateModule,
+    PlotModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -17,7 +22,7 @@ import { EstateModule } from './estate/estate.module';
       username: 'root',
       password: 'juninho22',
       database: 'nest',
-      entities: [Users, Estate],
+      entities: [Users, Estate, Plot],
       synchronize: true,
     }),
   ],
@@ -27,4 +32,3 @@ import { EstateModule } from './estate/estate.module';
 export class AppModule {
   constructor(private dataSource: DataSource) {}
 }
-

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentInit, AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CarouselModule, CarouselPageEvent } from 'primeng/carousel';
 
 @Component({
@@ -7,7 +7,8 @@ import { CarouselModule, CarouselPageEvent } from 'primeng/carousel';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.sass'],
   imports: [CarouselModule, CommonModule],
-  standalone: true
+  standalone: true,
+  encapsulation: ViewEncapsulation.None,
 })
 export class CarouselComponent implements AfterViewInit {
   @Input() states:Array<any> = [];

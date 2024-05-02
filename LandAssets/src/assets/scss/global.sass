@@ -20,8 +20,43 @@ img
     height: -webkit-fill-available
     width: -webkit-fill-available
 
-// caroulsel 
-.p-carousel-indicators
-    display: none
+$text-header-padding-border: 5px
+.Cadastro
+    // margin-top: $menu_height
+    background-color: $background_color
+    // height: 800px
+    margin-top: $menu_height
+    // height: 500px
+    padding: 30px 120px
 
+    h1, span
+        color: $text_color_gray
+
+    .Header
+        margin-left: 10px
+        h1
+            margin: 5px 0 30px 0
+            font-size: 37px
+        span
+            color: green
+
+    .Wrapper
+        // height: 00px
+        padding: 35px
+        border-radius: 20px
+        background-color: white
+
+        .text-header
+            border-bottom: 1px solid lightgray
+            padding-bottom: $text-header-padding-border
+            font-size: 22px
+            margin: 25px  
+            span
+                border-bottom: 2px solid $cor_fundo
+                padding-bottom: calc($text-header-padding-border - 2px)
+                padding-right: 10px
+
+            &.title
+                margin-top: 0px  
+                font-size: 26px
 

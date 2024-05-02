@@ -2,8 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { UsersService } from '../../users/users.service';
 import { EstateService } from '../../estate/estate.service';
 import { PlotService } from '../../plot/plot.service';
-import { plotSeed, userSeed } from './seederData';
-import { estateSeed } from './seederData';
+import { userSeed, estateSeed, plotSeed } from './seederData'
 
 @Injectable()
 export class Seeder {

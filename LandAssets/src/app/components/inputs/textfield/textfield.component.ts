@@ -1,4 +1,4 @@
-import {Component, Input, forwardRef} from '@angular/core';
+import {Component, Input, forwardRef, ViewEncapsulation} from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
@@ -9,6 +9,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   templateUrl: './textfield.component.html',
   styleUrls: ['./textfield.component.sass'],
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -22,6 +23,7 @@ export class TextfieldComponent implements ControlValueAccessor {
   @Input() placeholder: string = ""
   @Input() disabled: boolean = false
   @Input() value: string | number | null = null;
+  @Input() appearance: "outline" | "fill" = 'fill';
 
   onChange: any = () => {};
   onTouch: any = () => {};

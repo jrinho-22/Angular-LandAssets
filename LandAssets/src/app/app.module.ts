@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { DashboardModule } from './views/dashboard/dashboard.module';
 import { SelectComponent } from './components/inputs/select/select.component';
 import { CadastroEstadoComponent } from './modules/cadastro-estado/cadastro-estado.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,12 +24,14 @@ import { CadastroEstadoComponent } from './modules/cadastro-estado/cadastro-esta
     CadastroEstadoComponent,
   ],
   imports: [
+    MatGridListModule,
     SelectComponent,
     DashboardModule,
     BrowserAnimationsModule,
     BrowserModule,
     LogoComponent,
     AppRoutingModule,
+    FormsModule,
     HttpClientModule, 
     FlatButtonComponent,
     CarouselComponent,

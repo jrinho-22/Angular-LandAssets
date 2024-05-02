@@ -22,6 +22,7 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
+  display: inline-flex;
 
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
@@ -258,6 +259,7 @@
 }
 .i-seta-esq:before {
   content: "\e94b";
+  translate: 0 2px;
 }
 .i-seta-esq-circulo:before {
   content: "\e94c";

@@ -1,3 +1,48 @@
-<div class="Background">
-    works
-</div>
+<section class="Cadastro">
+    <div class="Header">
+        <span class="i-seta-esq"></span>
+        <span> goback</span>
+        <h1>Cadastro de Estado</h1>
+    </div>
+    <div class="Wrapper">
+        <div class="text-header title">
+            <span>Dados do Estado</span>
+        </div>
+        <mat-grid-list cols="9" rowHeight="90px" gutterSize="10">
+            <mat-grid-tile colspan="4">
+                <app-textfield (change)="handleChange($event)" appearance="outline" class="fullwidth"
+                    placeholder="Nome" />
+            </mat-grid-tile>
+            <mat-grid-tile colspan="2">
+                <!-- <app-textfield [value]="name" appearance="outline" class="fullwidth" placeholder="size" /> -->
+            </mat-grid-tile>
+            <!-- <mat-grid-tile colspan="2">
+                <app-textfield appearance="outline" class="fullwidth" placeholder="Image" />
+            </mat-grid-tile> -->
+            <mat-grid-tile colspan="2">
+                <app-textfield appearance="outline" class="fullwidth" placeholder="oceanDistance" />
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1">
+                <app-textfield appearance="outline" class="fullwidth" value="stateFields" placeholder="Plots" />
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+                <app-textfield appearance="outline" class="fullwidth" value="stateFields" placeholder="population" />
+            </mat-grid-tile>
+            <mat-grid-tile colspan="2">
+                <app-textfield appearance="outline" class="fullwidth" value="stateFields" placeholder="counties" />
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+                <app-textfield appearance="outline" class="fullwidth" value="stateFields" placeholder="paymentTerm" />
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+                <app-textfield appearance="outline" class="fullwidth" value="stateFields"
+                    placeholder="averagePricePerSQM" />
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">
+                <app-textfield appearance="outline" class="fullwidth" value="stateFields"
+                    placeholder="averagePartialPaymentPrice" />
+            </mat-grid-tile>
+
+        </mat-grid-list>
+    </div>
+</section>

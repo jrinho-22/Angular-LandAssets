@@ -21,45 +21,50 @@
         <div class="contentRight">
             <div class="plotSearch">
                 <!-- <app-select placeholder="Plot Number"  /> -->
-                <app-select [syncValue]="activePlot" placeholder="Num." value="number" label="number"
-                    [options]="plotsByState" />
+                <h2> Search Plot:</h2>
+                <app-select [syncValue]="activePlot" (dataEvent)="receiveSelectData($event)" placeholder="Num."
+                    value="number" label="number" [options]="plotsByState" />
             </div>
             <div class="fields">
-                <ng-container [ngTemplateOutlet]="'state1' == teste[0] ? estateFields : plotsFields">
+                <ng-container [ngTemplateOutlet]="activePlot == undefined ? estateFields : plotsFields">
                     <ng-template #estateFields>
-                        <app-textfield [disabled]="true" [value]="stateFields.name" placeholder="State" />
-                        <app-textfield [disabled]="true" [value]="stateFields.size" placeholder="Size" />
-                        <app-textfield [disabled]="true" [value]="stateFields.oceanDistance"
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="stateFields.name"
+                            placeholder="State" />
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="stateFields.size"
+                            placeholder="Size" />
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="stateFields.oceanDistance"
                             placeholder="Ocean Distance" />
-                        <app-textfield [disabled]="true" [value]="stateFields.plotsAvailable"
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="stateFields.plotsAvailable"
                             placeholder="Plots Available" />
-                        <app-textfield [disabled]="true" [value]="stateFields.population" placeholder="Population" />
-                        <app-textfield [disabled]="true" [value]="stateFields.counties" placeholder="Conties" />
-                        <app-textfield [disabled]="true" [value]="stateFields.paymentTerm" placeholder="Payment Term" />
-                        <app-textfield [disabled]="true" [value]="stateFields.averagePricePerSQM"
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="stateFields.population"
+                            placeholder="Population" />
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="stateFields.counties"
+                            placeholder="Conties" />
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="stateFields.paymentTerm"
+                            placeholder="Payment Term" />
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="stateFields.averagePricePerSQM"
                             placeholder="Average Price Per SQM " />
-                        <app-textfield [disabled]="true" [value]="stateFields.averagePartialPaymentPrice"
+                        <app-textfield class="fullwidth" [disabled]="true"
+                            [value]="stateFields.averagePartialPaymentPrice"
                             placeholder="Average Partial Payment Price" />
                     </ng-template>
                     <ng-template #plotsFields>
-                        <app-textfield placeholder="Plots Name" />
-                        <app-textfield placeholder="Plots Name" />
-                        <app-textfield placeholder="Plots Name" />
-                        <app-textfield placeholder="Plots Name" />
-                        <app-textfield placeholder="Plots Name" />
-                        <app-textfield placeholder="Plots Name" />
-                        <app-textfield placeholder="Plots Name" />
-                        <app-textfield placeholder="Plots Name" />
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="activePlot?.number || 0"
+                            placeholder="Number" />
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="activePlot?.pricePerSQM || 0"
+                            placeholder="Price Per SQM" />
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="activePlot?.size || 0"
+                            placeholder="Size" />
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="activePlot?.totalCashPrice || 0"
+                            placeholder="Total Cash Price" />
+                        <app-textfield class="fullwidth" [disabled]="true"
+                            [value]="activePlot?.totalPartialPaymentPrice || 0"
+                            placeholder="Total Partial Payment Price" />
+                        <app-textfield class="fullwidth" [disabled]="true" [value]="activePlot?.firstInstallment || 0"
+                            placeholder="First Installment" />
                     </ng-template>
                 </ng-container>
             </div>
         </div>
     </div>
-    <h1>jhbh</h1>
-    <h1>jhbh</h1>
-    <h1>jhbh</h1>
-    <h1>jhbh</h1>
-    <h1>jhbh</h1>
-    <h1>jhbh</h1>
-    <h1>jhbh</h1>
 </div>

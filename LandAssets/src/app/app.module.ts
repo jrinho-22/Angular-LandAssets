@@ -14,7 +14,7 @@ import { DashboardModule } from './views/dashboard/dashboard.module';
 import { SelectComponent } from './components/inputs/select/select.component';
 import { CadastroEstadoComponent } from './modules/cadastro-estado/cadastro-estado.component';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -32,6 +32,7 @@ import { FormsModule } from '@angular/forms';
     LogoComponent,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule, 
     FlatButtonComponent,
     CarouselComponent,

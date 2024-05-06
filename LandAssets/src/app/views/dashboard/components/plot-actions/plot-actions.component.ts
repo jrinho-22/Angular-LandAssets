@@ -17,6 +17,7 @@ import { HttpRequestService } from '../../../../services/HttpRequest.service';
 import { EstateModel } from '../../models/estate.service';
 import { PlotModel } from '../../models/plot.service';
 import { DashboardService } from '../../dashboard.service';
+import { IStateDash } from '../../IStateDash';
 
 @Component({
   selector: 'app-plot-actions',
@@ -33,7 +34,7 @@ export class PlotActionsComponent {
   stateFields: IState | IStateEmpty = StateEmpty
   plots: IPlot[] = [];
   plotsByState: IPlot[] = [];
-  activePlot: IPlot | IPlotEmpty = PlotEmpty
+  activePlot: IPlot | undefined = undefined
 
   constructor(
     private EstateModel: EstateModel,
@@ -44,13 +45,18 @@ export class PlotActionsComponent {
   ngOnInit() {
     this.getStates();
 
-    this.DashboardService.activeStateObs$.subscribe((activeState: IState | IStateEmpty) => {
-      if (activeState.estateId != null) {
-        const index = this.states.findIndex((Item: IState | IStateEmpty) => Item.name == activeState.name )
+    this.DashboardService.activeStateObs$.subscribe((stateDash: IStateDash) => {
+      if (stateDash.state.estateId != null) {
+        this.activePlot = undefined
+        const index = this.states.findIndex((Item: IState | IStateEmpty) => Item.name == stateDash.state.name )
         index != -1 ? this.activeStateIndex = index : this.activeStateIndex = 0 
-        this.stateFields = activeState
-        this.getPlots(activeState.estateId) 
+        this.stateFields = stateDash.state
+        this.getPlots(stateDash.state.estateId) 
       }
+    });
+
+    this.DashboardService.activePlotObs$.subscribe((activePlot: IPlot | undefined) => {
+      this.activePlot = activePlot
     });
   }
 
@@ -72,7 +78,13 @@ export class PlotActionsComponent {
   }
 
   handlePageChange (index: number){
-    this.DashboardService.setState(this.states[index]) 
+    this.DashboardService.setState(this.states[index], false) 
+  }
+
+  receiveSelectData(data: string) {
+    console.log(data)
+    this.activePlot = this.plotsByState.find((v) => String(v.number) == data);
+    // if (activePlot) this.DashboardService.setState(activeState, true);
   }
 
   // ngDoCheck(changes: any) {

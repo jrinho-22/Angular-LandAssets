@@ -16,13 +16,13 @@
 
         <div class="Menu_right_group">
             <div *ngFor="let item of items" class="Menu_right_drop_wrapper" (mouseleave)="onMouseLeave()">
-                <span (mouseenter)="onMouseEnter(item.label)">{{item.label}}</span>
+                <span (click)="navigate(item.path)" (mouseenter)="onMouseEnter(item.label)">{{item.label}}</span>
                 <div [class.view]="hoverItem == item.label" class="Menu_right_drop">
 
                     <ul *ngIf="item.children != undefined && item.children.length">
                         <li [class.children]="children.children != undefined && children.children.length"
                             *ngFor="let children of item.children" (mouseleave)="onMouseLeaveGran()"
-                            (mouseenter)="onMouseEnterGran(children.label)">
+                            (mouseenter)="onMouseEnterGran(children.label)" (click)="navigate(children.path)">
                             {{children.label}}
 
                             <div *ngFor="let granchildren of children.children"

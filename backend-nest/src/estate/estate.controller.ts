@@ -8,20 +8,26 @@ import {
   Delete,
   Res,
   HttpStatus,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { EstateService } from './estate.service';
 import { CreateEstateDto } from './dto/create-estate.dto';
 import { UpdateEstateDto } from './dto/update-estate.dto';
 import * as fs from 'fs';
-import { Response } from 'express'
+import { Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { json } from 'stream/consumers';
 
 @Controller('estate')
 export class EstateController {
   constructor(private readonly estateService: EstateService) {}
 
   @Post()
-  create(@Body() createEstateDto: CreateEstateDto) {
-    return this.estateService.create(createEstateDto);
+  @UseInterceptors(FileInterceptor('file'))
+  create( @Body() body: {stateFields: string}, @UploadedFile() file: Express.Multer.File) {
+    const json = JSON.parse(body.stateFields)
+    return this.estateService.create(json, file);
   }
 
   @Get()

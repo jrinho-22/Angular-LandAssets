@@ -1,11 +1,13 @@
 export default [
   {
     label: 'HOME',
-    children: [
-      {
-        label: 'teste',
-      },
-    ],
+    path: 'dashboard'
+    // children: [
+    //   {
+    //     label: 'teste',
+    //     path: ''
+    //   },
+    // ],
   },
   {
     label: 'MENU',
@@ -25,17 +27,19 @@ export default [
     children: [
         {
           label: 'cadastrar estado',
-          children: [
-            {
-              label: '1',
-            },
-          ],
+          path: 'cadastro-estado'
+          // children: [
+          //   {
+          //     label: '1',
+          //   },
+          // ],
         },
         {
             label: 'cadastrar cidade',
             children: [
               {
                 label: '1',
+                path: ''
               },
             ],
         },

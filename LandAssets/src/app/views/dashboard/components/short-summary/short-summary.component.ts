@@ -24,23 +24,25 @@ export class ShortSummaryComponent {
   ngOnInit() {
     this.getStates();
     this.DashboardService.activeStateObs$
-      .pipe(
-        skip(1),
-      )
+      .pipe(skip(1))
       .subscribe((activeState) => {
-        this.selectedState = activeState;
-        const plotActionEl = this.elementRef.nativeElement.parentNode.children[1];
-        const wrapperDiv = plotActionEl.getElementsByClassName('plotActionsWrapper');
-        const rect = wrapperDiv[0].getBoundingClientRect();
+        this.selectedState = activeState.state;
+        if (activeState.scroll) {
+          const plotActionEl =
+            this.elementRef.nativeElement.parentNode.children[1];
+          const wrapperDiv =
+            plotActionEl.getElementsByClassName('plotActionsWrapper');
+          const rect = wrapperDiv[0].getBoundingClientRect();
 
-        const scrollTop =
-          window.pageYOffset || document.documentElement.scrollTop;
-        const offsetTop = rect.top + scrollTop;
+          const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+          const offsetTop = rect.top + scrollTop;
 
-        window.scrollTo({
-          top: offsetTop,
-          behavior: 'smooth',
-        });
+          window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth',
+          });
+        }
       });
   }
 
@@ -52,6 +54,6 @@ export class ShortSummaryComponent {
 
   receiveSelectData(data: string) {
     const activeState = this.states.find((v) => v.name == data);
-    if (activeState) this.DashboardService.setState(activeState);
+    if (activeState) this.DashboardService.setState(activeState, true);
   }
 }

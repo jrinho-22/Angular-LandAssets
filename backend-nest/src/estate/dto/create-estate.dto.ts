@@ -1,9 +1,9 @@
-import { Plot } from "src/plot/plot.entity";
+import { Plot } from 'src/plot/plot.entity';
 
 export class CreateEstateDto {
-  estateId?: number; 
+  estateId?: number;
   name: string;
-  map: string;
+  img: string;
   size: string;
   oceanDistance: string;
   plotsAvailable: number;

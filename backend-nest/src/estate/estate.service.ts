@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Estate } from './estate.entity';
 import * as fs from 'fs';
 import { Response } from 'express';
+import * as path from 'node:path';
 
 @Injectable()
 export class EstateService {
@@ -32,34 +33,49 @@ export class EstateService {
     });
   }
 
-  create(createEstateDto: CreateEstateDto) {
-    return 'This action adds a new state';
+  async create(createEstateDto: CreateEstateDto, file: Express.Multer.File) {
+    const pathSufix = path.join('src/assets/imgs', createEstateDto.img);
+    const assetsDir = path.join(process.cwd(), pathSufix);
+    fs.writeFile(assetsDir, file.buffer, (err) => {
+      if (err) {
+        console.error('Error saving file:', err);
+      } else {
+        const state = {
+          ...createEstateDto,
+          plotsAvailable: Number(createEstateDto.plotsAvailable),
+          counties: Number(createEstateDto.counties),
+          map: pathSufix,
+        };
+        return Promise.resolve(this.estateRepository.save(state));
+      }
+    });
   }
 
   async findAll(): Promise<Estate[]> {
-    return this.estateRepository.find()
-    .then((v) => {
-      return Promise.all(v.map((v) => {
-        const chunks: any[] = [];
-        const imgPath = v.map;
-        const readStream = fs.createReadStream(imgPath);
-        
-        return new Promise<Estate>((resolve, reject) => {
-          readStream.on('data', (chunk) => {
-            chunks.push(chunk);
-          });
+    return this.estateRepository.find().then((v) => {
+      return Promise.all(
+        v.map((v) => {
+          const chunks: any[] = [];
+          const imgPath = v.map;
+          const readStream = fs.createReadStream(imgPath);
 
-          readStream.on('end', () => {
-            const imageData = Buffer.concat(chunks);
-            const base64Image = imageData.toString('base64');
-            resolve({ ...v, map: base64Image });
-          });
+          return new Promise<Estate>((resolve, reject) => {
+            readStream.on('data', (chunk) => {
+              chunks.push(chunk);
+            });
 
-          readStream.on('error', (error) => {
-            reject(error);
+            readStream.on('end', () => {
+              const imageData = Buffer.concat(chunks);
+              const base64Image = imageData.toString('base64');
+              resolve({ ...v, map: base64Image });
+            });
+
+            readStream.on('error', (error) => {
+              reject(error);
+            });
           });
-        });
-      }));
+        }),
+      );
     });
   }
 

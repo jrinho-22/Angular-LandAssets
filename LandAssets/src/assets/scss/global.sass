@@ -1,4 +1,5 @@
 @import "./variables"
+// @import "./icons"
     
 *
     box-sizing: border-box
@@ -60,3 +61,56 @@ $text-header-padding-border: 5px
                 margin-top: 0px  
                 font-size: 26px
 
+
+input[type="file"] 
+  position: relative
+  margin-right: auto
+  width: 100%
+
+
+input[type="file"]::file-selector-button 
+  width: 136px
+  color: transparent
+
+
+/* Faked label styles and icon */
+input[type="file"]::before 
+  font-family: "biblioteca-icones-geral" !important
+  content: "\e9d0"
+  position: absolute
+  pointer-events: none
+  top: 13px
+  left: 16px
+  height: 20px
+  width: 20px
+  color: $cor_fundo
+
+input[type="file"]::after 
+  position: absolute
+  pointer-events: none
+  top: 13px
+  left: 40px
+  color: $cor_fundo
+  content: "Upload File"
+
+/* file upload button */
+input[type="file"]::file-selector-button 
+  border-radius: 4px
+  padding: 0 16px
+  height: 40px
+  cursor: pointer
+  background-color: white
+  border: 1px solid rgba(0, 0, 0, 0.16)
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05)
+  margin-right: 16px
+  transition: background-color 200ms
+
+
+/* file upload button hover state */
+input[type="file"]::file-selector-button:hover 
+  background-color: #f3f4f6
+
+
+/* file upload button active state */
+input[type="file"]::file-selector-button:active 
+  background-color: #e5e7eb

@@ -1,7 +1,7 @@
 import {Component, Input, forwardRef, ViewEncapsulation} from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -17,9 +17,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true
     }
   ],
-  imports: [FormsModule, MatFormFieldModule, MatInputModule],
+  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule],
 })
-export class TextfieldComponent implements ControlValueAccessor {
+export class TextfieldComponent{
   @Input() placeholder: string = ""
   @Input() disabled: boolean = false
   @Input() value: string | number | null = null;

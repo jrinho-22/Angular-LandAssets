@@ -1,4 +1,4 @@
-export default interface IState {
+export default interface IPlot {
   plotId: number;
   estateId: number;
   number: number;

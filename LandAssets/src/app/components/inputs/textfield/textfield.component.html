@@ -1,4 +1,4 @@
 <mat-form-field [appearance]="appearance">
     <mat-label>{{placeholder}}</mat-label>
-    <input [value]="value" (input)="onChange($any($event.target).value)" matInput [disabled]="disabled">
+    <input [errorStateMatcher]="matcher" [formControl]="emailFormControl" [value]="value" (input)="onChange($any($event.target).value)" matInput [disabled]="disabled">
 </mat-form-field>

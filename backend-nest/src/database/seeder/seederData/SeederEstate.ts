@@ -5,7 +5,7 @@ import { plotSeed } from './SeederPlot';
 export const estateSeed: Estate[] = [
     {
       name: 'New York',
-      map: 'src/assets/imgs/estateMap.png',
+      map: 'src\\assets\\imgs\\estateMap.png',
       size: '54,552',
       oceanDistance: '50km',
       plotsAvailable: 0,
@@ -17,7 +17,7 @@ export const estateSeed: Estate[] = [
     },
     {
       name: "California",
-      map: "src/assets/imgs/estateMap.png",
+      map: "src\\assets\\imgs\\estateMap.png",
       size: "163,696",
       oceanDistance: "12km",
       plotsAvailable: 0,
@@ -29,7 +29,7 @@ export const estateSeed: Estate[] = [
     },
     {
       name: "Texas",
-      map: "src/assets/imgs/estateMap.png",
+      map: "src\\assets\\imgs\\estateMap.png",
       size: "268,596",
       oceanDistance: "55km",
       plotsAvailable: 0,

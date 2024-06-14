@@ -12,9 +12,14 @@ import { TextfieldComponent } from './components/inputs/textfield/textfield.comp
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardModule } from './views/dashboard/dashboard.module';
 import { SelectComponent } from './components/inputs/select/select.component';
-import { CadastroEstadoComponent } from './modules/cadastro-estado/cadastro-estado.component';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { CadastroEstadoComponent } from './modules/estado/cadastro-estado/cadastro-estado.component';
+import { MatGridListModule } from "@angular/material/grid-list";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ViewEstadoComponent } from './modules/estado/view-estado/view-estado.component';
+import { TableComponent } from './components/table/table.component';
+import { FormComponent } from './components/form/form.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { LoginComponent } from './views/login/login.component'
 
 
 @NgModule({
@@ -22,13 +27,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     HeaderComponent,
     CadastroEstadoComponent,
+    ViewEstadoComponent,
+    LoginComponent,
   ],
   imports: [
+    TableComponent,
+    ModalComponent,
     MatGridListModule,
     SelectComponent,
     DashboardModule,
     BrowserAnimationsModule,
     BrowserModule,
+    FormComponent,
     LogoComponent,
     AppRoutingModule,
     FormsModule,

@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
 import IState, { IStateEmpty, StateEmpty } from 'src/app/interfaces/IState';
 import { EstateModel } from '../../models/estate.service';
-import { DashboardService } from '../../dashboard.service';
+import { DashboardService } from '../../utils/dashboard.service';
 import { ViewportScroller } from '@angular/common';
 import { skip, take } from 'rxjs';
 
@@ -47,7 +47,7 @@ export class ShortSummaryComponent {
   }
 
   getStates() {
-    this.EstateModel.getData<IState[]>('').subscribe((response) => {
+    this.EstateModel.getData('').subscribe((response) => {
       this.states = response;
     });
   }

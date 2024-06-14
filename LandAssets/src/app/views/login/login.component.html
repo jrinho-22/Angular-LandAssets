@@ -1,0 +1,55 @@
+<ng-container *ngIf="loginForm; else signUpRef">
+  <div class="background-login">
+    <div class="container">
+      <app-logo [login]="true" style="margin-bottom: 30px" />
+      <form (ngSubmit)="login()" [formGroup]="loginData">
+        <app-textfield
+          formControlName="email"
+          appearance="outline"
+          class="fullwidth"
+          placeholder="email"
+        />
+        <app-textfield
+          formControlName="password"
+          appearance="outline"
+          class="fullwidth"
+          placeholder="Password"
+        />
+        <app-flat-button [ngStyle]="{'margin-bottom': '10px'}" type="submit" text="LOGIN" />
+        <span>Or</span>
+        <span class="sign-link" (click)="loginForm = !loginForm">signup</span>
+      </form>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #signUpRef>
+  <div class="background-login">
+    <div class="container">
+      <app-logo [login]="true" style="margin-bottom: 30px" />
+      <form (ngSubmit)="signUp()" [formGroup]="loginData">
+        <app-textfield
+          formControlName="name"
+          appearance="outline"
+          class="fullwidth"
+          placeholder="nome"
+        />
+        <app-textfield
+          formControlName="email"
+          appearance="outline"
+          class="fullwidth"
+          placeholder="email"
+        />
+        <app-textfield
+          formControlName="password"
+          appearance="outline"
+          class="fullwidth"
+          placeholder="Password"
+        />
+        <app-flat-button [ngStyle]="{'margin-bottom': '15px'}" type="submit" text="SIGNUP" />
+        <span class="sign-link" (click)="loginForm = !loginForm">back to signin</span>
+      </form>
+    </div>
+  </div>
+</ng-template>
+

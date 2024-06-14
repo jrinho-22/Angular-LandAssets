@@ -10,6 +10,7 @@ import {
   HttpStatus,
   UploadedFile,
   UseInterceptors,
+  Put,
 } from '@nestjs/common';
 import { EstateService } from './estate.service';
 import { CreateEstateDto } from './dto/create-estate.dto';
@@ -44,7 +45,15 @@ export class EstateController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log('flllll')
     return this.estateService.findOne(+id);
+  }
+
+  @Put(':id')
+  @UseInterceptors(FileInterceptor('file'))
+  updateOne(@Param('id') id: string, @Body() body: {stateFields: string}, @UploadedFile() file: Express.Multer.File) {
+    const json = JSON.parse(body.stateFields)
+    return this.estateService.updateOne(+id, json, file);
   }
 
   @Patch(':id')

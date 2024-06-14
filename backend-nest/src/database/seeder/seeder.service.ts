@@ -28,7 +28,7 @@ export class Seeder {
     return await Promise.all(this.UsersService.createSeed(userSeed))
       .then((createdUser) => {
         this.logger.debug(
-          'No. of languages created: ' +
+          'No. of users created: ' +
             createdUser.filter(
               (nullValueOrCreatedLanguage) => nullValueOrCreatedLanguage,
             ).length,

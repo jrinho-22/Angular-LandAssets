@@ -2,8 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Public } from 'src/auth/auth.contants';
 
-@Controller('users')
+@Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -17,7 +18,7 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
-
+  
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);

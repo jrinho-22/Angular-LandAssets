@@ -10,12 +10,11 @@ import { CarouselModule, CarouselPageEvent } from 'primeng/carousel';
   standalone: true,
   encapsulation: ViewEncapsulation.None,
 })
-export class CarouselComponent implements AfterViewInit {
+export class CarouselComponent {
   @Input() states:Array<any> = [];
   @Input() customRef: any;
   @Input() activeStateIndex: number = 0;
   @Output() pageEvent = new EventEmitter<number>();
-
 
   // @ViewChild('templateRef') templateRef!: TemplateRef<any>;
   teste = ['Item1', 'Item 2', 'Item 3'];

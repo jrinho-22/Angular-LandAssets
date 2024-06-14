@@ -32,9 +32,9 @@ export class UsersService {
     });
   }
 
-  create(createUserDto: CreateUserDto) {
+  create(createUserDto: CreateUserDto): Promise<Users> {
     console.log(createUserDto);
-    this.usersRepository.save(createUserDto);
+    return this.usersRepository.save(createUserDto);
   }
 
   findAll(): any {
@@ -45,6 +45,14 @@ export class UsersService {
     return this.usersRepository.findOne({
       where: {
         userId: userId,
+      },
+    });
+  }
+
+  findByEmail(email: string): Promise<Users | null> {
+    return this.usersRepository.findOne({
+      where: {
+        email: email,
       },
     });
   }

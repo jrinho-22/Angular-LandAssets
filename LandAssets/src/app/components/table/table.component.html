@@ -1,0 +1,20 @@
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let header of headers">{{ header.label }}</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let collection of collections">
+      <td *ngFor="let header of headers">
+        {{ collection[header.field] }}
+      </td>
+      <td>
+        <span (click)="visualizar(collection)" class="i-visualizar button"></span>
+        <span (click)="editar(collection)" class="i-editar button"></span>
+        <span class="i-excluir button"></span>
+      </td>
+    </tr>
+  </tbody>
+</table>

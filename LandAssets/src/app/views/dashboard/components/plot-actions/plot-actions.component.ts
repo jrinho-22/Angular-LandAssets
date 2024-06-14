@@ -1,14 +1,21 @@
 import {
   AfterContentInit,
   Component,
+  ComponentFactory,
+  ComponentFactoryResolver,
+  ComponentRef,
   ContentChild,
   ElementRef,
+  Inject,
+  Injector,
   OnChanges,
   SimpleChanges,
   TemplateRef,
   ViewChild,
   ViewChildren,
+  ViewContainerRef,
   ViewEncapsulation,
+  createComponent,
 } from '@angular/core';
 import IState, { IStateEmpty, StateEmpty } from 'src/app/interfaces/IState';
 import IPlot, { IPlotEmpty, PlotEmpty } from 'src/app/interfaces/IPlot';
@@ -16,75 +23,133 @@ import { HttpRequestService } from '../../../../services/HttpRequest.service';
 // import { factoryProvider } from './plot-actions.http.service.provider';
 import { EstateModel } from '../../models/estate.service';
 import { PlotModel } from '../../models/plot.service';
-import { DashboardService } from '../../dashboard.service';
-import { IStateDash } from '../../IStateDash';
+import { DashboardService } from '../../utils/dashboard.service';
+import { IStateDash } from '../../../../interfaces/plot-actions/IStateDash';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from 'src/app/components/modal/modal.component';
+import { ModalBuyPlotComponent } from './modals/modal-buy-plot/modal-buy-plot.component';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { MODAL_BUY_PLOT_VALUES } from '../../utils/modal-token';
+import { BehaviorSubject, Observable } from 'rxjs';
+import IModalData from 'src/app/interfaces/IModalData';
+import IModalBuyPlotValues from 'src/app/interfaces/plot-actions/IModalBuyPlotValues';
 
 @Component({
   selector: 'app-plot-actions',
   templateUrl: './plot-actions.component.html',
   styleUrls: ['./plot-actions.component.sass'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class PlotActionsComponent {
-  // @ViewChild('templateRef') item1!: TemplateRef<any>;
-  defaultStateIndex = 0
+  defaultStateIndex = 0;
 
   states: IState[] = [];
-  activeStateIndex: number = this.defaultStateIndex
-  stateFields: IState | IStateEmpty = StateEmpty
+  activeStateIndex: number = this.defaultStateIndex;
+  stateFields: IState | IStateEmpty = StateEmpty;
   plots: IPlot[] = [];
   plotsByState: IPlot[] = [];
-  activePlot: IPlot | undefined = undefined
+  activePlot: IPlot | undefined = undefined;
+  componentRef!: ComponentRef<ModalBuyPlotComponent>;
+  actionFun!: () => void;
 
   constructor(
+    @Inject(MODAL_BUY_PLOT_VALUES)
+    private modalBuyPlotValues: BehaviorSubject<IModalBuyPlotValues>,
     private EstateModel: EstateModel,
     private PlotModel: PlotModel,
     private DashboardService: DashboardService,
+    public dialog: MatDialog
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    // ModalBuyPlotComponent == contructor function itself
     this.getStates();
+    this.subscribeToDashboardService();
+    this.modalBuyPlotValues.subscribe((v: IModalBuyPlotValues) => {
+    this.actionFun = v.action;
+    });
+  }
 
+  subscribeToDashboardService() {
     this.DashboardService.activeStateObs$.subscribe((stateDash: IStateDash) => {
       if (stateDash.state.estateId != null) {
-        this.activePlot = undefined
-        const index = this.states.findIndex((Item: IState | IStateEmpty) => Item.name == stateDash.state.name )
-        index != -1 ? this.activeStateIndex = index : this.activeStateIndex = 0 
-        this.stateFields = stateDash.state
-        this.getPlots(stateDash.state.estateId) 
+        this.activePlot = undefined;
+        const index = this.states.findIndex(
+          (Item: IState | IStateEmpty) => Item.name == stateDash.state.name
+        );
+        index != -1
+          ? (this.activeStateIndex = index)
+          : (this.activeStateIndex = 0);
+        this.stateFields = stateDash.state;
+        this.getPlotsByState(stateDash.state.estateId);
+
+        //insert stateName on MODAL_BUY_PLOT_VALUES
+        const currentValues = this.modalBuyPlotValues.getValue();
+        const stateName = stateDash.state.name
+          ? stateDash.state.name
+          : undefined;
+        this.modalBuyPlotValues.next({
+          ...currentValues,
+          stateName: stateName,
+        });
       }
     });
-
-    this.DashboardService.activePlotObs$.subscribe((activePlot: IPlot | undefined) => {
-      this.activePlot = activePlot
-    });
   }
 
-  async getStates() {
-    this.EstateModel.getData<IState[]>('').subscribe((response) => {
+  openDialog() {
+    console.log(this.modalBuyPlotValues.getValue());
+
+    const dialogRef = this.dialog.open(ModalComponent, {
+      data: {
+        action: () => this.actionFun(),
+        size: 'lg',
+        component: ModalBuyPlotComponent,
+        text: { title: 'Buy Plot', action: 'CONFIRM', close: 'CANCEL' },
+      } as IModalData,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was sed');
+    });
+
+    // const modalComponentInstance = dialogRef.componentInstance;
+    // modalComponentInstance.actionButtonClicked.subscribe(() => {
+    //   ModalBuyPlotComponent.prototype.submit();
+    // });
+  }
+
+  getStates() {
+    this.EstateModel.getData('').subscribe((response: IState[]) => {
       this.states = response;
-      this.stateFields = response[this.defaultStateIndex]
-      this.getPlots(response[this.defaultStateIndex].estateId)
+      this.initialStateValues();
     });
   }
 
-  getPlots(estateId: number) {
-    // this.PlotModel.getData<IPlot[]>('').subscribe((response) => {
-    //   this.plots = response;
-    this.PlotModel.dataByState(estateId).subscribe((response: any) => {
-      this.plotsByState = response
-      // this.stateFields = response[this.defaultStateIndex]
+  initialStateValues() {
+    this.stateFields = this.states[this.defaultStateIndex];
+    this.getPlotsByState(this.states[this.defaultStateIndex].estateId);
+    this.DashboardService.setState(this.states[this.defaultStateIndex], false);
+  }
+
+  getPlotsByState(estateId: number) {
+    this.PlotModel.dataByState(estateId).subscribe((response: IPlot[]) => {
+      this.plotsByState = response;
     });
   }
 
-  handlePageChange (index: number){
-    this.DashboardService.setState(this.states[index], false) 
+  handlePageChange(index: number) {
+    this.DashboardService.setState(this.states[index], false);
   }
 
   receiveSelectData(data: string) {
-    console.log(data)
     this.activePlot = this.plotsByState.find((v) => String(v.number) == data);
-    // if (activePlot) this.DashboardService.setState(activeState, true);
+    const currentValues = this.modalBuyPlotValues.getValue();
+    this.modalBuyPlotValues.next({
+      ...currentValues,
+      plotId: this.activePlot?.plotId,
+      totalPrice: this.activePlot?.totalCashPrice,
+      plotNumber: this.activePlot?.number,
+    });   
   }
 
   // ngDoCheck(changes: any) {

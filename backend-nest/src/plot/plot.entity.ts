@@ -1,32 +1,47 @@
 import { Estate } from 'src/estate/estate.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Users } from 'src/users/user.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 
-@Entity({name: "plot", schema: 'public'})
+@Entity({ name: 'plot', schema: 'public' })
 export class Plot {
-    @PrimaryGeneratedColumn()
-    plotId?: number;
+  @PrimaryGeneratedColumn()
+  plotId?: number;
 
-    @ManyToOne(() => Estate, (estate) => estate.plots)
-    estate: Estate
+  @ManyToOne(() => Estate, (estate) => estate.plots)
+  estate: Estate;
 
-    @Column()
-    number: number;
+  @ManyToMany(
+    () => Users,
+    (user) => user.plot, //optional
+    { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
+  )
+  users?: Users[];
 
-    @Column()
-    pricePerSQM: number;
+  @Column()
+  number: number;
 
-    @Column()
-    size: string;
+  @Column()
+  pricePerSQM: number;
 
-    @Column()
-    priceSQMPartialPayment: number;
+  @Column()
+  size: string;
 
-    @Column()
-    totalCashPrice: number;
+  @Column()
+  priceSQMPartialPayment: number;
 
-    @Column()
-    totalPartialPaymentPrice: number;
+  @Column()
+  totalCashPrice: number;
 
-    @Column()
-    firstInstallment: number;
+  @Column()
+  totalPartialPaymentPrice: number;
+
+  @Column()
+  firstInstallment: number;
 }

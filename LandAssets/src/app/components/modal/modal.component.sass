@@ -1,0 +1,41 @@
+
+@import "../../../assets/scss/variables"
+$fontsize: 22px
+
+@mixin size-styles($size) 
+    h1
+        color: $text_color_gray
+        text-align: center
+        height: 13%
+        font-size: calc( $size * $fontsize)
+
+    .content
+        overflow: auto
+        height: 77%
+
+    .actions
+        margin-top: 20px
+        display: flex
+        height: 10%
+        justify-content: space-evenly
+
+        app-flat-button
+            button
+                color: $cor_fundo !important
+
+.modal-wrapper
+    padding: 50px
+    display: flex
+    flex-direction: column
+
+    &.sm 
+        @include size-styles(1)
+       
+
+    &.md 
+        @include size-styles(1.3)
+       
+
+    &.lg 
+        @include size-styles(1.6)
+       

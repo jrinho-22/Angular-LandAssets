@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import IState, { IStateEmpty, StateEmpty } from 'src/app/interfaces/IState';
-import { EstateModel } from './models/estate.service';
+import { EstateModel } from '../models/estate.service';
 import {
   FormBuilder,
   FormGroup,
@@ -19,11 +19,12 @@ import { blob } from 'stream/consumers';
 export class CadastroEstadoComponent {
   stateForm: FormGroup;
   name: any = '';
-  imgFile: FormData = new FormData();  
+  imgFile: FormData = new FormData(); 
+  @ViewChild('fileInput') fileInput!: any; 
 
   constructor(
     private formBuilder: FormBuilder,
-    private EstateModel: EstateModel
+    protected EstateModel: EstateModel
   ) {
     this.stateForm = this.formBuilder.group({
       name: [''],
@@ -41,23 +42,16 @@ export class CadastroEstadoComponent {
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    // this.stateForm.patchValue({
-    //   map: file
-    // });
     if (file) {
-      console.log(file, 'fiellel')
       this.readFile(file).then((result: ArrayBuffer | null) => {
         if (result) {
-          // Create a Blob from the ArrayBuffer
           const blob = new Blob([new Uint8Array(result)]);
           
-          // Set the value of the form control
-          this.imgFile.append('file', blob, file.name)
+          this.imgFile.set('file', blob, file.name)
           this.stateForm.patchValue({
             img: file.name
           });
         } else {
-          // Handle the case where the file reading result is null
           console.error('Failed to read file');
         }
       });
@@ -82,9 +76,42 @@ export class CadastroEstadoComponent {
     });
   }
 
+  beforePost(data: any){
+    this.imgFile.set("stateFields", JSON.stringify(data.value))
+    return this.imgFile
+  }
+
   submit() {
-    console.log(this.stateForm.value)
-    this.imgFile.append("stateFields", JSON.stringify(this.stateForm.value))
-    this.EstateModel.postData(this.imgFile).subscribe();
+    const sendData = (data: FormGroup | FormData): any => {
+        return this.EstateModel.putData(2, data).subscribe();
+      }
+  
+
+        sendData(this.stateForm);
+  }
+
+  beforeLoad(data: any){
+    const blob = this.createBlobFile(data.map)
+    let file = new File([blob], data.imgName);
+    this.imgFile.append('file', blob, file.name)
+    this.stateForm.patchValue({
+      img: file.name
+    });
+    
+    let container = new DataTransfer(); 
+    container.items.add(file);
+    const fileInputElement = this.fileInput.nativeElement as HTMLInputElement;
+    fileInputElement.files = container.files;
+  }
+
+  createBlobFile(base64Image: string) {
+    const byteCharacters = atob(base64Image);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+
+    return new Blob([byteArray]);
   }
 }

@@ -1,0 +1,7 @@
+<ng-container *ngIf="controlContainer?.control" [formGroup]="$any(controlContainer.control)">
+<mat-radio-group [formControlName]="formControlName" aria-label="Select an option">
+    <ng-container *ngFor="let collection of collections">
+        <mat-radio-button [value]="collection['value']">{{collection.label}}</mat-radio-button>
+    </ng-container>
+</mat-radio-group>
+</ng-container>

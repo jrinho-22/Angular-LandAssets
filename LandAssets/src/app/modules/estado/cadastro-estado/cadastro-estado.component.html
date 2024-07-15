@@ -25,14 +25,19 @@
             appearance="outline"
             class="fullwidth"
             placeholder="size"
+            type="number"
+            suffix="m2"
           />
         </mat-grid-tile>
         <mat-grid-tile colspan="2">
           <app-textfield
+            maxValue="9999"
+            suffix="km"
             formControlName="oceanDistance"
             appearance="outline"
             class="fullwidth"
             placeholder="oceanDistance"
+            type="number"
           />
         </mat-grid-tile>
         <mat-grid-tile colspan="1">
@@ -52,6 +57,7 @@
             class="fullwidth"
             value="stateFields"
             placeholder="population"
+            type="number"
           />
         </mat-grid-tile>
         <mat-grid-tile colspan="2">
@@ -75,6 +81,8 @@
         </mat-grid-tile>
         <mat-grid-tile colspan="3">
           <app-textfield
+            type="numeric"
+            maxValue="9999"
             formControlName="averagePricePerSQM"
             appearance="outline"
             class="fullwidth"
@@ -84,6 +92,8 @@
         </mat-grid-tile>
         <mat-grid-tile colspan="3">
           <app-textfield
+            type="numeric"
+            maxValue="9999"
             formControlName="averagePartialPaymentPrice"
             appearance="outline"
             class="fullwidth"
@@ -93,6 +103,7 @@
         </mat-grid-tile>
         <mat-grid-tile colspan="4">
           <input
+            [ngClass]="stateForm.get('imgName')?.invalid && (stateForm.get('imgName')?.touched || stateForm.get('imgName')?.dirty) ? 'invalid' : undefined"
             #fileInput
             type="file"
             (change)="onFileSelected($event)"

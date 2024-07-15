@@ -1,27 +1,48 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, Inject, Input, ViewChild } from '@angular/core';
+import { FormGroup, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { notDeepEqual } from 'assert';
-import { switchMap } from 'rxjs';
+import { BehaviorSubject, switchMap } from 'rxjs';
 import { HttpRequestService } from 'src/app/services/HttpRequest.service';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { SnackbarService } from '../../services/snackbar.service';
+import { fstat } from 'fs';
+import IFormParent from 'src/app/interfaces/IFormParent';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MyErrorStateMatcher } from '../inputs/textfieldError';
+import { FORM_SUBMIT } from 'src/app/tokens/formSubmitHandler';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.sass'],
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule],
 })
-export class FormComponent<T> {
+export class FormComponent<T extends { [key: string]: any; }> {
+  // @ViewChild("ngForm") form!: NgForm;
   @Input() formGroup!: FormGroup;
   formType!: 'cadastro' | 'edicao' | 'view';
   @Input() model!: HttpRequestService<T>;
-  @Input() parent: any;
+  @Input() parent!: IFormParent<T>;
   paramId!: number;
+  old: any
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  // matcher = new MyErrorStateMatcher()
+
+  constructor(
+    private snackbarService: SnackbarService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private _snackBar: MatSnackBar,
+    @Inject(FORM_SUBMIT)
+    private formSubmitted: BehaviorSubject<{formSubmitted: boolean}>
+  ) { }
 
   ngOnInit() {
+    this.old = {...this.formGroup}
     this.checkFormType();
     this.getCollection();
   }
@@ -41,34 +62,54 @@ export class FormComponent<T> {
         .pipe(
           switchMap((params) => {
             this.paramId = params['id'];
-            return this.model.getData(params['id']);
+            return this.model.getItem(params['id']);
           })
         )
-        .subscribe((data: any) => this.populate(data));
+        .subscribe((data: T) => { console.log(this.formGroup, data, 'yerrrrr'), this.populate(data) });
     }
   }
 
-  populate(data: any) {
+  populate(data: T) {
+    console.log(data, 'datatatatat')
+    var record: Record<string, any> = data
     if (typeof this.parent.beforeLoad == 'function') {
-      this.parent.beforeLoad(data);
+      record = this.parent.beforeLoad(data);
     }
-    this.formGroup.patchValue(data);
+    this.formGroup.patchValue(record);
+    // console.log(this.formGroup, data, 'yerrrrr')
   }
 
-  submit() {
-    const sendData = (data: FormGroup | FormData) => {
-      if (this.formType === 'edicao') {
-        return this.model.putData(this.paramId, data).subscribe();
-      } else {
-        return this.model.postData(data).subscribe();
+  async submit() {
+    // console.log(this.form, 'formrmrmmr ')
+    console.log('runnnnnn', this.formGroup)
+    this.formSubmitted.next({
+      formSubmitted: true
+    })
+    this.formGroup.markAllAsTouched()
+    if (this.formGroup.status == 'VALID') {
+      if (typeof this.parent?.submit === 'function') {
+        this.parent?.submit()
+        return 
       }
-    };
 
-    if (typeof this.parent.beforePost === 'function') {
-      const postRecord: FormGroup | FormData = this.parent.beforePost(this.formGroup);
-      sendData(postRecord);
-    } else {
-      sendData(this.formGroup);
+      if (typeof this.parent?.beforePost === 'function') {
+        for (var key in this.formGroup.value) {
+          console.log(typeof this.formGroup.value[key],this.formGroup.value[key])
+        }
+        const postRecord: FormGroup | FormData | Record<string, any> = this.parent.beforePost(this.formGroup);
+        this.sendData(postRecord);
+      } else {
+        this.sendData(this.formGroup);
+      }
     }
   }
+
+  sendData = (data: FormGroup | FormData | Record<string, any>) => {
+    if (data instanceof FormGroup) data = data.value
+    if (this.formType === 'edicao') {
+      return this.model.putData(this.paramId, data).subscribe({complete: () => this.snackbarService.openSnack({panel:'success', message: 'Item editado com SUCESSO', menuMargin: true }) });
+    } else {
+      return this.model.postData(data).subscribe({complete: () => this.snackbarService.openSnack({panel:'success', message: 'Item cadastrado com SUCESSO' }) });
+    }
+  };
 }

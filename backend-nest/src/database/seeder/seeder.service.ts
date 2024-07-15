@@ -53,7 +53,6 @@ export class Seeder {
   }
 
   async estates() {
-    console.log('here')
     return await Promise.all(this.EstateService.createSeed(estateSeed))
       .then((createdEstate) => {
         this.logger.debug(

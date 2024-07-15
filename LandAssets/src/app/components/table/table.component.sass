@@ -1,14 +1,22 @@
 @import "../../../assets/scss/variables"
+// .table-container 
+//     // max-width: 100% /* or a specific width */
+//     max-height: 500px /* or a specific height */
+//     overflow: auto
+
 table
     background-color: $background_color
     // height: 800px
-    margin: calc( $menu_height + 100px ) auto
+    margin: calc( $menu_height + 20px ) auto
     // height: 500px
     padding: 30px 120px
     border-collapse: collapse
     font-size: 0.9em
     min-width: 400px
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15)
+    overflow-y:scroll
+    // height: 300px
+    display:block
 
 
 table thead tr 
@@ -19,11 +27,19 @@ table thead tr
 
 table th,
 table td 
+    text-align: center
     padding: 12px 15px
 
+table tbody 
+    // height: 200px
+    overflow-y: scroll  
 
 table tbody tr 
+    height: 80px
     border-bottom: 1px solid #dddddd
+    td:last-of-type
+        div
+            display: flex
 
 
 table tbody tr:nth-of-type(even) 

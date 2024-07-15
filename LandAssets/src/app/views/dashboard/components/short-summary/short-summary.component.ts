@@ -19,7 +19,7 @@ export class ShortSummaryComponent {
     private viewportScroller: ViewportScroller,
     private EstateModel: EstateModel,
     private DashboardService: DashboardService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getStates();
@@ -36,7 +36,7 @@ export class ShortSummaryComponent {
 
           const scrollTop =
             window.pageYOffset || document.documentElement.scrollTop;
-          const offsetTop = rect.top + scrollTop;
+          const offsetTop = rect.top + scrollTop + 40;
 
           window.scrollTo({
             top: offsetTop,

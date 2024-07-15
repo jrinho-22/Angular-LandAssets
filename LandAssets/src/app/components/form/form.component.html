@@ -1,4 +1,6 @@
- <form (ngSubmit)="submit()" [formGroup]="formGroup">
+ <form #ngForm="ngForm" (ngSubmit)="submit()" [formGroup]="formGroup">
 <ng-content>
 </ng-content>
+    <!-- <input formControlName="teste" matInput [errorStateMatcher]="matcher"> -->
 </form>
+<!-- <div>form sub: {{ngForm.submitted}}</div> -->

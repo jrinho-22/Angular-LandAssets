@@ -27,9 +27,9 @@ import { DashboardService } from '../../utils/dashboard.service';
 import { IStateDash } from '../../../../interfaces/plot-actions/IStateDash';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from 'src/app/components/modal/modal.component';
-import { ModalBuyPlotComponent } from './modals/modal-buy-plot/modal-buy-plot.component';
+// import { ModalBuyPlotComponent } from './modals/modal-buy-plot/modal-buy-plot.component';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { MODAL_BUY_PLOT_VALUES } from '../../utils/modal-token';
+import { MODAL_BUY_PLOT_VALUES } from '../../../../tokens/modal-token';
 import { BehaviorSubject, Observable } from 'rxjs';
 import IModalData from 'src/app/interfaces/IModalData';
 import IModalBuyPlotValues from 'src/app/interfaces/plot-actions/IModalBuyPlotValues';
@@ -49,8 +49,9 @@ export class PlotActionsComponent {
   plots: IPlot[] = [];
   plotsByState: IPlot[] = [];
   activePlot: IPlot | undefined = undefined;
-  componentRef!: ComponentRef<ModalBuyPlotComponent>;
+  componentRef!: ComponentRef<any>;
   actionFun!: () => void;
+  template: any;
 
   constructor(
     @Inject(MODAL_BUY_PLOT_VALUES)
@@ -66,7 +67,8 @@ export class PlotActionsComponent {
     this.getStates();
     this.subscribeToDashboardService();
     this.modalBuyPlotValues.subscribe((v: IModalBuyPlotValues) => {
-    this.actionFun = v.action;
+      // console.log(v , 'vvvv')
+      // this.actionFun = v.action;
     });
   }
 
@@ -87,25 +89,25 @@ export class PlotActionsComponent {
         const currentValues = this.modalBuyPlotValues.getValue();
         const stateName = stateDash.state.name
           ? stateDash.state.name
-          : undefined;
+          : '';
         this.modalBuyPlotValues.next({
           ...currentValues,
-          stateName: stateName,
+          estate: stateName,
         });
       }
     });
   }
 
-  openDialog() {
-    console.log(this.modalBuyPlotValues.getValue());
+  async openDialog() {
+    const { ModalBuyPlotComponent } = await import('./modals/modal-buy-plot/modal-buy-plot.component')
 
     const dialogRef = this.dialog.open(ModalComponent, {
       data: {
-        action: () => this.actionFun(),
+        // action: () => this.actionFun(),
         size: 'lg',
         component: ModalBuyPlotComponent,
         text: { title: 'Buy Plot', action: 'CONFIRM', close: 'CANCEL' },
-      } as IModalData,
+      } ,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -114,7 +116,7 @@ export class PlotActionsComponent {
 
     // const modalComponentInstance = dialogRef.componentInstance;
     // modalComponentInstance.actionButtonClicked.subscribe(() => {
-    //   ModalBuyPlotComponent.prototype.submit();
+      // ModalBuyPlotComponent.prototype.submit();
     // });
   }
 
@@ -146,9 +148,11 @@ export class PlotActionsComponent {
     const currentValues = this.modalBuyPlotValues.getValue();
     this.modalBuyPlotValues.next({
       ...currentValues,
+      size: this.activePlot?.size,
       plotId: this.activePlot?.plotId,
-      totalPrice: this.activePlot?.totalCashPrice,
-      plotNumber: this.activePlot?.number,
+      totalCashPrice: this.activePlot?.totalCashPrice,
+      totalPartialPaymentPrice: this.activePlot?.totalPartialPaymentPrice,
+      number: this.activePlot?.number,
     });   
   }
 

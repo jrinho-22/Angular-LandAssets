@@ -3,13 +3,13 @@ import { Plot } from 'src/plot/plot.entity';
 export class CreateEstateDto {
   estateId?: number;
   name: string;
-  img: string;
-  size: string;
-  oceanDistance: string;
+  imgName: string;
+  size: number;
+  oceanDistance: number;
   plotsAvailable: number;
-  population: string;
+  population: number;
   counties: number;
   paymentTerm: string;
-  averagePricePerSQM: string;
-  averagePartialPaymentPrice: string;
+  averagePricePerSQM: number;
+  averagePartialPaymentPrice: number;
 }

@@ -1,9 +1,17 @@
-import {Component, Input, forwardRef, ViewEncapsulation} from '@angular/core';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import { Component, Input, forwardRef, ViewEncapsulation, NgModule, Injector, Optional, SimpleChanges, Inject, ChangeDetectorRef, numberAttribute } from '@angular/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { AbstractControl, ControlContainer, FormBuilder, FormControl, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormsModule, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MyErrorStateMatcher } from '../textfieldError';
+import { FormErrorDirective } from 'src/app/directives/form-error.directive';
+import { CommonModule } from '@angular/common';
+import { InputMaskModule, InputmaskOptions, createMask } from '@ngneat/input-mask';
+import { BehaviorSubject, Observable, Subscription, merge, of, startWith } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { getErrorMessage } from 'src/app/utils/validators/validatorsMessages';
+import { FORM_SUBMIT } from 'src/app/tokens/formSubmitHandler';
+import { currencyInputMask } from 'src/app/utils/masks/currency';
 
 @Component({
   selector: 'app-textfield',
@@ -16,21 +24,143 @@ import { MyErrorStateMatcher } from '../textfieldError';
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TextfieldComponent),
       multi: true
-    }
+    },
+
   ],
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule],
+  imports: [InputMaskModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, FormsModule, CommonModule],
 })
-export class TextfieldComponent{
+export class TextfieldComponent implements ControlValueAccessor {
+  @Input() mask: any
+  @Input({ transform: numberAttribute }) maxLenght: number | undefined
+  @Input({ transform: numberAttribute }) maxValue: number | undefined
   @Input() placeholder: string = ""
   @Input() disabled: boolean = false
+  @Input() type: 'text' | 'number' | 'numeric' = 'text'
+  @Input() password: boolean = false
+  @Input() suffix: string | undefined
   @Input() value: string | number | null = null;
   @Input() appearance: "outline" | "fill" = 'fill';
+  // @Input() formControl!: FormControl
+  @Input() formControlName!: string
+  ngForm!: FormGroupDirective | null
+  suffixAply: string | undefined
+  myControl: AbstractControl<any, any> | undefined
+  errorMsg: string = ''
+  subscriptions: Subscription = new Subscription();
+  matcher = new MyErrorStateMatcher()
+  currencyInputMask: InputmaskOptions<unknown> = currencyInputMask
 
-  onChange: any = () => {};
-  onTouch: any = () => {};
+  onChange: any = () => { };
+  onTouch: any = () => { };
+
+  applyMask() {
+    if (this.mask) {
+      return this.mask
+    }
+    if (this.type == 'numeric') {
+      return this.currencyInputMask
+    }
+
+    return
+  }
+
+  constructor(
+    @Optional() public controlContainer: ControlContainer,
+    @Inject(FORM_SUBMIT)
+    private formSubmitted: BehaviorSubject<{ formSubmitted: boolean }>,
+    private injector: Injector,
+    private cdRef: ChangeDetectorRef,
+  ) {
+
+    this.formSubmitted.subscribe(v => {
+      if (v.formSubmitted) {
+        this.matcher.form = this.controlContainer;
+      }
+    })
+  }
+
+  ngAfterViewInit(): void {
+    const ngControl: NgControl | null | FormControlName = this.injector.get(NgControl, null);
+    if (ngControl) {
+      this.myControl = (ngControl?.control || this.controlContainer.control?.get(this.formControlName)) as FormControl
+      this.subscribeToChanges()
+    }
+    this.cdRef.detectChanges();
+  }
+
+  subscribeToChanges() {
+    if (this.myControl) {
+      const mysub = merge(
+        this.myControl.valueChanges,
+        this.myControl.statusChanges.pipe(startWith(this.myControl.status))
+      ).subscribe((v) => {
+        this.errorMsg = (getErrorMessage((this.myControl as AbstractControl)) as string)
+      });
+      this.subscriptions.add(mysub);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  blockText(event: KeyboardEvent) {
+    if (this.type == 'number') {
+      const allowedKeys = ['Backspace', 'Delete', 'Enter'];
+      return allowedKeys.includes(event.key) || /^[0-9]$/.test(event.key);
+    }
+    return true
+  }
+
+  onFocus(): void {
+    this.suffixAply = this.suffix
+  }
+
+  onInput(event: Event): void {
+    // console.log(this.controlContainer, 'controllll')
+    const inputElement = event.target as HTMLInputElement;
+    let cursorPosition = inputElement.selectionStart;
+    const getDotComma = (value: string) => value.match(/[,.]/g)
+    const startDots = getDotComma(inputElement.value)
+
+    if (this.type == 'numeric') {
+      console.log((event.target as HTMLInputElement).value, inputElement.value.replaceAll(".", ""), 'event.target as HTMLInputElement;')
+      let value = inputElement.value.replaceAll(".", "").replaceAll(",", "").replaceAll("$", "").trim();
+      let decimals = value.slice(-2)
+      value = value.slice(0, -2)
+      console.log(decimals, value, 'dec')
+      if (this.maxValue && Number(value) > this.maxValue) {
+        value = value.slice(0, -1)
+      }
+      inputElement.value = value + '.' + decimals
+    }
+
+    if (this.type == 'number') {
+      let value = inputElement.value.replaceAll(",", "").replaceAll(".", "");
+      if (this.maxValue && Number(value) > this.maxValue) {
+        value = value.slice(0, -1)
+      }
+      value ? inputElement.value = Number(value).toLocaleString('pt-BR') : inputElement.value = ''
+      this.onChange(value);
+      this.onTouch();
+    }
+
+    const endDots = getDotComma(inputElement.value)
+    const dif = (endDots?.length || 0) - (startDots?.length || 0);
+    const rangeAfterfix = (cursorPosition || 0) + dif < 0 ? 0 : (cursorPosition || 0) + dif
+
+    inputElement.setSelectionRange(rangeAfterfix, rangeAfterfix);
+  }
+
+  onBlur(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const value = inputElement.value;
+    if (!value) this.suffixAply = undefined
+  }
 
   writeValue(value: any): void {
-    this.value = value;
+    if (this.type == 'number') this.value = value.toLocaleString('pt-BR');
+    if (value) this.suffixAply = this.suffix
   }
 
   registerOnChange(fn: any): void {
@@ -44,6 +174,5 @@ export class TextfieldComponent{
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  matcher = new MyErrorStateMatcher();
+
 }

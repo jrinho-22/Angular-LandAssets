@@ -20,6 +20,24 @@ import { TableComponent } from './components/table/table.component';
 import { FormComponent } from './components/form/form.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { LoginComponent } from './views/login/login.component'
+import { ChartComponent } from './components/chart/chart.component';
+import { FormErrorDirective } from './directives/form-error.directive';
+import { CadastroPlotComponent } from './modules/plot/cadastro-plot/cadastro-plot.component';
+import { ViewPlotComponent } from './modules/plot/view-plot/view-plot.component';
+import { FormSelectComponent } from './components/inputs/form-select/form-select.component';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { MAT_SNACK_BAR_DATA, MatSnackBarModule } from '@angular/material/snack-bar';
+import { BehaviorSubject } from 'rxjs';
+import ISnackBarData from './interfaces/ISnackBarData';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { InputMaskModule } from '@ngneat/input-mask';
+import { FORM_SUBMIT } from './tokens/formSubmitHandler';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ViewClientPlotComponent } from './modules/client-plot/view-client-plot/view-client-plot.component';
+import { PaymentClientPlotComponent } from './modules/client-plot/payment-client-plot/cadastro-client-plot.component';
+import { ModalPaymentComponent } from './modules/client-plot/modals/payment/payment.component';
+import { FormRadioComponent } from './components/inputs/form-radio/form-radio.component';
+import { IconButtonComponent } from './components/buttons/icon-button/icon-button.component';
 
 
 @NgModule({
@@ -29,8 +47,21 @@ import { LoginComponent } from './views/login/login.component'
     CadastroEstadoComponent,
     ViewEstadoComponent,
     LoginComponent,
+    CadastroPlotComponent,
+    ViewPlotComponent,
+    SnackbarComponent,
+    ViewClientPlotComponent,
+    PaymentClientPlotComponent,
+    ModalPaymentComponent,
+    // FormErrorDirective,
   ],
   imports: [
+    InputMaskModule.forRoot({ inputSelector: 'input', isAsync: true }),
+    IconButtonComponent,
+    FormRadioComponent,
+    CurrencyMaskModule,
+    ChartComponent,
+    // FormSelectComponent,
     TableComponent,
     ModalComponent,
     MatGridListModule,
@@ -41,14 +72,24 @@ import { LoginComponent } from './views/login/login.component'
     FormComponent,
     LogoComponent,
     AppRoutingModule,
+    MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule, 
+    HttpClientModule,
     FlatButtonComponent,
     CarouselComponent,
+    // MatProgressSpinnerModule,
     TextfieldComponent,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_SNACK_BAR_DATA, useValue: {} },
+    {
+      provide: FORM_SUBMIT,
+      useValue: new BehaviorSubject({
+        formSubmitted: false
+      }),
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

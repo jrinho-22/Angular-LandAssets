@@ -1,6 +1,9 @@
+import IState from "./IState";
+
 export default interface IPlot {
+  estate?: IState
   plotId: number;
-  estateId: number;
+  estateId: number | undefined;
   number: number;
   pricePerSQM: number;
   size: string;

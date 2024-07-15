@@ -4,14 +4,14 @@
     position: fixed
     top: 0
     left: 0
-    width: 100%
+    width: 100vw
     height: $menu_height
-    z-index: 999
+    z-index: 1001
     background: $cor_fundo_semi_transparent !important
     transition: 500ms ease-in-out
 
 .Menu_reduzido
-    height: 85px !important
+    height: $reduced_menu_height !important
     background: $primary !important
 
 .Menu_top
@@ -85,13 +85,14 @@
                         width: max-content
 
                         .granChildreWrapp
-                            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px
+                            // box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px
+                            filter: drop-shadow(-1px 2px 3px rgba(63, 63, 63, 0.5))
                             display: none
                             position: absolute
                             left: 100%
                             top: -10px
                             background-color: white
-                            background-clip: padding-box
+                            background-clip: padding-box //background wont extend to border
                             border: 5px solid transparent
                             border-radius: 15px
 

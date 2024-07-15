@@ -7,6 +7,7 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity({ name: 'plot', schema: 'public' })
@@ -14,13 +15,17 @@ export class Plot {
   @PrimaryGeneratedColumn()
   plotId?: number;
 
+  // @Column({ name: 'estateEstateId' })
+  // estateEstateId: number;
+
   @ManyToOne(() => Estate, (estate) => estate.plots)
+  // @JoinColumn({name: 'estateId'})
   estate: Estate;
 
   @ManyToMany(
     () => Users,
     (user) => user.plot, //optional
-    { onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
+    {onDelete: 'NO ACTION', onUpdate: 'NO ACTION' },
   )
   users?: Users[];
 
@@ -31,7 +36,7 @@ export class Plot {
   pricePerSQM: number;
 
   @Column()
-  size: string;
+  size: number;
 
   @Column()
   priceSQMPartialPayment: number;

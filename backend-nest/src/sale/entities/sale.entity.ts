@@ -14,16 +14,26 @@ export class Sale {
       () => Plot,
       plot => plot.users,
     )
-    @JoinColumn([{ name: 'plotId', referencedColumnName: 'plotId' }])
-    users: Users[];
+    @JoinColumn([{ name: 'plotId'}])
+    plot: Plot[];
   
     @ManyToOne(
       () => Users,
       user => user.plot
     )
-    @JoinColumn([{ name: 'userId', referencedColumnName: 'userId' }])
-    plot: Plot[];
+    @JoinColumn([{ name: 'userId'}])
+    users: Users[];
 
     @Column({default: 0})
-    installments: Number;
+    totalInstallments: number;
+
+    @Column({default: 0})
+    remainingInstallments: number;
+
+    @Column({default: 0})
+    totalCost: Number;
+
+    @Column({default: 0})
+    installmentCost: Number;
+
 }

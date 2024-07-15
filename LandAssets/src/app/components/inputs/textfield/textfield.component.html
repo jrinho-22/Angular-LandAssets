@@ -1,4 +1,26 @@
-<mat-form-field [appearance]="appearance">
-    <mat-label>{{placeholder}}</mat-label>
-    <input [errorStateMatcher]="matcher" [formControl]="emailFormControl" [value]="value" (input)="onChange($any($event.target).value)" matInput [disabled]="disabled">
-</mat-form-field>
+<!-- Main form group container -->
+<ng-container #ngForm="ngForm" *ngIf="controlContainer?.control; else noFormGroup"
+    [formGroup]="$any(controlContainer.control)">
+    <mat-form-field [appearance]="appearance">
+        <mat-label>
+            {{ placeholder }}
+        </mat-label>
+        <input [inputMask]="applyMask()" (keypress)="blockText($event)"
+            [type]="password ? 'password' : 'text'" [formControlName]="formControlName" [value]="value"
+            (input)="onInput($event)" (focus)="onFocus()" (blur)="onBlur($event)" matInput [disabled]="disabled"
+            [errorStateMatcher]="matcher"
+            >
+        <span *ngIf="suffixAply" matTextSuffix>
+            {{suffixAply}}
+        </span>
+        <mat-error>{{ errorMsg }}</mat-error>
+    </mat-form-field>
+</ng-container>
+
+<!-- Fallback template -->
+<ng-template #noFormGroup>
+    <mat-form-field [appearance]="appearance">
+        <mat-label>{{ placeholder }}</mat-label>
+        <input [value]="value" matInput [disabled]="disabled">
+    </mat-form-field>
+</ng-template>

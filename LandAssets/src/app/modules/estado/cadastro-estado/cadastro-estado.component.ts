@@ -8,7 +8,8 @@ import {
   FormsModule,
   Validators,
 } from '@angular/forms';
-import { blob } from 'stream/consumers';
+import IFormParent from 'src/app/interfaces/IFormParent';
+import { CustomValidators } from 'src/app/utils/validators/CustomValidators';
 
 @Component({
   selector: 'app-cadastro-estado',
@@ -16,10 +17,10 @@ import { blob } from 'stream/consumers';
   styleUrls: ['./cadastro-estado.component.sass'],
   providers: [EstateModel],
 })
-export class CadastroEstadoComponent {
+export class CadastroEstadoComponent implements IFormParent<IState>{
   stateForm: FormGroup;
   name: any = '';
-  imgFile: FormData = new FormData(); 
+  formData: FormData = new FormData(); 
   @ViewChild('fileInput') fileInput!: any; 
 
   constructor(
@@ -27,16 +28,16 @@ export class CadastroEstadoComponent {
     protected EstateModel: EstateModel
   ) {
     this.stateForm = this.formBuilder.group({
-      name: [''],
-      size: [''],
-      img: [null],
-      oceanDistance: [''],
-      plotsAvailable: [''],
-      population: [''],
-      counties: [''],
-      paymentTerm: [''],
-      averagePricePerSQM: [''],
-      averagePartialPaymentPrice: [''],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.email]],
+      size: ['', Validators.required],
+      imgName: ['', Validators.required],
+      oceanDistance: ['', Validators.required],
+      plotsAvailable: ['', Validators.required],
+      population: ['', Validators.required],
+      counties: ['', Validators.required],
+      paymentTerm: ['', Validators.required],
+      averagePricePerSQM: ['', [Validators.required, CustomValidators.currencyMasked(5)]],
+      averagePartialPaymentPrice: ['', Validators.required],
     });
   }
 
@@ -47,9 +48,9 @@ export class CadastroEstadoComponent {
         if (result) {
           const blob = new Blob([new Uint8Array(result)]);
           
-          this.imgFile.set('file', blob, file.name)
-          this.stateForm.patchValue({
-            img: file.name
+          this.formData.set('file', blob, file.name)
+          this.stateForm.patchValue({ 
+            imgName: file.name
           });
         } else {
           console.error('Failed to read file');
@@ -76,32 +77,49 @@ export class CadastroEstadoComponent {
     });
   }
 
-  beforePost(data: any){
-    this.imgFile.set("stateFields", JSON.stringify(data.value))
-    return this.imgFile
-  }
-
-  submit() {
-    const sendData = (data: FormGroup | FormData): any => {
-        return this.EstateModel.putData(2, data).subscribe();
+  beforePost(data: FormGroup){
+    // console.log(data, 'dataaa')
+    // if text field has been edited will be string, if not it will be what came from back
+    function convertMoneyFormat(value: string | number) {
+      console.log(value)
+      if (typeof value == 'number') {
+        return value
       }
-  
-
-        sendData(this.stateForm);
+      value = String(value)
+      return parseFloat(value.replace("$", "").replace(",", "").trim())
+    }
+    const newData = {
+      ...data.value,
+      averagePartialPaymentPrice: convertMoneyFormat(data.value.averagePartialPaymentPrice),
+      averagePricePerSQM: convertMoneyFormat(data.value.averagePricePerSQM)
+    }
+    for (var key in newData) {
+      this.formData.set(key, newData[key]);
+    }
+    return this.formData
   }
 
-  beforeLoad(data: any){
-    const blob = this.createBlobFile(data.map)
-    let file = new File([blob], data.imgName);
-    this.imgFile.append('file', blob, file.name)
+  // submit() {
+  //   const sendData = (data: FormGroup | FormData): any => {
+  //       return this.EstateModel.putData(2, data).subscribe();
+  //     }
+  //       sendData(this.stateForm);
+  // }
+
+  beforeLoad(data: IState){
+    const blob = this.createBlobFile(data['map'])
+    let file = new File([blob], data['imgName']);
+    this.formData.append('file', blob, file.name)
     this.stateForm.patchValue({
-      img: file.name
+      imgName: file.name
     });
     
     let container = new DataTransfer(); 
     container.items.add(file);
     const fileInputElement = this.fileInput.nativeElement as HTMLInputElement;
     fileInputElement.files = container.files;
+    
+    return data
   }
 
   createBlobFile(base64Image: string) {

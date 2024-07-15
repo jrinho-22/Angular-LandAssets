@@ -11,13 +11,12 @@ import { baseRoute } from '../routes';
 })
 export class ViewEstadoComponent {
   estates: IState[] = [];
-  headers: any[] = [{ field: 'name', label: 'namememme' }];
-  basePath: string = '';
+  headers: any[] = [{ field: 'name', label: 'Name' }, { field: 'counties', label: 'Cidades' }, { field: 'size', label: 'Size' }, { field: 'population', label: 'Population' }, { field: 'paymentTerm', label: 'Payment term' }];
+  basePath: string = baseRoute;
 
-  constructor(private EstateModel: EstateModel) {}
+  constructor(public EstateModel: EstateModel) {}
 
   ngOnInit() {
-    this.basePath = baseRoute
     this.EstateModel.getData('').subscribe((v) => (this.estates = v));
   }
 }

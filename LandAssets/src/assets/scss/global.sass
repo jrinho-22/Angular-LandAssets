@@ -8,6 +8,9 @@
 span, li, h1, h2, h3, h4, h5
     font-family: Averta
 
+.hide
+    display: none
+
 .Background
     background-image: url("../images/back.webp")
     background-size: cover
@@ -22,12 +25,16 @@ img
     width: -webkit-fill-available
 
 $text-header-padding-border: 5px
+
+.cdk-overlay-container 
+  z-index: 1002
+
 .Cadastro,
 .Cadastro-modal
     // margin-top: $menu_height
     background-color: $background_color
     // height: 800px
-    margin-top: $menu_height
+    margin-top: $reduced_menu_height
     // height: 500px
     padding: 30px 120px
 
@@ -81,12 +88,9 @@ input[type="file"]
   position: relative
   margin-right: auto
   width: 100%
-
-
-input[type="file"]::file-selector-button 
-  width: 136px
-  color: transparent
-
+  &.invalid
+    &::file-selector-button 
+      border: 1px solid red
 
 /* Faked label styles and icon */
 input[type="file"]::before 
@@ -110,6 +114,8 @@ input[type="file"]::after
 
 /* file upload button */
 input[type="file"]::file-selector-button 
+  width: 136px
+  color: transparent
   border-radius: 4px
   padding: 0 16px
   height: 40px
@@ -129,3 +135,67 @@ input[type="file"]::file-selector-button:hover
 /* file upload button active state */
 input[type="file"]::file-selector-button:active 
   background-color: #e5e7eb
+
+// number arrow
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button 
+  -webkit-appearance: none
+  margin: 0
+
+
+
+// snackBar
+    
+:root 
+  --mdc-radio-selected-icon-color: #153d77 !important
+  --primary-color: #153d77
+  --secondary-color: #6c757d
+  --white-color: #fff
+  --success-color: #198754
+  --delete-color: #dc3545
+  --background-color: #f2f2f2
+
+
+.success-snackbar 
+  color: white
+  --mdc-snackbar-container-color: var(--success-color)
+
+  .mat-simple-snackbar-action 
+    color: white
+
+  &.margin
+    margin-top: calc($reduced_menu_height + 10px) !important
+
+
+.error-snackbar 
+  max-width: max-content !important
+  color: white
+  --mdc-snackbar-container-color: var(--delete-color)
+  border-color: #f5c6cb
+  
+  &.margin
+    margin-top: calc($reduced_menu_height + 10px) !important
+
+  .mat-simple-snackbar-action 
+    color: white
+
+.spinner
+    margin: auto
+    height: 100% !important
+
+// table
+.table-wrapper
+    position: fixed
+    bottom: 0
+    top: 0
+    left: 0
+    right: 0
+    background-color: $background_color
+
+// radioButton
+.mat-mdc-radio-button.mat-accent 
+  --mdc-radio-selected-icon-color: #{$cor_fundo}
+  --mdc-radio-selected-focus-icon-color: #{$cor_fundo}
+  --mdc-radio-selected-hover-icon-color: #{$cor_fundo}
+  --mdc-radio-selected-pressed-icon-color: #{$cor_fundo}
+  --mat-radio-checked-ripple-color: #{$cor_fundo}

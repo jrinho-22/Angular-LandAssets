@@ -13,10 +13,10 @@ export class Estate {
     map: string;
 
     @Column()
-    size: string;
+    size: number;
 
     @Column()
-    oceanDistance: string;
+    oceanDistance: number;
 
     @Column()
     plotsAvailable: number;
@@ -25,7 +25,7 @@ export class Estate {
     plots?: Plot[];
 
     @Column()
-    population: string;
+    population: number;
 
     @Column()
     counties: number;
@@ -34,8 +34,8 @@ export class Estate {
     paymentTerm: string;
 
     @Column()
-    averagePricePerSQM: string;
+    averagePricePerSQM: number;
 
     @Column()
-    averagePartialPaymentPrice: string;
+    averagePartialPaymentPrice: number;
 }

@@ -26,9 +26,9 @@ export class EstateController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  create( @Body() body: {stateFields: string}, @UploadedFile() file: Express.Multer.File) {
-    const json = JSON.parse(body.stateFields)
-    return this.estateService.create(json, file);
+  create( @Body() body: CreateEstateDto, @UploadedFile() file: Express.Multer.File) {
+    // const json = JSON.stringify.parse(body.stateFields)
+    return this.estateService.create(body, file);
   }
 
   @Get()
@@ -45,15 +45,13 @@ export class EstateController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    console.log('flllll')
     return this.estateService.findOne(+id);
   }
 
   @Put(':id')
   @UseInterceptors(FileInterceptor('file'))
-  updateOne(@Param('id') id: string, @Body() body: {stateFields: string}, @UploadedFile() file: Express.Multer.File) {
-    const json = JSON.parse(body.stateFields)
-    return this.estateService.updateOne(+id, json, file);
+  updateOne(@Param('id') id: string, @Body() body: CreateEstateDto, @UploadedFile() file: Express.Multer.File) {
+    return this.estateService.updateOne(+id, body, file);
   }
 
   @Patch(':id')

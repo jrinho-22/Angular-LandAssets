@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { PlotService } from './plot.service';
 import { CreatePlotDto } from './dto/create-plot.dto';
 import { UpdatePlotDto } from './dto/update-plot.dto';
 import { Plot } from './plot.entity';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('plot')
 export class PlotController {
@@ -14,9 +15,20 @@ export class PlotController {
   }
 
   @Get()
-  findAll(@Query() query?: Object): Promise<Plot[]> {
-    return this.plotService.findAll(query);
+  findBy(@Query() query?: Object): Promise<Plot[]> {
+    console.log(query, 'query')
+    return this.plotService.findBy(query);
   }
+
+  @Put(':id')
+  updateOne(@Param('id') id: string, @Body() body: UpdatePlotDto) {
+    return this.plotService.updateOne(+id, body);
+  }
+
+  // @Get()
+  // findAll(@Query() query?: Object): Promise<Plot[]> {
+  //   return this.plotService.findAll(query);
+  // }
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Plot> {

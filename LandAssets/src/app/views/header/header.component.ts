@@ -1,7 +1,10 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import menuItems from './menuItems';
 import { IMenuItems } from './interfaceMenuItems';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, Event, Scroll } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
+import IUser from 'src/app/interfaces/IUser';
 
 @Component({
   selector: 'app-header',
@@ -9,20 +12,59 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent {
+  shouldScroll: boolean = true
   isScrolledDown: boolean = false;
   hoverItem: string = '';
   hoverChildrenItem: string = '';
-  items: IMenuItems[] = menuItems;
+  items!: IMenuItems[];
+  routerSubscription!: Subscription;
+  user: IUser | null = null;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) { }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    this.isScrolledDown =
-      (window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop ||
-        0) > 5;
+    if (this.shouldScroll) {
+      this.isScrolledDown =
+        (window.pageYOffset ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop ||
+          0) > 5;
+    }
+  }
+
+  generaMenuItems() {
+   const admin = this.user?.admin
+   this.items = menuItems.map((v: Omit<IMenuItems, 'permission'>) => {
+    let permission: boolean = true
+    console.log( v.label == 'MODULES', admin == false, v.label == 'MODULES' && admin == false)
+    if (v.label == 'MODULES' && admin == false) permission = false
+    return {...v, permission: permission} as IMenuItems
+   })
+  }
+
+  ngOnInit() {
+    this.checkPath()
+    this.authService.authenticated$.subscribe((v) => {
+      this.user = v.user;
+      this.generaMenuItems()
+    });
+    this.routerSubscription = this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        this.checkPath(event);
+      }
+    });
+  }
+
+  private checkPath(event?: NavigationEnd) {
+    const url = event ? event.url : this.router.url;
+    this.shouldScroll = url.includes('dashboard');
+    this.isScrolledDown = !url.includes('dashboard');
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    window.location.reload();
   }
 
   onMouseLeave() {
@@ -43,5 +85,6 @@ export class HeaderComponent {
 
   navigate(path: string | undefined) {
     path ? this.router.navigate([path]) : undefined;
+    this.onMouseLeave()
   }
 }

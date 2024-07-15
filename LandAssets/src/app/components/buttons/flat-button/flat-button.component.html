@@ -1,1 +1,1 @@
-<button [ngStyle]="{'height': height}" [class]="class" mat-flat-button>{{text}}</button>
+<button [type]="type" (click)="onClick($event)" [disabled]="disabled" [ngStyle]="{'height': height}" [class]="class" mat-flat-button>{{text}}</button>

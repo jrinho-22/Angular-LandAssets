@@ -4,4 +4,5 @@ export class CreateUserDto {
     email: string;
     password: string;
     dob?: Date
+    admin: boolean
 }

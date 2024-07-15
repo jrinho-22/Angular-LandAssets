@@ -1,20 +1,28 @@
-<table>
-  <thead>
-    <tr>
-      <th *ngFor="let header of headers">{{ header.label }}</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let collection of collections">
-      <td *ngFor="let header of headers">
-        {{ collection[header.field] }}
-      </td>
-      <td>
-        <span (click)="visualizar(collection)" class="i-visualizar button"></span>
-        <span (click)="editar(collection)" class="i-editar button"></span>
-        <span class="i-excluir button"></span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<!-- <div class="table-container"> -->
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let header of headers">{{ header.label }}</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of collections">
+        <td *ngFor="let header of headers">
+          {{getField(item, header.field) }}
+        </td>
+        <td>
+          <div>
+            <ng-template [ngTemplateOutlet]="actionsRef" [ngTemplateOutletContext]="{$implicit: item}"></ng-template>
+            <!-- <ng-content select="[actions]" [ngTemplateOutletContext]="{ $implicit: item }"></ng-content> -->
+          </div>
+          <div *ngIf="defaultActions">
+            <span (click)="visualizar(item)" class="i-visualizar button"></span>
+            <span (click)="editar(item)" class="i-editar button"></span>
+            <span (click)="excluir(item)" class="i-excluir button"></span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<!-- </div> -->

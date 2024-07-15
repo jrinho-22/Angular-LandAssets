@@ -8,7 +8,7 @@ export const modalSizeConverter = (size: keyof Sizes): Sizes[keyof Sizes] => {
   const sizes: Sizes = {
     sm: { width: '300px', height: '300px' },
     md: { width: '500px', height: '400px' },
-    lg: { width: '800px', height: '600px' },
+    lg: { width: '800px', height: '540px' },
   };
   return sizes[size];
 };

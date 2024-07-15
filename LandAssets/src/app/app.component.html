@@ -1,8 +1,21 @@
-<ng-container *ngIf="!authenticated; else app">
-    <app-login/>
+<ng-container [ngSwitch]="true" >
+    <div *ngSwitchCase="authenticated == 'conceded'">
+        <app-header />
+        <router-outlet/>
+    </div>
+    <div *ngSwitchCase="authenticated == 'denied'">
+        <app-login/>
+    </div>
+    <!-- <div *ngSwitchCase="authenticated == null">
+        <app-login/>
+        <mat-spinner diameter="60"></mat-spinner> 
+    </div> -->
+    <div *ngSwitchDefault>
+        <mat-spinner class="spinne" diameter="60"></mat-spinner> 
+    </div>
 </ng-container>
 
-<ng-template #app>
+<!-- <ng-template #app>
     <app-header />
     <router-outlet></router-outlet>
-</ng-template>
+</ng-template> -->

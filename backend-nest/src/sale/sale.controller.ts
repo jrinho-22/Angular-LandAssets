@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SaleService } from './sale.service';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
+import { PaymentSaleDto } from './dto/payment-sale-dto';
 
 @Controller('sale')
 export class SaleController {
@@ -13,6 +14,11 @@ export class SaleController {
     return this.saleService.create(createSaleDto);
   }
 
+  @Post('/payment/:userId')
+  makePayment(@Body() paymentSaleDto: PaymentSaleDto, @Param('userId') userId: string) {
+    return this.saleService.makePayment(paymentSaleDto, +userId);
+  }
+
   @Get()
   findAll() {
     return this.saleService.findAll();
@@ -20,7 +26,7 @@ export class SaleController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.saleService.findOne(+id);
+    return this.saleService.findByUser(+id);
   }
 
   @Patch(':id')

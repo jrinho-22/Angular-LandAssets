@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Estate } from 'src/estate/estate.entity';
 import { Repository } from 'typeorm';
@@ -13,7 +13,7 @@ export class PlotService {
     private plotRepository: Repository<Plot>,
     @InjectRepository(Estate)
     private EstateRepository: Repository<Estate>,
-  ) {}
+  ) { }
 
   async create(plot: CreatePlotDto): Promise<Plot> {
     return await this.plotRepository
@@ -25,19 +25,23 @@ export class PlotService {
       })
       .then(async (dbPlot) => {
         if (dbPlot) {
-          return Promise.resolve(null);
+          throw new ConflictException(`Plot with Number ${plot.number} and stateId ${plot.estateId} already exists`);
         }
-        const estateEntity = await this.EstateRepository.findOne({
+        return this.EstateRepository.findOne({
           where: {
             estateId: plot.estateId,
           },
         });
+      })
+      .then(async (estateEntity) => {
+        if (!estateEntity) {
+          throw new NotFoundException(`Estate with ID ${plot.estateId} not found`);
+        }
         const plotCreated = this.plotRepository.create({
           ...plot,
           estate: estateEntity,
         });
-        console.log(plotCreated);
-        // return Promise.resolve(await this.plotRepository.save(plot));
+
         return Promise.resolve(await this.plotRepository.save(plotCreated));
       })
       .catch((error) => Promise.reject(error));
@@ -49,8 +53,8 @@ export class PlotService {
     });
   }
 
-  async findAll(query: Object): Promise<Plot[]> {
-    if (!query) return this.plotRepository.find();
+  async findBy(query: Object): Promise<Plot[]> {
+    if (!Object.keys(query).length) return this.plotRepository.find({relations: ['estate']});
 
     try {
       const value = Object.values(query)[0];
@@ -67,11 +71,33 @@ export class PlotService {
     }
   }
 
+  async updateOne(id: number, body: UpdatePlotDto){
+    await this.plotRepository
+      .findOne({
+        where: {
+          plotId: id,
+        },
+      }).then(async(plot: Plot) => {
+        if (!plot) throw new NotFoundException(`Plot with ID ${plot.plotId} not found`);
+        const state = await this.EstateRepository.findOne({
+          where: {
+            estateId: body.estateId,
+          },
+        })
+        const newPlot = await this.plotRepository.create({
+          ...body,
+          estate: state
+        });
+        return await this.plotRepository.update(id, newPlot);
+      })
+  }
+
   findOne(id: number) {
     return this.plotRepository.findOne({
       where: {
         plotId: id,
       },
+      relations: ['estate']
     });
   }
 
@@ -80,6 +106,6 @@ export class PlotService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} plot`;
+    return this.plotRepository.delete(id);
   }
 }

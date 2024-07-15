@@ -3,26 +3,26 @@ import IRoutes from '../interfaces/IRoutes';
 
 export const generateRoutes = (
   path: string,
-  createComponent: Type<any>,
-  viewComponent: Type<any>,
   permission: {
     edit: boolean;
     create: boolean;
     vizualizar: boolean;
     listagem: boolean;
-  }
+  },
+  createComponent?: Type<any>,
+  viewComponent?: Type<any>,
 ): IRoutes[] => {
   let routes: IRoutes[] = [];
-  if (permission.vizualizar) {
+  if (permission.vizualizar && createComponent) {
     routes.push({ path: `${path}/vizualizar/:id`, component: createComponent });
   }
-  if (permission.edit) {
+  if (permission.edit && createComponent) {
     routes.push({ path: `${path}/editar/:id`, component: createComponent });
   }
-  if (permission.create) {
+  if (permission.create && createComponent) {
     routes.push({ path: path, component: createComponent });
   }
-  if (permission.listagem) {
+  if (permission.listagem && viewComponent) {
     routes.push({ path: `${path}/listar`, component: viewComponent });
   }
 

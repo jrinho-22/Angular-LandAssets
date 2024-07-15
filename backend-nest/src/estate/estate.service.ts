@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateEstateDto } from './dto/create-estate.dto';
 import { UpdateEstateDto } from './dto/update-estate.dto';
 import { Repository, UpdateResult } from 'typeorm';
@@ -37,7 +37,7 @@ export class EstateService {
     createEstateDto: CreateEstateDto,
     file: Express.Multer.File,
   ): Promise<Estate> {
-    const pathSufix = path.join('src/assets/imgs', createEstateDto.img);
+    const pathSufix = path.join('src/assets/imgs', createEstateDto.imgName);
     const assetsDir = path.join(process.cwd(), pathSufix);
     try {
       await fs.promises.writeFile(assetsDir, file.buffer);
@@ -52,7 +52,7 @@ export class EstateService {
       return await this.estateRepository.save(estate);
     } catch (err) {
       console.error('Error:', err);
-      throw new Error('Error creatig estate');
+      throw new Error('Error creatig esate');
     }
   }
 
@@ -76,15 +76,14 @@ export class EstateService {
           }
         });
       });
-    const pathSufix = path.join('src/assets/imgs', createEstateDto.img);
+    const pathSufix = path.join('src/assets/imgs', createEstateDto.imgName);
     const assetsDir = path.join(process.cwd(), pathSufix);
     try {
+      console.log(assetsDir, file)
       await fs.promises.writeFile(assetsDir, file.buffer);
 
       const estate = this.estateRepository.create({
         ...createEstateDto,
-        plotsAvailable: Number(createEstateDto.plotsAvailable),
-        counties: Number(createEstateDto.counties),
         map: pathSufix,
       });
 
@@ -96,7 +95,7 @@ export class EstateService {
   }
 
   async findAll(): Promise<Estate[]> {
-    return this.estateRepository.find().then((v) => {
+    return this.estateRepository.find({relations: ['plots']}).then((v) => {
       return Promise.all(
         v.map((v) => {
           const chunks: any[] = [];
@@ -159,10 +158,19 @@ export class EstateService {
   }
 
   update(id: number, updateEstateDto: UpdateEstateDto) {
-    return `This action updates a #${id} estate`;
+    return `This action updates a ${id} estate`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} estate`;
+  async remove(id: number) {
+    const estate = await this.estateRepository.findOne({
+      where: {
+        estateId: id,
+      },
+      relations: ['plots']
+    })
+    if (estate.plots.length) {
+      throw new ConflictException(`Estado ${estate.name} possui plots relacionados`);
+    }
+    return this.estateRepository.delete(id);
   }
 }

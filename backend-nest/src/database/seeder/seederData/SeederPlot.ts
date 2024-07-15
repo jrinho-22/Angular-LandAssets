@@ -6,7 +6,7 @@ export const plotSeed: CreatePlotDto[] = [
   {
     estateId: 2,
     number: 3,
-    size: "180",
+    size: 180,
     pricePerSQM: 23,
     priceSQMPartialPayment: 25,
     totalCashPrice: 560000,
@@ -16,7 +16,7 @@ export const plotSeed: CreatePlotDto[] = [
   {
     estateId: 1,
     number: 3,
-    size: "180",
+    size: 180,
     pricePerSQM: 23,
     priceSQMPartialPayment: 25,
     totalCashPrice: 560000,
@@ -26,7 +26,7 @@ export const plotSeed: CreatePlotDto[] = [
   {
     estateId: 1,
     number: 2,
-    size: "180",
+    size: 180,
     pricePerSQM: 23,
     priceSQMPartialPayment: 25,
     totalCashPrice: 560000,
@@ -36,7 +36,7 @@ export const plotSeed: CreatePlotDto[] = [
   {
     estateId: 1,
     number: 4,
-    size: "130",
+    size: 130,
     pricePerSQM: 23,
     priceSQMPartialPayment: 25,
     totalCashPrice: 560000,

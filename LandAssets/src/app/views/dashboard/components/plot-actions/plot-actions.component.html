@@ -68,7 +68,7 @@
         </div>
         <div class="actionButtons">
             <div>
-                <app-flat-button (click)="openDialog()" height="20px" text="BUY PLOT"/>
+                <app-flat-button [disabled]="activePlot == undefined" (buttonClick)="openDialog()" height="20px" text="BUY PLOT"/>
                 <app-flat-button height="20px" text="ADD TO WISH LIST"/>
                 <app-flat-button height="20px" text="SELL PLOT"/>
             </div>

@@ -1,30 +1,60 @@
 
 @import "../../../assets/scss/variables"
 $fontsize: 22px
+$action-height: 10%
+$form-height: 90%
+
+$title-height: 10%
+$content-height: 90%
 
 @mixin size-styles($size) 
     h1
         color: $text_color_gray
         text-align: center
-        height: 13%
+        height: $title-height
         font-size: calc( $size * $fontsize)
 
     .content
-        overflow: auto
-        height: 77%
-
-    .actions
-        margin-top: 20px
+        height: $content-height
         display: flex
-        height: 10%
-        justify-content: space-evenly
+        flex-direction: column
+
+        &.form-container
+            > div:first-child
+                height: 100% !important
+
+            form
+                display: flex
+                justify-content: space-between
+                flex-direction: column
+
+                > :first-child
+                    height: $form-height
+                    overflow: auto
+
+            :not(form *)
+                height: inherit
+
+        &:not(.form-container) 
+            > :first-child
+                height: 85%
+                > :not(mat-spinner):not(.actions)
+                    display: block
+                    overflow: auto
+                    height: 90%
 
         app-flat-button
             button
                 color: $cor_fundo !important
 
+.actions
+    margin-top: 40px
+    display: flex
+    height: $action-height
+    justify-content: space-evenly
+
 .modal-wrapper
-    padding: 50px
+    padding: 20px 50px 20px
     display: flex
     flex-direction: column
 

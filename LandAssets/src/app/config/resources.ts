@@ -6,7 +6,8 @@ const config = {
   PLOT: "plot",
   ESTATE: "estate",
   LOGIN: "auth/login",
-  SALE: "sale"
+  SALE: "sale",
+  PAYMENT: "sale/payment"
 };
 
 export default config

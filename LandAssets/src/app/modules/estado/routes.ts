@@ -14,9 +14,9 @@ export const baseRoute = 'cadastro-estado';
 
 const routes: IRoutes[] = generateRoutes(
   baseRoute,
+  permissions,
   CadastroEstadoComponent,
   ViewEstadoComponent,
-  permissions
 );
 
 export default routes;

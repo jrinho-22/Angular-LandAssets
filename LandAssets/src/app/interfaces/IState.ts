@@ -1,6 +1,9 @@
+import IPlot from "./IPlot";
+
 export default interface IState {
   estateId: number
   name: string;
+  imgName: string;
   map: string;
   size: string;
   oceanDistance: string;
@@ -10,6 +13,7 @@ export default interface IState {
   paymentTerm: string;
   averagePricePerSQM: string;
   averagePartialPaymentPrice: string;
+  plots?: IPlot[]
 }
 
 export interface IStateEmpty {
@@ -24,6 +28,7 @@ export interface IStateEmpty {
   paymentTerm: string | null;
   averagePricePerSQM: string | null;
   averagePartialPaymentPrice: string | null;
+  plots?: IPlot[]
 }
 
 export const StateEmpty: IStateEmpty = {

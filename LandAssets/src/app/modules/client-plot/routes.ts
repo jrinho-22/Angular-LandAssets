@@ -1,7 +1,7 @@
-import IRoutes from 'src/app/interfaces/IRoutes';
 import { PaymentClientPlotComponent } from './payment-client-plot/cadastro-client-plot.component';
 import { ViewClientPlotComponent } from './view-client-plot/view-client-plot.component';
 import { generateRoutes } from 'src/app/utils/generateRoutes';
+import { Routes } from '@angular/router';
 
 const permissions = {
   edit: false,
@@ -12,7 +12,7 @@ const permissions = {
 
 export const baseRoute = 'my-plots';
 
-const routes: IRoutes[] = generateRoutes(
+const routes: Routes = generateRoutes(
   baseRoute,
   permissions,
   undefined,

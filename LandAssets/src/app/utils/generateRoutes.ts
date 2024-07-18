@@ -1,5 +1,6 @@
 import { Component, Type } from '@angular/core';
-import IRoutes from '../interfaces/IRoutes';
+import { CanActivateFn, Routes } from '@angular/router';
+import { userGuard } from '../guard/user.guard';
 
 export const generateRoutes = (
   path: string,
@@ -11,8 +12,9 @@ export const generateRoutes = (
   },
   createComponent?: Type<any>,
   viewComponent?: Type<any>,
-): IRoutes[] => {
-  let routes: IRoutes[] = [];
+  guard?: CanActivateFn
+): Routes => {
+  let routes: Routes = [];
   if (permission.vizualizar && createComponent) {
     routes.push({ path: `${path}/vizualizar/:id`, component: createComponent });
   }
@@ -23,7 +25,10 @@ export const generateRoutes = (
     routes.push({ path: path, component: createComponent });
   }
   if (permission.listagem && viewComponent) {
-    routes.push({ path: `${path}/listar`, component: viewComponent });
+  routes.push({ path: `${path}/listar`, component: viewComponent });
+  }
+  if (guard) {
+    routes[routes.length - 1].canActivate = [guard]
   }
 
   return routes;

@@ -1,8 +1,8 @@
 import { IMenuItems } from "./interfaceMenuItems";
 
-const nav: Omit<IMenuItems, 'permission'>[] = [
+const nav: IMenuItems[] = [
   {
-    // permission: true,
+    permission: 'all',
     label: 'HOME',
     path: 'dashboard'
     // children: [
@@ -13,11 +13,23 @@ const nav: Omit<IMenuItems, 'permission'>[] = [
     // ],
   },
   {
+    permission: 'admin',
+    label: 'SALES',
+    path: 'view-sales/listar'
+    // children: [
+    //   {
+    //     label: 'teste',
+    //     path: ''
+    //   },
+    // ],
+  },
+  {
+    permission: 'client',
     label: 'PLOTS',
     path: 'my-plots/listar'
   },
   {
-    // permission: true,
+    permission: 'all',
     label: 'MENU',
     path: 'dashboard'
     // children: [
@@ -32,7 +44,7 @@ const nav: Omit<IMenuItems, 'permission'>[] = [
     // ],
   },
   {
-    // permission: true,
+    permission: 'admin',
     label: 'MODULES',
     children: [
       {

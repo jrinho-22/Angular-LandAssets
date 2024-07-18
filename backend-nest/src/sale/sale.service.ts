@@ -34,8 +34,10 @@ export class SaleService {
   }
 
   async create(createSaleDto: CreateSaleDto) {
-    const sale = await this.saleRepository.findOne({where: {userId: createSaleDto.userId, plotId: createSaleDto.plotId}})
-    if (sale) throw new ConflictException(`Compra desse plot ja realizada`);
+    console.log(createSaleDto, 'createSaleDtocreateSaleDto')
+    const sale = await this.saleRepository.findOne({where: {plotId: createSaleDto.plotId}})
+    if (sale?.userId == createSaleDto.userId) throw new ConflictException(`Compra desse plot ja realizada`);
+    if (sale) throw new ConflictException(`Plot no longer available`);
     const getlInstallmentPrice = () => {
       if (createSaleDto.totalInstallments > 1) {
         return createSaleDto.totalCost / createSaleDto.totalInstallments
@@ -48,12 +50,13 @@ export class SaleService {
       installmentCost: getlInstallmentPrice(),
       remainingInstallments: createSaleDto.totalInstallments,
     });
+    console.log(newSale, 'newwww')
     
     return await this.saleRepository.save(newSale);
   }
 
   findAll() {
-    return `This action returns all sale`;
+    return this.saleRepository.find({relations: ['plot', 'plot.estate', 'users']})
   }
 
   findByUser(id: number) {

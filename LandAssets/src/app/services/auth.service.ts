@@ -18,6 +18,7 @@ export class AuthService extends HttpRequestService<String> {
     authenticated: 'conceded' | 'denied' | null;
     user: IUser | null;
   }>({ authenticated: null, user: null });
+  
   private _authenticated$ = this.authenticatedSubject.asObservable();
 
   constructor(http: HttpClient, snackbarService: SnackbarService) {

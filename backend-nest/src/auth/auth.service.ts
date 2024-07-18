@@ -38,7 +38,7 @@ export class AuthService {
         user: user
       };
     } catch (error) {
-      if (error instanceof HttpException) {
+      if (error instanceof HttpException) {  
         throw error;
       }
     }

@@ -1,7 +1,7 @@
-import IRoutes from "src/app/interfaces/IRoutes";
+import { Route } from "@angular/router";
 import { LoginComponent } from "./login.component";
 
-const loginRoute: IRoutes = {
+const loginRoute: Route = {
   path: "login",
   component: LoginComponent,
 };

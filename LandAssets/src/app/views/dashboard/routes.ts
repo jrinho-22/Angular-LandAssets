@@ -1,14 +1,15 @@
-import IRoutes from "src/app/interfaces/IRoutes";
+import { userGuard } from "src/app/guard/user.guard";
 import { DashboardComponent } from "./dashboard.component";
+import { Route } from "@angular/router";
 
 const dashboardPath = 'dashboard'
 
-const dashboardRoute: IRoutes = {
+const dashboardRoute: Route = {
   path: dashboardPath,
   component: DashboardComponent,
 };
 
-const fallBackRoute: IRoutes = {
+const fallBackRoute: Route = {
   path: "**",
   redirectTo: dashboardPath,
 };

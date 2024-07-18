@@ -7,7 +7,7 @@ async function bootstrap() {
   await NestFactory.createApplicationContext(AppModule)
     .then(appContext => {
       const logger = appContext.get(Logger);
-      // const seeder = appContext.get(Seeder);
+      // const seeder = appContext.get(Seeder)
       // seeder
       //   .seed()
       //   .then(() => {

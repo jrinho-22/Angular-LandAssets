@@ -38,6 +38,8 @@ import { PaymentClientPlotComponent } from './modules/client-plot/payment-client
 import { ModalPaymentComponent } from './modules/client-plot/modals/payment/payment.component';
 import { FormRadioComponent } from './components/inputs/form-radio/form-radio.component';
 import { IconButtonComponent } from './components/buttons/icon-button/icon-button.component';
+import { ViewSalesComponent } from './modules/sales/view-sales/view-sales.component';
+import { PaginationComponent } from './components/table/pagination/pagination.component';
 
 
 @NgModule({
@@ -53,6 +55,7 @@ import { IconButtonComponent } from './components/buttons/icon-button/icon-butto
     ViewClientPlotComponent,
     PaymentClientPlotComponent,
     ModalPaymentComponent,
+    ViewSalesComponent,
     // FormErrorDirective,
   ],
   imports: [
@@ -78,7 +81,6 @@ import { IconButtonComponent } from './components/buttons/icon-button/icon-butto
     HttpClientModule,
     FlatButtonComponent,
     CarouselComponent,
-    // MatProgressSpinnerModule,
     TextfieldComponent,
   ],
   providers: [

@@ -1,15 +1,24 @@
 @import "../../../assets/scss/variables"
-// .table-container 
-//     // max-width: 100% /* or a specific width */
-//     max-height: 500px /* or a specific height */
-//     overflow: auto
+.table-container 
+    // max-width: 100% /* or a specific width */
+    // max-height: 500px /* or a specific height */
+    // overflow: auto
+    height: 330px
+    margin-top: calc($reduced_menu_height + 30px)
+    margin-bottom: 80px
+
+.no-content
+    position: absolute
+    left: 50%
+    translate: -50%
+    margin-top: calc( $menu_height + 40px)
 
 table
+    height: inherit
+    margin: auto
     background-color: $background_color
     // height: 800px
-    margin: calc( $menu_height + 20px ) auto
     // height: 500px
-    padding: 30px 120px
     border-collapse: collapse
     font-size: 0.9em
     min-width: 400px
@@ -35,11 +44,12 @@ table tbody
     overflow-y: scroll  
 
 table tbody tr 
-    height: 80px
+    height: 70px
     border-bottom: 1px solid #dddddd
     td:last-of-type
         div
             display: flex
+            justify-content: center
 
 
 table tbody tr:nth-of-type(even) 
@@ -54,3 +64,6 @@ table tbody tr:last-of-type
 table tbody tr.active-row 
     font-weight: bold
     color: #009879
+
+.pagination
+    display: flex

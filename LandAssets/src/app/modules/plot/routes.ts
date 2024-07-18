@@ -1,7 +1,8 @@
-import IRoutes from "src/app/interfaces/IRoutes";
 import { generateRoutes } from "src/app/utils/generateRoutes";
 import { CadastroPlotComponent } from "./cadastro-plot/cadastro-plot.component";
 import { ViewPlotComponent } from "./view-plot/view-plot.component";
+import { Routes } from "@angular/router";
+import { userGuard } from "src/app/guard/user.guard";
 
 const permissions = {
     edit: true,
@@ -12,10 +13,11 @@ const permissions = {
   
   export const baseRoute = 'cadastro-plot';
   
-  export const plotRoutes: IRoutes[] = generateRoutes(
+  export const plotRoutes: Routes = generateRoutes(
     baseRoute,
     permissions,
     CadastroPlotComponent,
     ViewPlotComponent,
+    userGuard,
   );
   

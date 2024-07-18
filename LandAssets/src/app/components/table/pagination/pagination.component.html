@@ -1,0 +1,13 @@
+<div class="paginator">
+    <div class="style-helper">
+        <span [class.disabled]="activePage.getValue() == 1" (click)="handleArrow('left')" class="i-seta-esq"></span>
+        <span class="dots" [class.hide-span]="!leftDots">...</span>
+        <div class="pages-wrapper">
+            <ng-container *ngFor="let page of generateNumberArray()">
+                <span (click)="handleClick(page)" [class.active]="activePage.getValue() == page">{{page}}</span>
+            </ng-container>
+        </div>
+        <span class="dots" [class.hide-span]="!rightDots">...</span>
+        <span [class.disabled]="activePage.getValue() == pagination" (click)="handleArrow('right')" class="i-seta-dir"></span>
+    </div>
+</div>

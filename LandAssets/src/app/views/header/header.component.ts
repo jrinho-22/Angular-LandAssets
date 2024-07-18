@@ -16,7 +16,7 @@ export class HeaderComponent {
   isScrolledDown: boolean = false;
   hoverItem: string = '';
   hoverChildrenItem: string = '';
-  items!: IMenuItems[];
+  items: IMenuItems[] = menuItems;
   routerSubscription!: Subscription;
   user: IUser | null = null;
 
@@ -33,21 +33,18 @@ export class HeaderComponent {
     }
   }
 
-  generaMenuItems() {
-   const admin = this.user?.admin
-   this.items = menuItems.map((v: Omit<IMenuItems, 'permission'>) => {
-    let permission: boolean = true
-    console.log( v.label == 'MODULES', admin == false, v.label == 'MODULES' && admin == false)
-    if (v.label == 'MODULES' && admin == false) permission = false
-    return {...v, permission: permission} as IMenuItems
-   })
+  allowMenuItem({permission}: IMenuItems){
+    const admin = this.user?.admin
+    if (permission == 'all') return true
+    if (permission == 'admin' && admin) return true    
+    if (permission == 'client' && !admin) return true
+    return false
   }
 
   ngOnInit() {
     this.checkPath()
     this.authService.authenticated$.subscribe((v) => {
       this.user = v.user;
-      this.generaMenuItems()
     });
     this.routerSubscription = this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {

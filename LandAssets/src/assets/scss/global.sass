@@ -179,12 +179,21 @@ input[type="number"]::-webkit-inner-spin-button
   .mat-simple-snackbar-action 
     color: white
 
+// spinner
+.spinner-wrapper
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0  
+
 .spinner
     margin: auto
     height: 100% !important
 
 // table
 .table-wrapper
+    overflow: auto
     position: fixed
     bottom: 0
     top: 0
@@ -193,7 +202,7 @@ input[type="number"]::-webkit-inner-spin-button
     background-color: $background_color
 
 // radioButton
-.mat-mdc-radio-button.mat-accent 
+.mat-mdc-radio-button.mat-accent  
   --mdc-radio-selected-icon-color: #{$cor_fundo}
   --mdc-radio-selected-focus-icon-color: #{$cor_fundo}
   --mdc-radio-selected-hover-icon-color: #{$cor_fundo}

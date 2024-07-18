@@ -1,6 +1,6 @@
 export interface IMenuItemsBase {
   label: string;
-  permission: boolean
+  permission: 'admin' | 'all' | 'client'
 }
 
 export interface IMenuItemWithChildren extends IMenuItemsBase {

@@ -52,7 +52,7 @@ export class LoginComponent {
 
 
   signUp() {
-    this.validCheck() && this.AuthService.signUp(this.loginData.value)
+    this.validCheck() && this.AuthService.signUp({...this.loginData.value, admin: false})
   }
 
   validCheck() {

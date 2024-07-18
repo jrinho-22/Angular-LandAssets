@@ -16,7 +16,7 @@
 
         <div class="Menu_right_group">
             <div *ngFor="let item of items" class="Menu_right_drop_wrapper" (mouseleave)="onMouseLeave()">
-                <ng-container *ngIf="item.permission">
+                <ng-container *ngIf="allowMenuItem(item)">
                     <span (click)="navigate(item.path)" (mouseenter)="onMouseEnter(item.label)">{{item.label}}</span>
                     <div [class.view]="hoverItem == item.label" class="Menu_right_drop">
 

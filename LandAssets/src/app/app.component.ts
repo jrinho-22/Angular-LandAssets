@@ -9,14 +9,12 @@ import { BlobOptions } from 'buffer';
 })
 export class AppComponent {
   authenticated!: 'conceded' | 'denied' | null;
-  loading: boolean = true
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.authService.authenticated$.subscribe((v) => {
       this.authenticated = v.authenticated;
-      // this.loading = false
     });
   }
 }

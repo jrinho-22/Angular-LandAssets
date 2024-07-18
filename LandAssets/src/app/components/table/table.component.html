@@ -1,28 +1,58 @@
 <!-- <div class="table-container"> -->
-  <table>
-    <thead>
-      <tr>
-        <th *ngFor="let header of headers">{{ header.label }}</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of collections">
-        <td *ngFor="let header of headers">
-          {{getField(item, header.field) }}
-        </td>
-        <td>
-          <div>
-            <ng-template [ngTemplateOutlet]="actionsRef" [ngTemplateOutletContext]="{$implicit: item}"></ng-template>
-            <!-- <ng-content select="[actions]" [ngTemplateOutletContext]="{ $implicit: item }"></ng-content> -->
-          </div>
-          <div *ngIf="defaultActions">
-            <span (click)="visualizar(item)" class="i-visualizar button"></span>
-            <span (click)="editar(item)" class="i-editar button"></span>
-            <span (click)="excluir(item)" class="i-excluir button"></span>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-<!-- </div> -->
+<ng-container *ngIf="!!collections.length; else noContent">
+  <!-- <div *ngSwitchCase="!collections.length" class="no-content"> -->
+  <!-- <span>No items found</span> -->
+  <!-- </div> -->
+  <div class="table-container">
+    <ng-container [ngSwitch]="true">
+      <ng-container *ngSwitchCase="loading">
+        <mat-spinner class="spinner" diameter="60"></mat-spinner>
+      </ng-container>
+      <table *ngSwitchCase="!loading">
+        <thead>
+          <tr>
+            <th *ngFor="let header of headers">
+              {{ header.label }}
+            </th>
+            <th *ngIf="defaultActions || actionsRef">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of currentCollection">
+            <td *ngFor="let header of headers">
+              <ng-container *ngIf="header.render; else defaulValue">
+                {{ header.render(getField(item, header.field)) }}
+              </ng-container>
+              <ng-template #defaulValue>
+                {{getField(item, header.field) }}
+              </ng-template>
+            </td>
+            <td *ngIf="defaultActions || actionsRef">
+              <div>
+                <ng-template [ngTemplateOutlet]="actionsRef"
+                  [ngTemplateOutletContext]="{$implicit: item}"></ng-template>
+              </div>
+              <div *ngIf="defaultActions">
+                <span (click)="visualizar(item)" class="i-visualizar button"></span>
+                <span (click)="editar(item)" class="i-editar button"></span>
+                <span (click)="excluir(item)" class="i-excluir button"></span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-pagination (loading)="setLoading($any($event))" [itemsLengthAllowed]="4" (currentCollection)="getCurrentCollection($event)"
+        [collections]="collections"></app-pagination>
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-template #noContent>
+  <!-- <mat-spinner class="spinne" diameter="60"></mat-spinner>  -->
+  <span>No items found</span>
+</ng-template>
+
+<!-- <ng-template #loading>
+  <mat-spinner class="spinner" diameter="60"></mat-spinner>
+  <span>No items found</span>
+</ng-template> -->

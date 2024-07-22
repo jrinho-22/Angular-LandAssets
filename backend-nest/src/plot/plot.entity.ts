@@ -6,8 +6,6 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   ManyToMany,
-  JoinTable,
-  JoinColumn,
 } from 'typeorm';
 
 @Entity({ name: 'plot', schema: 'public' })
@@ -15,11 +13,7 @@ export class Plot {
   @PrimaryGeneratedColumn()
   plotId?: number;
 
-  // @Column({ name: 'estateEstateId' })
-  // estateEstateId: number;
-
   @ManyToOne(() => Estate, (estate) => estate.plots)
-  // @JoinColumn({name: 'estateId'})
   estate: Estate;
 
   @ManyToMany(

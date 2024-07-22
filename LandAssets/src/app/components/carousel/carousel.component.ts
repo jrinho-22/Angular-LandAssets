@@ -23,10 +23,4 @@ export class CarouselComponent {
   handlePageChange(e: CarouselPageEvent) {
     this.pageEvent.emit(e.page);
   }
-
-  ngAfterViewInit() {
-    if (this.projectedContentRef) {
-      console.log(this.projectedContentRef); // Do whatever you need with the projected content
-    }
-  }
 }

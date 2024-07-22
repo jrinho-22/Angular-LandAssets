@@ -9,7 +9,6 @@ import { salesRoutes } from './modules/sales/routes';
 
 const routes: Routes = [...cadastroEstadoRoute, ...plotRoutes, ...clientPlots, ...salesRoutes, ...dashboardRoute];
 
-console.log(routes)
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

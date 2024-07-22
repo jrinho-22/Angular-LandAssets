@@ -79,7 +79,6 @@ export class EstateService {
     const pathSufix = path.join('src/assets/imgs', createEstateDto.imgName);
     const assetsDir = path.join(process.cwd(), pathSufix);
     try {
-      console.log(assetsDir, file)
       await fs.promises.writeFile(assetsDir, file.buffer);
 
       const estate = this.estateRepository.create({

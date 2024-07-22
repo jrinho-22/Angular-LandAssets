@@ -1,7 +1,6 @@
 import { AbstractControl, ValidationErrors } from "@angular/forms";
 
 export const getErrorMessage = (control: AbstractControl<any, any>): string | undefined => {
-    // console.log(control, 'controlll')
     if (control.hasError('required')) {
        return 'Field required'
     }

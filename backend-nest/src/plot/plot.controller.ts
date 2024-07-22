@@ -16,7 +16,6 @@ export class PlotController {
 
   @Get()
   findBy(@Query() query?: Object): Promise<Plot[]> {
-    console.log(query, 'query')
     return this.plotService.findBy(query);
   }
 

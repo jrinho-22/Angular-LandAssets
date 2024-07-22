@@ -10,7 +10,6 @@ export class SaleController {
 
   @Post()
   create(@Body() createSaleDto: CreateSaleDto) {
-    console.log(createSaleDto, 'createSaleDto')
     return this.saleService.create(createSaleDto);
   }
 

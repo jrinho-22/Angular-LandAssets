@@ -34,7 +34,6 @@ export class SaleService {
   }
 
   async create(createSaleDto: CreateSaleDto) {
-    console.log(createSaleDto, 'createSaleDtocreateSaleDto')
     const sale = await this.saleRepository.findOne({where: {plotId: createSaleDto.plotId}})
     if (sale?.userId == createSaleDto.userId) throw new ConflictException(`Compra desse plot ja realizada`);
     if (sale) throw new ConflictException(`Plot no longer available`);
@@ -50,7 +49,6 @@ export class SaleService {
       installmentCost: getlInstallmentPrice(),
       remainingInstallments: createSaleDto.totalInstallments,
     });
-    console.log(newSale, 'newwww')
     
     return await this.saleRepository.save(newSale);
   }

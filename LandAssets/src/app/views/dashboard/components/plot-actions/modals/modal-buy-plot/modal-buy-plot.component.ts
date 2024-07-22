@@ -14,10 +14,7 @@ import { BehaviorSubject, Observable, Subject, combineLatest, combineLatestWith,
 import IModalBuyPlotValues from 'src/app/interfaces/plot-actions/IModalBuyPlotValues';
 import { SalesService } from 'src/app/views/dashboard/models/sales.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { MyErrorStateMatcher } from 'src/app/helpers/inputs/textfieldError';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarComponent } from 'src/app/components/snackbar/snackbar.component';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { FORM_SUBMIT } from 'src/app/tokens/formSubmitHandler';
 import { InputmaskOptions } from '@ngneat/input-mask';
@@ -112,32 +109,11 @@ export class ModalBuyPlotComponent implements IFormParent<ISale> {
         }
 
     })
-
-    // this.partialPaymentSub.pipe(switchMap(v => {
-
-    //   return this.modalBuyPlotValues.asObservable()
-    // })).subscribe((v: IModalBuyPlotValues) => {
-    //   this.plotId = v.plotId
-    //   if (v.number !== undefined)
-    //     this.modalForm.patchValue({ plotNumber: v.number }); 
-    //   if (v.estate !== undefined)
-    //     this.modalForm.patchValue({ stateName: v.estate });
-    //   if (v.totalCashPrice !== undefined)
-    //     this.saleForm.patchValue({ totalCost: v.totalCashPrice });
-    // });
   }
 
   ngAfterViewInit() {
-    // this.modalForm.valueChanges.subscribe(() => console.log(this.totalInstallments, 'totallll'))
     this.auth.authenticated$.subscribe(v => this.userId = v.user?.userId)
   }
-
-  // private unsubscribe$: Subject<void> = new Subject<void>();
-
-  // unsubscribe() {
-  //   this.unsubscribe$.next();
-  //   this.unsubscribe$.complete();
-  // }
 
   paymentType() {
     return [
@@ -156,6 +132,5 @@ export class ModalBuyPlotComponent implements IFormParent<ISale> {
       plotId: this.plotId
     }
     return record
-    // this.router.navigate(['dashboard'])  already on dashboard
   }
 }

@@ -66,13 +66,6 @@ export class ModalComponent {
     this.modalSize = modalSizeConverter(this.data.size);
   }
 
-
-  async onActionButtonClick() {
-    // (console.log('hbjhdwcbjh'))
-    // await this.data.action()
-    // this.dialogRef.close();
-  }
-
   onActionButtonClose() {
     this.dialogRef.close();
   }
@@ -83,7 +76,6 @@ export class ModalComponent {
   }
 
   initializeComponent() {
-    console.log(this.data, 'datatatatat')
     this.componentRef = this.mycontainer.createComponent(this.data.component);
     this.loading = true
 

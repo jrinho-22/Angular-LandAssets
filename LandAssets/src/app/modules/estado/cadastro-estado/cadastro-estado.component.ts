@@ -70,8 +70,6 @@ export class CadastroEstadoComponent implements IFormParent<IState>{
       const reader: FileReader = new FileReader();
 
       reader.onload = () => {
-        console.log(reader.result);
-        // const blob = new Blob([reader.result], { type: 'image/png' });
         resolve(reader.result as ArrayBuffer);
       };
 

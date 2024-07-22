@@ -74,7 +74,6 @@ export class FormComponent<T extends { [key: string]: any; }> {
   }
 
   async submit() {
-    console.log('formmmm', this.formGroup)
     this.formSubmitted.next({
       formSubmitted: true
     })
@@ -86,9 +85,6 @@ export class FormComponent<T extends { [key: string]: any; }> {
       }
 
       if (typeof this.parent?.beforePost === 'function') {
-        for (var key in this.formGroup.value) {
-          console.log(typeof this.formGroup.value[key],this.formGroup.value[key])
-        }
         const postRecord: FormGroup | FormData | Record<string, any> = this.parent.beforePost(this.formGroup);
         this.sendData(postRecord);
       } else {

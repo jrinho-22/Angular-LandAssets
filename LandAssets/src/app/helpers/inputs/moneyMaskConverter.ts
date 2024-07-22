@@ -1,5 +1,4 @@
 export const convertMoneyFormat = (value: string | number) => {
-    console.log(value)
     if (typeof value == 'number') {
       return value
     }

@@ -46,7 +46,6 @@ export class FormSelectComponent implements ControlValueAccessor{
   }
 
   registerOnChange(fn: any): void {
-    console.log(fn, 'fnfnfnfn')
     this.onChange = fn;
   }
 

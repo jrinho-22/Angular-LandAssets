@@ -37,9 +37,7 @@ export class FormRadioComponent {
     public controlContainer: ControlContainer,
     private injector: Injector,
     private cdRef: ChangeDetectorRef,
-  ) {
-    console.log(controlContainer, 'controlContainercontrolContainer')
-  }
+  ) {}
 
   onChange: any = () => {};
   onTouch: any = () => {};

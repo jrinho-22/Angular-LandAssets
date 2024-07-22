@@ -118,18 +118,15 @@ export class TextfieldComponent implements ControlValueAccessor {
   }
 
   onInput(event: Event): void {
-    // console.log(this.controlContainer, 'controllll')
     const inputElement = event.target as HTMLInputElement;
     let cursorPosition = inputElement.selectionStart;
     const getDotComma = (value: string) => value.match(/[,.]/g)
     const startDots = getDotComma(inputElement.value)
 
     if (this.type == 'numeric') {
-      console.log((event.target as HTMLInputElement).value, inputElement.value.replaceAll(".", ""), 'event.target as HTMLInputElement;')
       let value = inputElement.value.replaceAll(".", "").replaceAll(",", "").replaceAll("$", "").trim();
       let decimals = value.slice(-2)
       value = value.slice(0, -2)
-      console.log(decimals, value, 'dec')
       if (this.maxValue && Number(value) > this.maxValue) {
         value = value.slice(0, -1)
       }

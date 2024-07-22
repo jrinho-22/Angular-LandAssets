@@ -1,5 +1,5 @@
-import { Estate } from 'src/estate/estate.entity';
-import { Users } from 'src/users/user.entity';
+import { Estate } from '../estate/estate.entity';
+import { Users } from '../users/user.entity';
 import {
   Entity,
   Column,

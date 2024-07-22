@@ -1,5 +1,5 @@
-import { Plot } from "src/plot/plot.entity";
-import { Users } from "src/users/user.entity";
+import { Plot } from '../../plot/plot.entity';
+import { Users } from "../../users/user.entity";
 import { Entity, PrimaryColumn, ManyToOne, JoinColumn, Column } from "typeorm";
 
 @Entity('sale')

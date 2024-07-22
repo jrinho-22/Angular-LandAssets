@@ -22,11 +22,11 @@ import { Sale } from './sale/entities/sale.entity';
     SaleModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'juninho22',
-      database: 'nest',
+      host: 'mysql-3b05c529-jrinho22-a643.i.aivencloud.com',
+      port: 24746,
+      username: 'avnadmin',
+      password: 'AVNS_LCYoXPz-WQPkhY8R7k0',
+      database: 'defaultdb',
       entities: [Users, Estate, Plot, Sale],
       synchronize: true,
     })

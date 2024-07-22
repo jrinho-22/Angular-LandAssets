@@ -1,5 +1,4 @@
-import { Estate } from "src/estate/estate.entity";
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreatePlotDto {
     @IsNotEmpty()

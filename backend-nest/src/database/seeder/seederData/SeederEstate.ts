@@ -1,4 +1,4 @@
-import { Estate } from 'src/estate/estate.entity';
+import { Estate } from '../../../estate/estate.entity';
 
 export const estateSeed: Estate[] = [
     {

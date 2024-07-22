@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Estate } from 'src/estate/estate.entity';
+import { Estate } from '../estate/estate.entity';
 import { Repository } from 'typeorm';
 import { CreatePlotDto } from './dto/create-plot.dto';
 import { UpdatePlotDto } from './dto/update-plot.dto';

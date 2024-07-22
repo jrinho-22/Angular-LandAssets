@@ -1,4 +1,4 @@
-import { Plot } from 'src/plot/plot.entity';
+import { Plot } from '../plot/plot.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity({name: "estate", schema: 'public'})

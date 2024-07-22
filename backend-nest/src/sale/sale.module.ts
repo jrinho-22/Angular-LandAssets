@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { SaleService } from './sale.service';
 import { SaleController } from './sale.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Plot } from 'src/plot/plot.entity';
-import { Users } from 'src/users/user.entity';
+import { Plot } from '../plot/plot.entity';
+import { Users } from '../users/user.entity';
 import { Sale } from './entities/sale.entity';
 
 @Module({

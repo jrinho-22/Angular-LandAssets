@@ -2,8 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Estate } from 'src/estate/estate.entity';
-import { Plot } from 'src/plot/plot.entity';
+
 import { Repository } from 'typeorm';
 import { Sale } from './entities/sale.entity';
 import { PaymentSaleDto } from './dto/payment-sale-dto';

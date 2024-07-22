@@ -1,4 +1,4 @@
-import { CreatePlotDto } from 'src/plot/dto/create-plot.dto';
+import { CreatePlotDto } from '../../../plot/dto/create-plot.dto';
 
 export const plotSeed: CreatePlotDto[] = [
   {

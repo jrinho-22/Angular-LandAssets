@@ -1,5 +1,3 @@
-import { Plot } from 'src/plot/plot.entity';
-
 export class CreateEstateDto {
   estateId?: number;
   name: string;

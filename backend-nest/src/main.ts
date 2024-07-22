@@ -1,7 +1,6 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Seeder } from './database/seeder/seeder.service';
 
 async function bootstrap() {
   await NestFactory.createApplicationContext(AppModule)

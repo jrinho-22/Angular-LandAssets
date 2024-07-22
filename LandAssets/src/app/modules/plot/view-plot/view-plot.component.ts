@@ -10,7 +10,13 @@ import { baseRoute } from '../routes';
 })
 export class ViewPlotComponent {
   plot: IPlot[] = [];
-  headers: any[] = [{ field: 'number', label: 'Number' }, { field: 'size', label: 'Size' }, { field: 'estate.name', label: 'Estado' }];
+  headers: any[] = [
+    { field: 'number', label: 'Number' },
+    { field: 'size', label: 'Size', render: (v: number) => v.toLocaleString('pt-BR') + ' m2' },
+    { field: 'estate.name', label: 'Estado' },
+    { field: 'totalCashPrice', label: 'Total Cash Price', render: (v: number) => 'R$' + v.toLocaleString('pt-BR') },
+    { field: 'totalPartialPaymentPrice', label: 'Total Partial Payment Price', render: (v: number) => 'R$' + v.toLocaleString('pt-BR') }
+  ];
   basePath: string = '';
 
   constructor(public plotModel: PlotModel) {}

@@ -8,6 +8,9 @@ export const getErrorMessage = (control: AbstractControl<any, any>): string | un
     if (control.hasError('email')) {
        return 'Not a valid email'
     }
+    if (control.hasError('requiredRadio')) {
+      return 'Selecione uma opção'
+   }
     if (control.hasError('minValue')) {
       const error: ValidationErrors  | null = control.errors
       return `valor minimo: ${error?.["minValue"]}`;

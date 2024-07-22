@@ -8,13 +8,14 @@ import { SnackbarService } from '../../services/snackbar.service';
 import { BehaviorSubject } from 'rxjs';
 import { PaginationComponent } from './pagination/pagination.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { IconButtonComponent } from '../buttons/icon-button/icon-button.component';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.sass'],
   standalone: true,
-  imports: [CommonModule, PaginationComponent, MatProgressSpinnerModule]
+  imports: [CommonModule, PaginationComponent, MatProgressSpinnerModule, IconButtonComponent]
 })
 export class TableComponent<T> {
   @Input() headers: { field: string; label: string, render?: (arg: any) => any }[] = [];
@@ -23,16 +24,12 @@ export class TableComponent<T> {
   @Input() basePath: string = "";
   @Input() model!: HttpRequestService<T>;
   @Input() defaultActions: boolean = true;
+  @Input() title: string = '';
   loading: boolean = false;
-  // collectionSplited: Array<Array<any>> = [];
-  // itemsLengthAllowed = 6;
-  // currentCollectionIndex: BehaviorSubject<number> = new BehaviorSubject(0);
-  // pagination!: number
   currentCollection!: Array<any>
   @ContentChild('actions') actionsRef!: TemplateRef<any>;
 
   setLoading(loading: boolean){
-    console.log(loading, 'eeeeee')
     this.loading = loading
   }
 

@@ -29,6 +29,16 @@ export class CustomValidators {
     }
   }
 
+  static radioType = (): ValidatorFn => {
+    return (control: AbstractControl): ValidationErrors | null => {
+      var value: string | number = control.value;
+      if (value == null || value == undefined ||   value == '') { 
+        return { requiredRadio: true }
+      } 
+      return null
+    }
+  }
+
   static maxValue = (maxValue: number): ValidatorFn => {
     return (control: AbstractControl): ValidationErrors | null => {
       var value: number = control.value;

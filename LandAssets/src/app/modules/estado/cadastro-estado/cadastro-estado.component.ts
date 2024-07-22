@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import IFormParent from 'src/app/interfaces/IFormParent';
 import { CustomValidators } from 'src/app/utils/validators/CustomValidators';
+import { convertMoneyFormat } from 'src/app/helpers/inputs/moneyMaskConverter';
 
 @Component({
   selector: 'app-cadastro-estado',
@@ -21,6 +22,11 @@ export class CadastroEstadoComponent implements IFormParent<IState>{
   stateForm: FormGroup;
   name: any = '';
   formData: FormData = new FormData(); 
+  paymentTermValues = [
+    { value: 'Bi-annual Payments', label: 'Annual Payment' },
+    { value: 'Flexible', label: 'Flexible' },
+    { value: 'Monthly Installments', label: 'Monthly Payment' }
+  ]
   @ViewChild('fileInput') fileInput!: any; 
 
   constructor(
@@ -28,7 +34,7 @@ export class CadastroEstadoComponent implements IFormParent<IState>{
     protected EstateModel: EstateModel
   ) {
     this.stateForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.email]],
+      name: ['', [Validators.required]],
       size: ['', Validators.required],
       imgName: ['', Validators.required],
       oceanDistance: ['', Validators.required],
@@ -78,16 +84,7 @@ export class CadastroEstadoComponent implements IFormParent<IState>{
   }
 
   beforePost(data: FormGroup){
-    // console.log(data, 'dataaa')
     // if text field has been edited will be string, if not it will be what came from back
-    function convertMoneyFormat(value: string | number) {
-      console.log(value)
-      if (typeof value == 'number') {
-        return value
-      }
-      value = String(value)
-      return parseFloat(value.replace("$", "").replace(",", "").trim())
-    }
     const newData = {
       ...data.value,
       averagePartialPaymentPrice: convertMoneyFormat(data.value.averagePartialPaymentPrice),

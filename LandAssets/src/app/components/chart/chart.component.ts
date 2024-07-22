@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
-import { ChartModule, UIChart } from 'primeng/chart';
-import IPlot from 'src/app/interfaces/IPlot';
+import { Component } from '@angular/core';
+import { ChartModule } from 'primeng/chart';
 import IState from 'src/app/interfaces/IState';
 import { EstateModel } from 'src/app/modules/estado/models/estate.service';
 

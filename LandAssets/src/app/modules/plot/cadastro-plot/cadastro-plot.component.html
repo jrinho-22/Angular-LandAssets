@@ -9,49 +9,42 @@
       <span>Dados do Plot</span>
     </div>
     <app-form [parent]="this" [model]="plotModel" [formGroup]="plotForm">
-      <!-- <form (ngSubmit)="submit()"> -->
       <mat-grid-list cols="9" rowHeight="90px" gutterSize="10">
         <mat-grid-tile colspan="2">
           <app-textfield type="number" formControlName="number" appearance="outline" class="fullwidth"
-            placeholder="Plot number" />
+            placeholder="Plot Number" />
         </mat-grid-tile>
         <mat-grid-tile colspan="2">
-          <!-- <app-select formControlName="estateId" [syncValue]="activePlot" (dataEvent)="receiveSelectData($event)" placeholder="Num."
-                    value="number" label="number" [options]="plotsByState" /> -->
-          <app-form-select formControlName="estateId" [options]="states" label="name" value="estateId"/>
-          <!-- <app-textfield
-            type="number"
-              formControlName="estateId"
-              appearance="outline"
-              class="fullwidth"
-              placeholder="estateId"
-            /> -->
+          <app-form-select class="basic-style" formControlName="estateId" [options]="states" label="name" value="estateId"/>
         </mat-grid-tile>
         <mat-grid-tile colspan="2">
-          <app-textfield type="number" formControlName="pricePerSQM" appearance="outline" class="fullwidth"
-            placeholder="pricePerSQM" />
+          <app-textfield type="numeric"
+            maxValue="99999" formControlName="pricePerSQM" appearance="outline" class="fullwidth"
+            placeholder="Price per SQM" />
         </mat-grid-tile>
         <mat-grid-tile colspan="2">
-          <app-textfield formControlName="size" appearance="outline" class="fullwidth" placeholder="size" />
+          <app-textfield maxValue="99999" type="number"
+          suffix="m2" formControlName="size" appearance="outline" class="fullwidth" placeholder="Size" />
         </mat-grid-tile>  
-        <mat-grid-tile colspan="2">
-          <app-textfield type="number" formControlName="priceSQMPartialPayment" appearance="outline"
-            class="fullwidth" placeholder="priceSQMPartialPayment" />
+        <mat-grid-tile colspan="3">
+          <app-textfield type="numeric"
+            maxValue="99999" formControlName="priceSQMPartialPayment" appearance="outline"
+            class="fullwidth" placeholder="Price per SQM Partial Payment" />
         </mat-grid-tile>
         <mat-grid-tile colspan="3">
-          <app-textfield type="number" formControlName="totalCashPrice" appearance="outline" class="fullwidth"
-            placeholder="totalCashPrice" />
-        </mat-grid-tile>
-        <mat-grid-tile colspan="2">
-          <app-textfield type="number" type="number" formControlName="totalPartialPaymentPrice" appearance="outline"
-            class="fullwidth" placeholder="totalPartialPaymentPrice" />
+          <app-textfield type="numeric"
+            maxValue="999999999" formControlName="totalCashPrice" appearance="outline" class="fullwidth"
+            placeholder="Cash Price" />
         </mat-grid-tile>
         <mat-grid-tile colspan="3">
-          <app-textfield type="number" formControlName="firstInstallment" appearance="outline" class="fullwidth"
-            placeholder="firstInstallment" />
+          <app-textfield type="numeric"
+            maxValue="999999999" formControlName="totalPartialPaymentPrice" appearance="outline"
+            class="fullwidth" placeholder="Partial Payment Price" />
         </mat-grid-tile>
-        <mat-grid-tile colspan="9">
-          <app-flat-button style="margin-left: auto; width: 140px" type="submit" text="SUBMIT" />
+        <mat-grid-tile colspan="3">
+          <app-textfield type="numeric"
+            maxValue="999999" formControlName="firstInstallment" appearance="outline" class="fullwidth"
+            placeholder="First Installment" />
         </mat-grid-tile>
       </mat-grid-list>
     </app-form>

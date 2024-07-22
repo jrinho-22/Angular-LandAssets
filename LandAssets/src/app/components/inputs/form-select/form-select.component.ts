@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TextfieldComponent } from '../textfield/textfield.component';
-import { MyErrorStateMatcher } from '../textfieldError';
+import { MyErrorStateMatcher } from '../../../helpers/inputs/textfieldError';
 import { BehaviorSubject, Subscription, merge, startWith } from 'rxjs';
 import { FORM_SUBMIT } from 'src/app/tokens/formSubmitHandler';
 import { getErrorMessage } from 'src/app/utils/validators/validatorsMessages';
@@ -29,11 +29,11 @@ export class FormSelectComponent implements ControlValueAccessor{
   @Input() placeholder: string = "Select a option"
   @Input() disabled: boolean = false
   @Input() value: string = 'value'
-  @Input() myvalue: any
   @Input() label: string = 'label'
   @Input() options: any = [{label: '123', value: 123}, {label: '123', value: 321}] 
   @Input() formControlName!: string
   subscriptions: Subscription = new Subscription();
+  myvalue: any
   myControl: AbstractControl<any, any> | undefined
   errorMsg: string = ''
   matcher = new MyErrorStateMatcher()

@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { IconButtonComponent } from '../../buttons/icon-button/icon-button.component';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.sass'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, IconButtonComponent]
 })
 export class PaginationComponent {
   @Input() collections: Array<any> = [];
@@ -17,15 +18,18 @@ export class PaginationComponent {
   activePage = new BehaviorSubject(1)
   leftDots = false
   rightDots = false
+  localLoading = false
   @Output() currentCollection = new EventEmitter();
   @Output() loading = new EventEmitter();
 
   handleClick(page: number) {
     this.loading.emit(true);
+    this.localLoading = true
     setTimeout(() => {
       this.currentCollection.emit(this.collectionSplited[page - 1]);
       this.activePage.next(page)
       this.loading.emit(false);
+      this.localLoading = false
     }, 500);
   }
 

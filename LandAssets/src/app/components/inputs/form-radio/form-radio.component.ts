@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Optional, ViewEncapsulation } from '@angular/core';
-import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
-import {MatRadioModule} from '@angular/material/radio';
+import { ChangeDetectorRef, Component, forwardRef, Inject, Injector, Input, Optional, ViewEncapsulation } from '@angular/core';
+import { AbstractControl, ControlContainer, FormControl, FormControlName, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
+import { BehaviorSubject, merge, startWith, Subscription } from 'rxjs';
+import { FORM_SUBMIT } from 'src/app/tokens/formSubmitHandler';
+import { MyErrorStateMatcher } from '../../../helpers/inputs/textfieldError';
+import { getErrorMessage } from 'src/app/utils/validators/validatorsMessages';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-form-radio',
@@ -9,11 +15,73 @@ import {MatRadioModule} from '@angular/material/radio';
   styleUrls: ['./form-radio.component.sass'],
   standalone: true,
   encapsulation: ViewEncapsulation.None,
-  imports: [MatRadioModule, CommonModule, ReactiveFormsModule]
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => FormRadioComponent),
+      multi: true
+    }, 
+  ],
+  imports: [MatRadioModule, CommonModule, ReactiveFormsModule,MatInputModule, MatFormFieldModule]
 })
 export class FormRadioComponent {
-  @Input() collections: {value: any, label: string}[] = []
+  @Input() collections: { value: any, label: string }[] = []
   @Input() formControlName!: string
+  subscriptions: Subscription = new Subscription();
+  myControl: AbstractControl<any, any> | undefined
+  errorMsg: string = ''
+  myvalue: any
+  disabled: boolean = false;
 
-  constructor(@Optional() public controlContainer: ControlContainer){}
+  constructor(
+    public controlContainer: ControlContainer,
+    private injector: Injector,
+    private cdRef: ChangeDetectorRef,
+  ) {
+    console.log(controlContainer, 'controlContainercontrolContainer')
+  }
+
+  onChange: any = () => {};
+  onTouch: any = () => {};
+
+  writeValue(value: any): void {
+    this.myvalue = value;
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  ngAfterViewInit(): void {
+    const ngControl: NgControl | null | FormControlName = this.injector.get(NgControl, null);
+    if (ngControl) {
+      this.myControl = (ngControl?.control || this.controlContainer.control?.get(this.formControlName)) as FormControl
+      this.subscribeToChanges()
+    }
+    this.cdRef.detectChanges();
+  }
+
+  subscribeToChanges() {
+    if (this.myControl) {
+      const mysub = merge(
+        this.myControl.valueChanges,
+        this.myControl.statusChanges.pipe(startWith(this.myControl.status))
+      ).subscribe((v) => {
+        this.errorMsg = (getErrorMessage((this.myControl as AbstractControl)) as string)
+      });
+      this.subscriptions.add(mysub);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 }

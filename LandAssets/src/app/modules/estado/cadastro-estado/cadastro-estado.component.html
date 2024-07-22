@@ -9,14 +9,13 @@
       <span>Dados do Estado</span>
     </div>
     <app-form [parent]="this" [model]="EstateModel" [formGroup]="stateForm">
-      <!-- <form (ngSubmit)="submit()"> -->
       <mat-grid-list cols="9" rowHeight="90px" gutterSize="10">
         <mat-grid-tile colspan="4">
           <app-textfield
             formControlName="name"
             appearance="outline"
             class="fullwidth"
-            placeholder="Nome"
+            placeholder="State Name"
           />
         </mat-grid-tile>
         <mat-grid-tile colspan="2">
@@ -24,7 +23,7 @@
             formControlName="size"
             appearance="outline"
             class="fullwidth"
-            placeholder="size"
+            placeholder="Size"
             type="number"
             suffix="m2"
           />
@@ -36,7 +35,7 @@
             formControlName="oceanDistance"
             appearance="outline"
             class="fullwidth"
-            placeholder="oceanDistance"
+            placeholder="Ocean Distance"
             type="number"
           />
         </mat-grid-tile>
@@ -56,7 +55,7 @@
             appearance="outline"
             class="fullwidth"
             value="stateFields"
-            placeholder="population"
+            placeholder="Population"
             type="number"
           />
         </mat-grid-tile>
@@ -67,17 +66,11 @@
             appearance="outline"
             class="fullwidth"
             value="stateFields"
-            placeholder="counties"
+            placeholder="Counties"
           />
         </mat-grid-tile>
         <mat-grid-tile colspan="3">
-          <app-textfield
-            formControlName="paymentTerm"
-            appearance="outline"
-            class="fullwidth"
-            value="stateFields"
-            placeholder="paymentTerm"
-          />
+          <app-form-select class="basic-style" formControlName="paymentTerm" [options]="paymentTermValues" label="label" value="value"/>
         </mat-grid-tile>
         <mat-grid-tile colspan="3">
           <app-textfield
@@ -87,7 +80,7 @@
             appearance="outline"
             class="fullwidth"
             value="stateFields"
-            placeholder="averagePricePerSQM"
+            placeholder="Average Price per SQM"
           />
         </mat-grid-tile>
         <mat-grid-tile colspan="3">
@@ -98,7 +91,7 @@
             appearance="outline"
             class="fullwidth"
             value="stateFields"
-            placeholder="averagePartialPaymentPrice"
+            placeholder="Average Partial Payment Price"
           />
         </mat-grid-tile>
         <mat-grid-tile colspan="4">
@@ -108,13 +101,6 @@
             type="file"
             (change)="onFileSelected($event)"
             placeholder="input"
-          />
-        </mat-grid-tile>
-        <mat-grid-tile colspan="9">
-          <app-flat-button
-            style="margin-left: auto; width: 140px"
-            type="submit"
-            text="SUBMIT"
           />
         </mat-grid-tile>
       </mat-grid-list>

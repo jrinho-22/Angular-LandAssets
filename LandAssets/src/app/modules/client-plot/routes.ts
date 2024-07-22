@@ -1,4 +1,3 @@
-import { PaymentClientPlotComponent } from './payment-client-plot/cadastro-client-plot.component';
 import { ViewClientPlotComponent } from './view-client-plot/view-client-plot.component';
 import { generateRoutes } from 'src/app/utils/generateRoutes';
 import { Routes } from '@angular/router';

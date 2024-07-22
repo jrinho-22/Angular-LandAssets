@@ -1,36 +1,32 @@
-import { Component, Inject, Input, ViewChild } from '@angular/core';
-import { FormGroup, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { Component, Inject, Input } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { notDeepEqual } from 'assert';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { HttpRequestService } from 'src/app/services/HttpRequest.service';
-import { SnackbarComponent } from '../snackbar/snackbar.component';
 import { SnackbarService } from '../../services/snackbar.service';
-import { fstat } from 'fs';
 import IFormParent from 'src/app/interfaces/IFormParent';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MyErrorStateMatcher } from '../inputs/textfieldError';
 import { FORM_SUBMIT } from 'src/app/tokens/formSubmitHandler';
+import { FlatButtonComponent } from '../buttons/flat-button/flat-button.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.sass'],
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, FlatButtonComponent],
 })
 export class FormComponent<T extends { [key: string]: any; }> {
-  // @ViewChild("ngForm") form!: NgForm;
   @Input() formGroup!: FormGroup;
-  formType!: 'cadastro' | 'edicao' | 'view';
+  @Input() modal: boolean = false
   @Input() model!: HttpRequestService<T>;
   @Input() parent!: IFormParent<T>;
   paramId!: number;
+  formType!: 'cadastro' | 'edicao' | 'view';
   old: any
-
-  // matcher = new MyErrorStateMatcher()
 
   constructor(
     private snackbarService: SnackbarService,
@@ -65,23 +61,20 @@ export class FormComponent<T extends { [key: string]: any; }> {
             return this.model.getItem(params['id']);
           })
         )
-        .subscribe((data: T) => { console.log(this.formGroup, data, 'yerrrrr'), this.populate(data) });
+        .subscribe((data: T) => { this.populate(data) });
     }
   }
 
   populate(data: T) {
-    console.log(data, 'datatatatat')
     var record: Record<string, any> = data
     if (typeof this.parent.beforeLoad == 'function') {
       record = this.parent.beforeLoad(data);
     }
     this.formGroup.patchValue(record);
-    // console.log(this.formGroup, data, 'yerrrrr')
   }
 
   async submit() {
-    // console.log(this.form, 'formrmrmmr ')
-    console.log('runnnnnn', this.formGroup)
+    console.log('formmmm', this.formGroup)
     this.formSubmitted.next({
       formSubmitted: true
     })

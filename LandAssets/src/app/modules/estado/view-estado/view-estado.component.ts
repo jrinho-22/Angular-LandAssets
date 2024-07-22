@@ -11,7 +11,12 @@ import { baseRoute } from '../routes';
 })
 export class ViewEstadoComponent {
   estates: IState[] = [];
-  headers: any[] = [{ field: 'name', label: 'Name' }, { field: 'counties', label: 'Cidades' }, { field: 'size', label: 'Size' }, { field: 'population', label: 'Population' }, { field: 'paymentTerm', label: 'Payment term' }];
+  headers: any[] = [
+    { field: 'name', label: 'Name' },
+    { field: 'counties', label: 'Cidades' },
+    { field: 'size', label: 'Size', render: (v: number) => v.toLocaleString('pt-BR') + ' m2' },
+    { field: 'population', label: 'Population', render: (v: number) => v.toLocaleString('pt-BR') },
+    { field: 'paymentTerm', label: 'Payment term' }];
   basePath: string = baseRoute;
 
   constructor(public EstateModel: EstateModel) {}

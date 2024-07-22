@@ -22,11 +22,10 @@ import { MODAL_BUY_PLOT_VALUES } from '../../tokens/modal-token';
 import { BehaviorSubject } from 'rxjs';
 import IModalBuyPlotValues from 'src/app/interfaces/plot-actions/IModalBuyPlotValues';
 import { ChartComponent } from 'src/app/components/chart/chart.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormErrorDirective } from 'src/app/directives/form-error.directive';
 import { FormSelectComponent } from 'src/app/components/inputs/form-select/form-select.component';
 import ISale from 'src/app/interfaces/ISale';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -39,6 +38,7 @@ import ISale from 'src/app/interfaces/ISale';
   imports: [
     // SharedModule    MatFormFieldModule,
     MatInputModule, 
+    MatTooltipModule,
     MatDialogModule,
     SelectComponent,
     FormSelectComponent,
@@ -53,7 +53,7 @@ import ISale from 'src/app/interfaces/ISale';
     TextfieldComponent,
     ChartComponent
   ],
-  exports: [ MatProgressSpinnerModule, FormSelectComponent ],
+  exports: [ MatProgressSpinnerModule, FormSelectComponent, MatTooltipModule],
   providers: [
     EstateModel,
     DashboardService,

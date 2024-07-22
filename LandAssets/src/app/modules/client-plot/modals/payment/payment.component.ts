@@ -13,6 +13,8 @@ import IModalBuyPlotValues from 'src/app/interfaces/plot-actions/IModalBuyPlotVa
 import ISale from 'src/app/interfaces/ISale';
 import { PaymentModel } from '../../models/payment.service';
 import IFormParent from 'src/app/interfaces/IFormParent';
+import { CustomValidators } from 'src/app/utils/validators/CustomValidators';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-payment',
@@ -25,7 +27,7 @@ export class ModalPaymentComponent implements IFormParent<{}> {
   cardNumberMask: InputmaskOptions<unknown> = cardNumberMask
   cardValidadeMask: InputmaskOptions<unknown> = cardValidadeMask
   cardCodigoMask: InputmaskOptions<unknown> = cardCodigoMask
-  radioValues = [{value: true, label: 'Full Payment'}, {value: false, label: 'Installment Payment'}]
+  radioValues = [{ value: true, label: 'Full Payment' }, { value: false, label: 'Installment Payment' }]
   @ViewChild('myForm', { read: ViewContainerRef }) myForm!: ViewContainerRef;
   plotId: any;
 
@@ -34,6 +36,7 @@ export class ModalPaymentComponent implements IFormParent<{}> {
     private modalBuyPlotValues: BehaviorSubject<ISale>,
     public paymentModel: PaymentModel,
     private formBuilder: FormBuilder,
+    private snackbarService: SnackbarService,
     public dialog: MatDialog,
     private router: Router,
   ) {
@@ -42,7 +45,7 @@ export class ModalPaymentComponent implements IFormParent<{}> {
       stateName: [{ value: '', disabled: true }],
       totalPrice: [{ value: '', disabled: true }],
       installmentPrice: [{ value: '', disabled: true }],
-      fullPayment: ['']
+      fullPayment: ['', CustomValidators.radioType()]
     });
 
     this.modalBuyPlotValues.subscribe((v: ISale) => {
@@ -61,6 +64,13 @@ export class ModalPaymentComponent implements IFormParent<{}> {
 
   async submit() {
     let modalFormValues = this.modalForm.value
-    this.paymentModel.makePayment({plotId: this.plotId, fullPayment: modalFormValues.fullPayment}).subscribe( )
+    this.paymentModel.makePayment({
+      plotId: this.plotId, fullPayment: modalFormValues.fullPayment
+    }).subscribe({
+      complete: () => this.snackbarService.openSnack({
+        panel: 'success', message: 'Pagamento realizado com SUCESSO', menuMargin: false
+      })
+    }
+    )
   }
 }

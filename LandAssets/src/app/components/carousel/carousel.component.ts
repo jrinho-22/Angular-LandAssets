@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentInit, AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component,  ElementRef, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { CarouselModule, CarouselPageEvent } from 'primeng/carousel';
 
 @Component({
@@ -16,10 +16,8 @@ export class CarouselComponent {
   @Input() activeStateIndex: number = 0;
   @Output() pageEvent = new EventEmitter<number>();
 
-  // @ViewChild('templateRef') templateRef!: TemplateRef<any>;
   teste = ['Item1', 'Item 2', 'Item 3'];
 
-  // @ContentChild('templateRef', {static: false})
   projectedContentRef!: ElementRef;
 
   handlePageChange(e: CarouselPageEvent) {

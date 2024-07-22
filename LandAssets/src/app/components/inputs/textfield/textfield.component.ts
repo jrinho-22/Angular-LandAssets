@@ -3,15 +3,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AbstractControl, ControlContainer, FormBuilder, FormControl, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormsModule, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MyErrorStateMatcher } from '../textfieldError';
-import { FormErrorDirective } from 'src/app/directives/form-error.directive';
+import { MyErrorStateMatcher } from '../../../helpers/inputs/textfieldError';
 import { CommonModule } from '@angular/common';
-import { InputMaskModule, InputmaskOptions, createMask } from '@ngneat/input-mask';
-import { BehaviorSubject, Observable, Subscription, merge, of, startWith } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { InputMaskModule, InputmaskOptions } from '@ngneat/input-mask';
+import { BehaviorSubject, Subscription, merge, startWith } from 'rxjs';
 import { getErrorMessage } from 'src/app/utils/validators/validatorsMessages';
 import { FORM_SUBMIT } from 'src/app/tokens/formSubmitHandler';
 import { currencyInputMask } from 'src/app/utils/masks/currency';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-textfield',
@@ -27,7 +26,7 @@ import { currencyInputMask } from 'src/app/utils/masks/currency';
     },
 
   ],
-  imports: [InputMaskModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [MatProgressSpinnerModule, InputMaskModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, FormsModule, CommonModule],
 })
 export class TextfieldComponent implements ControlValueAccessor {
   @Input() mask: any
@@ -40,15 +39,15 @@ export class TextfieldComponent implements ControlValueAccessor {
   @Input() suffix: string | undefined
   @Input() value: string | number | null = null;
   @Input() appearance: "outline" | "fill" = 'fill';
-  // @Input() formControl!: FormControl
   @Input() formControlName!: string
   ngForm!: FormGroupDirective | null
-  suffixAply: string | undefined
+  suffixAply: string | undefined = ''
   myControl: AbstractControl<any, any> | undefined
   errorMsg: string = ''
   subscriptions: Subscription = new Subscription();
   matcher = new MyErrorStateMatcher()
   currencyInputMask: InputmaskOptions<unknown> = currencyInputMask
+  loading = true
 
   onChange: any = () => { };
   onTouch: any = () => { };
@@ -71,7 +70,9 @@ export class TextfieldComponent implements ControlValueAccessor {
     private injector: Injector,
     private cdRef: ChangeDetectorRef,
   ) {
-
+    setTimeout(() => {
+      this.loading = false      
+    }, 1400);
     this.formSubmitted.subscribe(v => {
       if (v.formSubmitted) {
         this.matcher.form = this.controlContainer;
@@ -158,6 +159,14 @@ export class TextfieldComponent implements ControlValueAccessor {
     if (!value) this.suffixAply = undefined
   }
 
+  getValue() {
+    if (this.type == 'number'){
+      this.value = (this.value as number).toLocaleString('pt-BR');
+      return this.suffix ? String(this.value + ' ' + this.suffix) : this.value
+    }
+    return this.value
+  }
+
   writeValue(value: any): void {
     if (this.type == 'number') this.value = value.toLocaleString('pt-BR');
     if (value) this.suffixAply = this.suffix
@@ -174,5 +183,4 @@ export class TextfieldComponent implements ControlValueAccessor {
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
-
 }

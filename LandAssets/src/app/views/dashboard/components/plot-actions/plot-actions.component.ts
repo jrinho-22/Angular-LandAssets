@@ -1,38 +1,22 @@
 import {
-  AfterContentInit,
   Component,
-  ComponentFactory,
-  ComponentFactoryResolver,
   ComponentRef,
-  ContentChild,
-  ElementRef,
   Inject,
-  Injector,
-  OnChanges,
-  SimpleChanges,
-  TemplateRef,
-  ViewChild,
-  ViewChildren,
-  ViewContainerRef,
   ViewEncapsulation,
-  createComponent,
 } from '@angular/core';
 import IState, { IStateEmpty, StateEmpty } from 'src/app/interfaces/IState';
-import IPlot, { IPlotEmpty, PlotEmpty } from 'src/app/interfaces/IPlot';
-import { HttpRequestService } from '../../../../services/HttpRequest.service';
-// import { factoryProvider } from './plot-actions.http.service.provider';
+import IPlot from 'src/app/interfaces/IPlot';
 import { EstateModel } from '../../models/estate.service';
 import { PlotModel } from '../../models/plot.service';
 import { DashboardService } from '../../utils/dashboard.service';
 import { IStateDash } from '../../../../interfaces/plot-actions/IStateDash';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from 'src/app/components/modal/modal.component';
-// import { ModalBuyPlotComponent } from './modals/modal-buy-plot/modal-buy-plot.component';
-import { bootstrapApplication } from '@angular/platform-browser';
 import { MODAL_BUY_PLOT_VALUES } from '../../../../tokens/modal-token';
-import { BehaviorSubject, Observable } from 'rxjs';
-import IModalData from 'src/app/interfaces/IModalData';
+import { BehaviorSubject } from 'rxjs';
 import IModalBuyPlotValues from 'src/app/interfaces/plot-actions/IModalBuyPlotValues';
+import { AuthService } from 'src/app/services/auth.service';
+import IUser from 'src/app/interfaces/IUser';
 
 @Component({
   selector: 'app-plot-actions',
@@ -52,6 +36,7 @@ export class PlotActionsComponent {
   componentRef!: ComponentRef<any>;
   actionFun!: () => void;
   template: any;
+  user: IUser | null = null
 
   constructor(
     @Inject(MODAL_BUY_PLOT_VALUES)
@@ -59,17 +44,27 @@ export class PlotActionsComponent {
     private EstateModel: EstateModel,
     private PlotModel: PlotModel,
     private DashboardService: DashboardService,
+    protected authService: AuthService,
     public dialog: MatDialog
-  ) {}
+  ) {
+  }
 
   async ngOnInit() {
-    // ModalBuyPlotComponent == contructor function itself
-    this.getStates();
-    this.subscribeToDashboardService();
-    this.modalBuyPlotValues.subscribe((v: IModalBuyPlotValues) => {
-      // console.log(v , 'vvvv')
-      // this.actionFun = v.action;
-    });
+      this.authService.authenticated$.subscribe(({ user }) => {
+        this.user = user;
+      });
+      setTimeout(() => {
+      this.getStates();
+      this.subscribeToDashboardService();
+      this.modalBuyPlotValues.subscribe((v: IModalBuyPlotValues) => {
+      });
+    }, 500);
+  }
+
+  tootipText() {
+    if (this.activePlot == undefined) return 'Plot ainda não selecionado'
+    if (this.user?.admin) return 'Ação não permitida para usuario admin'
+    return ''
   }
 
   subscribeToDashboardService() {
@@ -107,17 +102,12 @@ export class PlotActionsComponent {
         size: 'lg',
         component: ModalBuyPlotComponent,
         text: { title: 'Buy Plot', action: 'CONFIRM', close: 'CANCEL' },
-      } ,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was sed');
     });
-
-    // const modalComponentInstance = dialogRef.componentInstance;
-    // modalComponentInstance.actionButtonClicked.subscribe(() => {
-      // ModalBuyPlotComponent.prototype.submit();
-    // });
   }
 
   getStates() {
@@ -153,19 +143,6 @@ export class PlotActionsComponent {
       totalCashPrice: this.activePlot?.totalCashPrice,
       totalPartialPaymentPrice: this.activePlot?.totalPartialPaymentPrice,
       number: this.activePlot?.number,
-    });   
+    });
   }
-
-  // ngDoCheck(changes: any) {
-  //   console.log(changes, 'States changed:', this.states);
-  //   // Perform any actions you want when the states input property changes
-  // }
-
-  myValue = 'myValue';
-  // myValue(e: any) {
-  //   console.log(e)
-  //   return ''
-  // }
-
-  teste = ['state1'];
 }

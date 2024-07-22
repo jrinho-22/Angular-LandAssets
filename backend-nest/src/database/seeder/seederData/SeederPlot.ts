@@ -1,5 +1,3 @@
-import { estateSeed } from './SeederEstate';
-import { Plot } from 'src/plot/plot.entity';
 import { CreatePlotDto } from 'src/plot/dto/create-plot.dto';
 
 export const plotSeed: CreatePlotDto[] = [

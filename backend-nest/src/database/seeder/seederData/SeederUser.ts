@@ -1,4 +1,3 @@
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { Users } from 'src/users/user.entity';
 
 export const userSeed: Users[] = [

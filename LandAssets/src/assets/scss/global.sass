@@ -11,6 +11,9 @@ span, li, h1, h2, h3, h4, h5
 .hide
     display: none
 
+.soft-hide
+    opacity: 0
+
 .Background
     background-image: url("../images/back.webp")
     background-size: cover
@@ -38,8 +41,17 @@ $text-header-padding-border: 5px
     // height: 500px
     padding: 30px 120px
 
-    h1, span
-        color: $text_color_gray
+    form 
+      .submit-wrapper
+        margin-left: auto
+        display: flex
+        justify-content: flex-end
+
+        span
+          color: $text_color_gray
+
+    h1 
+      color: $text_color_gray
 
     .Header
         margin-left: 10px
@@ -61,6 +73,7 @@ $text-header-padding-border: 5px
             font-size: 22px
             margin: 25px  
             span
+                color: $text_color_gray
                 border-bottom: 2px solid $cor_fundo
                 padding-bottom: calc($text-header-padding-border - 2px)
                 padding-right: 10px
@@ -68,6 +81,7 @@ $text-header-padding-border: 5px
             &.title
                 margin-top: 0px  
                 font-size: 26px
+      
 
 .Cadastro-modal
   margin: 0
@@ -190,6 +204,7 @@ input[type="number"]::-webkit-inner-spin-button
 .spinner
     margin: auto
     height: 100% !important
+    --mdc-circular-progress-active-indicator-color: #{$primary}
 
 // table
 .table-wrapper

@@ -29,21 +29,6 @@ const nav: IMenuItems[] = [
     path: 'my-plots/listar'
   },
   {
-    permission: 'all',
-    label: 'MENU',
-    path: 'dashboard'
-    // children: [
-    //   {
-    //     label: 'teste',
-    //     children: [
-    //       {
-    //         label: '1',
-    //       },
-    //     ],
-    //   },
-    // ],
-  },
-  {
     permission: 'admin',
     label: 'MODULES',
     children: [

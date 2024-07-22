@@ -1,9 +1,6 @@
-<!-- <div class="table-container"> -->
-<ng-container *ngIf="!!collections.length; else noContent">
-  <!-- <div *ngSwitchCase="!collections.length" class="no-content"> -->
-  <!-- <span>No items found</span> -->
-  <!-- </div> -->
-  <div class="table-container">
+<div class="table-container">
+  <h1>{{title}}</h1>
+  <ng-container>
     <ng-container [ngSwitch]="true">
       <ng-container *ngSwitchCase="loading">
         <mat-spinner class="spinner" diameter="60"></mat-spinner>
@@ -17,7 +14,7 @@
             <th *ngIf="defaultActions || actionsRef">Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="!!collections.length; else noContent">
           <tr *ngFor="let item of currentCollection">
             <td *ngFor="let header of headers">
               <ng-container *ngIf="header.render; else defaulValue">
@@ -33,26 +30,26 @@
                   [ngTemplateOutletContext]="{$implicit: item}"></ng-template>
               </div>
               <div *ngIf="defaultActions">
-                <span (click)="visualizar(item)" class="i-visualizar button"></span>
-                <span (click)="editar(item)" class="i-editar button"></span>
-                <span (click)="excluir(item)" class="i-excluir button"></span>
+                <app-icon-button tooltipText="Vizulaizar item" (buttonClick)="visualizar(item)" icon="i-visualizar"></app-icon-button>
+                <app-icon-button [ngStyle]="{'margin': '0 5px'}" tooltipText="Editar item" (buttonClick)="editar(item)" icon="i-editar"></app-icon-button>
+                <app-icon-button tooltipText="Excluir item" (buttonClick)="excluir(item)" icon="i-excluir"></app-icon-button>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <app-pagination (loading)="setLoading($any($event))" [itemsLengthAllowed]="4" (currentCollection)="getCurrentCollection($event)"
-        [collections]="collections"></app-pagination>
+      <app-pagination (loading)="setLoading($any($event))" [itemsLengthAllowed]="4"
+        (currentCollection)="getCurrentCollection($event)" [collections]="collections"></app-pagination>
     </ng-container>
-  </div>
 </ng-container>
+</div>
 
 <ng-template #noContent>
-  <!-- <mat-spinner class="spinne" diameter="60"></mat-spinner>  -->
-  <span>No items found</span>
+  <tbody>
+    <tr>
+      <td [attr.colspan]="headers.length + 1">
+        No items found
+      </td>
+    </tr>
+  </tbody>
 </ng-template>
-
-<!-- <ng-template #loading>
-  <mat-spinner class="spinner" diameter="60"></mat-spinner>
-  <span>No items found</span>
-</ng-template> -->

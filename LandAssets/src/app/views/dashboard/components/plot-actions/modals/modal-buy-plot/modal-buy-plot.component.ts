@@ -14,7 +14,7 @@ import { BehaviorSubject, Observable, Subject, combineLatest, combineLatestWith,
 import IModalBuyPlotValues from 'src/app/interfaces/plot-actions/IModalBuyPlotValues';
 import { SalesService } from 'src/app/views/dashboard/models/sales.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { MyErrorStateMatcher } from 'src/app/components/inputs/textfieldError';
+import { MyErrorStateMatcher } from 'src/app/helpers/inputs/textfieldError';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/components/snackbar/snackbar.component';

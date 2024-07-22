@@ -10,6 +10,7 @@ import { Action } from 'rxjs/internal/scheduler/Action';
 import { BehaviorSubject } from 'rxjs';
 import ISnackBarData from 'src/app/interfaces/ISnackBarData';
 import IFormParent from 'src/app/interfaces/IFormParent';
+import { convertMoneyFormat } from 'src/app/helpers/inputs/moneyMaskConverter';
 
 @Component({
   selector: 'app-cadastro-plot',
@@ -51,5 +52,18 @@ export class CadastroPlotComponent implements IFormParent<IPlot>{
 
   beforeLoad(data: IPlot) {
     return { ...data, estateId: data['estate']?.estateId }
+  }
+
+  beforePost(data: FormGroup){
+    // if text field has been edited will be string, if not it will be what came from back
+    const newData = {
+      ...data.value,
+      totalCashPrice: convertMoneyFormat(data.value.totalCashPrice),
+      totalPartialPaymentPrice: convertMoneyFormat(data.value.totalPartialPaymentPrice),
+      firstInstallment: convertMoneyFormat(data.value.firstInstallment),
+      pricePerSQM: convertMoneyFormat(data.value.pricePerSQM),
+      priceSQMPartialPayment: convertMoneyFormat(data.value.priceSQMPartialPayment)
+    }
+    return newData
   }
 }

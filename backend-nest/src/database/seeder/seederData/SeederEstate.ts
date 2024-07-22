@@ -1,6 +1,4 @@
 import { Estate } from 'src/estate/estate.entity';
-import { Plot } from 'src/plot/plot.entity';
-import { plotSeed } from './SeederPlot';
 
 export const estateSeed: Estate[] = [
     {

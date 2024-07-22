@@ -1,5 +1,5 @@
 @import "../../../../../assets/scss/variables"
-$plotSearchHeight: 50px
+$plotSearchHeight: 60px
 
 .plotActionsWrapper
     background-color: $background_color
@@ -51,7 +51,6 @@ $plotSearchHeight: 50px
                 background-color: black
 
         .contentRight
-            padding: 0px 45px
             width: 39%
             margin-top: -$plotSearchHeight
 
@@ -79,7 +78,7 @@ $plotSearchHeight: 50px
                     mat-form-field
                         width: 90px
                         .mdc-text-field--filled
-                            border: 1px solid $primary
+                            // border: 1px solid $primary
                         .mat-mdc-select-arrow
                             color: rgba(0, 0, 0, 0.44) !important
                         .mdc-text-field--filled
@@ -92,3 +91,4 @@ $plotSearchHeight: 50px
             .fields
                 height: calc(100% - $plotSearchHeight)
                 overflow: auto
+                padding: 0px 45px

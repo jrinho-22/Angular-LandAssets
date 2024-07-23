@@ -101,7 +101,7 @@ export class EstateService {
           const imgPath = v.map;
           console.log(imgPath, 'imgPath')
           console.log(imgPath.split('\\').pop(), __dirname, 'imgPath')
-          const readStream = fs.createReadStream(path.join(__dirname, '..', 'assets', imgPath.split('\\').pop()));
+          const readStream = fs.createReadStream(path.join(__dirname, '..', 'assets', 'imgs', imgPath.split('\\').pop()));
 
           return new Promise<Estate>((resolve, reject) => {
             readStream.on('data', (chunk) => {

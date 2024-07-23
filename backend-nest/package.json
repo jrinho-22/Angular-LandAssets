@@ -13,7 +13,7 @@
     "start": " cross-env NODE_ENV=development nest start && npm run copy-assets",
     "start:dev": "cross-env NODE_ENV=development nest start --watch && npm run copy-assets",
     "start:debug": "nest start --debug --watch",
-    "copy-assets": "npm run copy-assets-win",
+    "copy-assets": "npm run copy-assets-unix",
     "copy-assets-win": "xcopy src\\assets dist\\assets /E /I /Y",
     "copy-assets-unix": "cp -r src/assets dist/assets",
     "start:prod": "cross-env NODE_ENV=production node dist/main",

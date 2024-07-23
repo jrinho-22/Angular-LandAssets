@@ -13,7 +13,7 @@ export class EstateService {
   constructor(
     @InjectRepository(Estate)
     private estateRepository: Repository<Estate>,
-  ) {}
+  ) { }
 
   createSeed(estateSeed: Estate[]): Array<Promise<Estate>> {
     return estateSeed.map(async (estate: Estate) => {
@@ -41,6 +41,7 @@ export class EstateService {
     const assetsDir = path.join(process.cwd(), pathSufix);
     try {
       await fs.promises.writeFile(assetsDir, file.buffer);
+      await fs.promises.writeFile(path.join(process.cwd(), 'dist/assets/imgs', pathSufix), file.buffer);
 
       const estate = {
         ...createEstateDto,
@@ -70,16 +71,30 @@ export class EstateService {
       .then((estate: Estate) => {
         const filePath = estate.map;
 
-        fs.unlink(filePath, (err) => {
-          if (err) {
-            console.error('Error deleting the file:', err);
-          }
-        });
+        if (process.env.NODE_ENV == 'development') {
+          fs.unlink(filePath, (err) => {
+            if (err) {
+              console.error('Error deleting the file:', err);
+            }
+          });
+        } else {
+          fs.unlink(path.join(__dirname, '..', 'assets', 'imgs', filePath.split('\\').pop()), (err) => {
+            if (err) {
+              console.error('Error deleting the file:', err);
+            }
+          });
+        }
       });
+
     const pathSufix = path.join('src/assets/imgs', createEstateDto.imgName);
     const assetsDir = path.join(process.cwd(), pathSufix);
     try {
-      await fs.promises.writeFile(assetsDir, file.buffer);
+      if (process.env.NODE_ENV == 'development') {
+        await fs.promises.writeFile(assetsDir, file.buffer);
+        console.log('fell', assetsDir, file.buffer)
+      } else {
+        await fs.promises.writeFile(path.join(process.cwd(), 'dist/assets/imgs', pathSufix), file.buffer);
+      }
 
       const estate = this.estateRepository.create({
         ...createEstateDto,
@@ -94,15 +109,17 @@ export class EstateService {
   }
 
   async findAll(): Promise<Estate[]> {
-    return this.estateRepository.find({relations: ['plots']}).then((v) => {
+    return this.estateRepository.find({ relations: ['plots'] }).then((v) => {
       return Promise.all(
         v.map((v) => {
           const chunks: any[] = [];
           const imgPath = v.map;
-          console.log(imgPath, 'imgPath')
-          console.log(imgPath.split('\\').pop(), __dirname, 'imgPath')
-          const readStream = fs.createReadStream(path.join(__dirname, '..', 'assets', 'imgs', imgPath.split('\\').pop()));
-
+          let readStream: fs.ReadStream
+          if (process.env.NODE_ENV == 'development') {
+            readStream = fs.createReadStream(imgPath);
+          } else {
+            readStream = fs.createReadStream(path.join(__dirname, '..', 'assets', 'imgs', imgPath.split('\\').pop()));
+          }
           return new Promise<Estate>((resolve, reject) => {
             readStream.on('data', (chunk) => {
               chunks.push(chunk);

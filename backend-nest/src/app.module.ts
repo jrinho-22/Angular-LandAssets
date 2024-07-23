@@ -1,4 +1,5 @@
 import { Logger, Module } from '@nestjs/common';
+import { ConfigModule} from '@nestjs/config';
 // import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -20,13 +21,14 @@ import { Sale } from './sale/entities/sale.entity';
     PlotModule,
     AuthModule,
     SaleModule,
+    ConfigModule.forRoot({ envFilePath: `${process.env.NODE_ENV}.env` }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'mysql-3b05c529-jrinho22-a643.i.aivencloud.com',
-      port: 24746,
-      username: 'avnadmin',
-      password: 'AVNS_LCYoXPz-WQPkhY8R7k0',
-      database: 'defaultdb',
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
       entities: [Users, Estate, Plot, Sale],
       synchronize: true,
     })

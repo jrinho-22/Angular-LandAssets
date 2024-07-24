@@ -1,7 +1,6 @@
-import { Component, Inject, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { baseRoute } from '../routes';
 import { SalesModel } from '../models/sales.service';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from 'src/app/components/modal/modal.component';
 import { BehaviorSubject } from 'rxjs';
@@ -31,7 +30,6 @@ export class ViewClientPlotComponent {
     private modalBuyPlotValues: BehaviorSubject<ISale>,
     public salesModel: SalesModel,
     public dialog: MatDialog,
-    private router: Router,
   ) { }
 
   async openDialog(sale: ISale) {

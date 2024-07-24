@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import IPlot from 'src/app/interfaces/IPlot';
 import { SalesModel } from '../models/sales.service';
 import ISale from 'src/app/interfaces/ISale';
 

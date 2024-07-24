@@ -1,7 +1,6 @@
 import { Component, Inject, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { InputmaskOptions } from '@ngneat/input-mask';
 import { cardNumberMask, cardValidadeMask, cardCodigoMask } from 'src/app/utils/masks/currency';

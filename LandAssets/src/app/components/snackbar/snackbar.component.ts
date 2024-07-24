@@ -1,9 +1,5 @@
-import { ChangeDetectorRef, Component, Inject, InjectionToken, ViewEncapsulation } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { BehaviorSubject } from 'rxjs';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import ISnackBarData from 'src/app/interfaces/ISnackBarData';
 
 @Component({

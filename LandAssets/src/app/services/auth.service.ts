@@ -1,12 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import resources from '../config';
-import IState from '../interfaces/IState';
 import { HttpRequestService } from './HttpRequest.service';
 import { getPropertyFromResource } from '../utils/typeUtil/resourceKey';
 import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 import { FormGroup } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from './snackbar.service';
 import IUser from '../interfaces/IUser';
 

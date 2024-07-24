@@ -1,18 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
-import { AbstractControl, FormGroup } from '@angular/forms';
-import IState from '../interfaces/IState';
+import { FormGroup } from '@angular/forms';
 import resources from '../config/resources';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarComponent } from '../components/snackbar/snackbar.component';
 import { SnackbarService } from './snackbar.service';
 
 @Injectable()
 export abstract class HttpRequestService<T> {
   protected _apiUrl: string = `https://angular-landassets.onrender.com`;
-  private _params: string = '';
-  // protected _resource: String = '';
   private _config: { resource: string } = { resource: '' };
   private _token: string | null;
   protected _headers: HttpHeaders | undefined;

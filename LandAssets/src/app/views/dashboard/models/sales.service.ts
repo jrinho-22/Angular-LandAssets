@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import resources from 'src/app/config';
 import { HttpRequestService } from 'src/app/services/HttpRequest.service';

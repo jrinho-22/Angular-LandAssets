@@ -1,7 +1,7 @@
-import { Component, Input, forwardRef, ViewEncapsulation, NgModule, Injector, Optional, SimpleChanges, Inject, ChangeDetectorRef, numberAttribute } from '@angular/core';
+import { Component, Input, forwardRef, ViewEncapsulation, Injector, Optional, Inject, ChangeDetectorRef, numberAttribute } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AbstractControl, ControlContainer, FormBuilder, FormControl, FormControlName, FormGroup, FormGroupDirective, FormGroupName, FormsModule, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, ControlContainer, FormControl, FormControlName, FormGroupDirective, FormsModule, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MyErrorStateMatcher } from '../../../helpers/inputs/textfieldError';
 import { CommonModule } from '@angular/common';

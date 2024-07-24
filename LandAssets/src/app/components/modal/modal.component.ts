@@ -4,7 +4,6 @@ import {
   ComponentRef,
   EventEmitter,
   Inject,
-  Input,
   Output,
   TemplateRef,
   ViewChild,
@@ -12,7 +11,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  MatDialog,
   MAT_DIALOG_DATA,
   MatDialogRef,
 } from '@angular/material/dialog';
@@ -26,7 +24,6 @@ import { modalSizeConverter } from './utils/modalSizeConverter';
 import IModalData from 'src/app/interfaces/IModalData';
 import { FlatButtonComponent } from '../buttons/flat-button/flat-button.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-modal',

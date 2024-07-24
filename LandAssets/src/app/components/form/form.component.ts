@@ -1,7 +1,6 @@
 import { Component, Inject, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { HttpRequestService } from 'src/app/services/HttpRequest.service';
 import { SnackbarService } from '../../services/snackbar.service';

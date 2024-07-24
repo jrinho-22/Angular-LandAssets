@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, Injector, Input, Optional, ViewEncapsulation, forwardRef } from '@angular/core';
-import { AbstractControl, ControlContainer, ControlValueAccessor, FormControl, FormControlName, FormGroup, FormsModule, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, ControlContainer, ControlValueAccessor, FormControl, FormControlName, FormsModule, NG_VALUE_ACCESSOR, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { TextfieldComponent } from '../textfield/textfield.component';
 import { MyErrorStateMatcher } from '../../../helpers/inputs/textfieldError';
 import { BehaviorSubject, Subscription, merge, startWith } from 'rxjs';
 import { FORM_SUBMIT } from 'src/app/tokens/formSubmitHandler';

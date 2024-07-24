@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import resources from '../../../config';
 import IPlot from 'src/app/interfaces/IPlot';
 import { Observable } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Injectable()

@@ -1,9 +1,9 @@
-import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef} from '@angular/core';
 import IState, { IStateEmpty, StateEmpty } from 'src/app/interfaces/IState';
 import { EstateModel } from '../../models/estate.service';
 import { DashboardService } from '../../utils/dashboard.service';
 import { ViewportScroller } from '@angular/common';
-import { skip, take } from 'rxjs';
+import { skip } from 'rxjs';
 
 @Component({
   selector: 'app-short-summary',

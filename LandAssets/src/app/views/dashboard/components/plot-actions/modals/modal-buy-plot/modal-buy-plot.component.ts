@@ -1,9 +1,7 @@
-import { Component, Inject, TemplateRef, ViewChild, ViewContainerRef, ViewRef } from '@angular/core';
+import { Component, Inject, ViewChild, ViewContainerRef } from '@angular/core';
 import {
   AbstractControl,
-  FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   FormRecord,
   Validators,
@@ -14,11 +12,8 @@ import { BehaviorSubject, Observable, combineLatestWith, take } from 'rxjs';
 import IModalBuyPlotValues from 'src/app/interfaces/plot-actions/IModalBuyPlotValues';
 import { SalesService } from 'src/app/views/dashboard/models/sales.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
-import { SnackbarService } from 'src/app/services/snackbar.service';
-import { FORM_SUBMIT } from 'src/app/tokens/formSubmitHandler';
 import { InputmaskOptions } from '@ngneat/input-mask';
-import { cardCodigoMask, cardNumberMask, cardValidadeMask, currencyInputMask } from 'src/app/utils/masks/currency';
+import { cardCodigoMask, cardNumberMask, cardValidadeMask } from 'src/app/utils/masks/currency';
 import ISale from 'src/app/interfaces/ISale';
 import IFormParent from 'src/app/interfaces/IFormParent';
 import { CustomValidators } from 'src/app/utils/validators/CustomValidators';

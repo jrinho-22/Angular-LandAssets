@@ -1,11 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MatGridListModule } from '@angular/material/grid-list';
-import IState, { IStateEmpty, StateEmpty } from 'src/app/interfaces/IState';
+import { Component, ViewChild } from '@angular/core';
+import IState from 'src/app/interfaces/IState';
 import { EstateModel } from '../models/estate.service';
 import {
   FormBuilder,
   FormGroup,
-  FormsModule,
   Validators,
 } from '@angular/forms';
 import IFormParent from 'src/app/interfaces/IFormParent';

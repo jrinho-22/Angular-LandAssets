@@ -4,8 +4,6 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import IState, { IStateEmpty, StateEmpty } from 'src/app/interfaces/IState';
-import IPlot, { IPlotEmpty } from 'src/app/interfaces/IPlot';
 
 @Component({
   selector: 'app-select',

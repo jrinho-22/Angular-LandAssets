@@ -3,7 +3,6 @@ import { HttpRequestService } from 'src/app/services/HttpRequest.service';
 import { HttpClient } from '@angular/common/http';
 import resources from '../../../config';
 import IState from 'src/app/interfaces/IState';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Injectable()

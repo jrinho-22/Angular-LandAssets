@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import resources from 'src/app/config';
 import ISale from 'src/app/interfaces/ISale';
-import IState from 'src/app/interfaces/IState';
 import IUser from 'src/app/interfaces/IUser';
 import { HttpRequestService } from 'src/app/services/HttpRequest.service';
 import { AuthService } from 'src/app/services/auth.service';

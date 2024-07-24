@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { EstateModel } from '../models/estate.service';
-import IState, { IStateEmpty, StateEmpty } from 'src/app/interfaces/IState';
+import IState from 'src/app/interfaces/IState';
 import { baseRoute } from '../routes';
 
 @Component({

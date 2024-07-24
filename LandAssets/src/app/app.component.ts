@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { ViewEncapsulation } from '@angular/core';
 import { AuthService } from './services/auth.service';
-import { BlobOptions } from 'buffer';
 
 @Component({
   selector: 'app-root',

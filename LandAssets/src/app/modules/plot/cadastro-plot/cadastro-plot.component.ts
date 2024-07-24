@@ -1,14 +1,10 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { PlotModel } from '../models/plot.service';
-import { FormGroup, FormBuilder, FormControl, AbstractControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import IPlot from 'src/app/interfaces/IPlot';
 import { EstateModel } from '../models/estate.service';
 import IState from 'src/app/interfaces/IState';
-import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarComponent } from 'src/app/components/snackbar/snackbar.component';
-import { Action } from 'rxjs/internal/scheduler/Action';
-import { BehaviorSubject } from 'rxjs';
-import ISnackBarData from 'src/app/interfaces/ISnackBarData';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import IFormParent from 'src/app/interfaces/IFormParent';
 import { convertMoneyFormat } from 'src/app/helpers/inputs/moneyMaskConverter';
 
@@ -26,7 +22,6 @@ export class CadastroPlotComponent implements IFormParent<IPlot>{
     private formBuilder: FormBuilder,
     protected plotModel: PlotModel,
     private stateModel: EstateModel,
-    private _snackBar: MatSnackBar,
   ) {
     this.plotForm = this.formBuilder.group({
       estateId: ['', Validators.required],

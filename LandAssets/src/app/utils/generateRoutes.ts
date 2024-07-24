@@ -1,6 +1,5 @@
-import { Component, Type } from '@angular/core';
+import { Type } from '@angular/core';
 import { CanActivateFn, Routes } from '@angular/router';
-import { userGuard } from '../guard/user.guard';
 
 export const generateRoutes = (
   path: string,

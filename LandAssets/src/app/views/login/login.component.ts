@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Output, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable, map, take } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';

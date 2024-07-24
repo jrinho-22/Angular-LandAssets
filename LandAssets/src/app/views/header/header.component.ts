@@ -1,7 +1,7 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import menuItems from './menuItems';
 import { IMenuItems } from './interfaceMenuItems';
-import { ActivatedRoute, NavigationEnd, Router, Event, Scroll } from '@angular/router';
+import { NavigationEnd, Router, Event } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import IUser from 'src/app/interfaces/IUser';

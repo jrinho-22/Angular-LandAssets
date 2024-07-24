@@ -10,7 +10,7 @@ import { baseRoute } from '../routes';
   providers: [EstateModel],
 })
 export class ViewEstadoComponent {
-  estates: IState[] = [];
+  estates: IState[] | undefined = undefined;
   headers: any[] = [
     { field: 'name', label: 'Name' },
     { field: 'counties', label: 'Cidades' },

@@ -1,5 +1,5 @@
 import { ValidatorFn, AbstractControl, ValidationErrors, AsyncValidatorFn } from "@angular/forms";
-import { BehaviorSubject, Observable, map, of, startWith, take } from "rxjs";
+import { Observable, map } from "rxjs";
 
 export class CustomValidators {
   static currencyMasked = (minValue: number): ValidatorFn => {
@@ -21,21 +21,19 @@ export class CustomValidators {
 
   static requiredIf = (required: Observable<boolean>): AsyncValidatorFn => {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      // return of({ required: true })
-      // return of(null)
       return required.pipe(
-        map((response => { return response && !control.value? { required: true } : null })))
-      //   ;
+        map((response => { return response && !control.value ? { required: true } : null })))
     }
   }
 
   static radioType = (): ValidatorFn => {
     return (control: AbstractControl): ValidationErrors | null => {
       var value: string | number = control.value;
-      if (value == null || value == undefined ||   value == '') { 
-        return { requiredRadio: true }
-      } 
-      return null
+      if (value == 'full_payment' || value == 'partial_payment') {
+        return null
+      }
+
+      return { requiredRadio: true }
     }
   }
 

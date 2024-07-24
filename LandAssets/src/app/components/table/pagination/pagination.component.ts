@@ -96,11 +96,11 @@ export class PaginationComponent {
         }
       }
     }
-    this.loading.emit(true);
-    setTimeout(() => {
+    // this.loading.emit(true);
+    // setTimeout(() => {
       this.currentCollection.emit(this.collectionSplited[0]);
-      this.loading.emit(false);
-    }, 500);
+      // this.loading.emit(false);
+    // }, 500);
   }
 
   ngOnChanges({ collections }: SimpleChanges) {

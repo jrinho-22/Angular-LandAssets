@@ -10,7 +10,7 @@ import ISale from 'src/app/interfaces/ISale';
   providers: [SalesModel]
 })
 export class ViewSalesComponent {
-  collection: ISale[] = [];
+  collection: ISale[] | undefined = undefined;
   headers: any[] = [
     { field: 'users.email', label: 'User email' },
     { field: 'plot.plotId', label: 'Plot Id' },

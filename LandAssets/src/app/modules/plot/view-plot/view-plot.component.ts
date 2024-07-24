@@ -9,7 +9,7 @@ import { baseRoute } from '../routes';
   styleUrls: ['./view-plot.component.sass']
 })
 export class ViewPlotComponent {
-  plot: IPlot[] = [];
+  plot: IPlot[] | undefined = undefined;
   headers: any[] = [
     { field: 'number', label: 'Number' },
     { field: 'size', label: 'Size', render: (v: number) => v.toLocaleString('pt-BR') + ' m2' },

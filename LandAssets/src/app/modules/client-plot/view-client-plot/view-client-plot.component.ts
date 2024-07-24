@@ -16,12 +16,12 @@ import IPlot from 'src/app/interfaces/IPlot';
   providers: [SalesModel],
 })
 export class ViewClientPlotComponent {
-  collection: Array<any> = []
+  collection: Array<any> | undefined = undefined
   basePath: string = baseRoute;
   headers: any[] = [
     { field: 'plot.number', label: 'Plot Number' },
-    { field: 'totalCost', label: 'Total Price' },
-    { field: 'installmentCost', label : 'Installment Price'},
+    { field: 'totalCost', label: 'Total Price',  render: (v: number) => 'R$ ' + v.toLocaleString('pt-BR')  },
+    { field: 'installmentCost', label : 'Installment Price',  render: (v: number) => 'R$ ' + v.toLocaleString('pt-BR') },
     { field: 'remainingInstallments', label: 'Remaining installments' },
     { field: 'totalInstallments', label: 'Total Installments'},
   ];

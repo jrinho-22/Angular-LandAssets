@@ -29,12 +29,9 @@
               placeholder="Total Price" />
           </mat-grid-tile>
           <mat-grid-tile colspan="3">
-            <!-- <app-textfield formControlName="paymentType" appearance="outline" class="fullwidth"
-              placeholder="Tipo de Pagamento" /> -->
-              <app-form-select formControlName="paymentType" [options]="paymentTypeCollection" label="label" value="value"/>
+              <app-form-select class="basic-style" formControlName="paymentType" [options]="paymentTypeCollection" label="label" value="value"/>
           </mat-grid-tile>
           <mat-grid-tile *ngIf="paymentControl?.value == 'partial'" colspan="3">
-            <!-- {{saleForm.value}} -->
             <app-textfield type="number" maxValue="99" formControlName="totalInstallments" appearance="outline" class="fullwidth"
               placeholder="Parcelas" />
           </mat-grid-tile>

@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 import { EstateModel } from 'src/app/views/dashboard/models/estate.service';
 import { MODAL_BUY_PLOT_VALUES } from '../../../../../../tokens/modal-token';
-import { BehaviorSubject, Observable, Subject, combineLatest, combineLatestWith, map, of, startWith, switchMap, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatestWith, take } from 'rxjs';
 import IModalBuyPlotValues from 'src/app/interfaces/plot-actions/IModalBuyPlotValues';
 import { SalesService } from 'src/app/views/dashboard/models/sales.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -44,19 +44,14 @@ export class ModalBuyPlotComponent implements IFormParent<ISale> {
   cardCodigoMask: InputmaskOptions<unknown> = cardCodigoMask
 
   @ViewChild('myForm', { read: ViewContainerRef }) myForm!: ViewContainerRef;
-  // matcher = new MyErrorStateMatcher()
 
   constructor(
-    @Inject(FORM_SUBMIT)
-    private formSubmitted: BehaviorSubject<{ formSubmitted: boolean }>,
     @Inject(MODAL_BUY_PLOT_VALUES)
     private modalBuyPlotValues: BehaviorSubject<IModalBuyPlotValues>,
     private formBuilder: FormBuilder,
     protected EstateModel: EstateModel,
     protected SaleModel: SalesService,
     private auth: AuthService,
-    private router: Router,
-    private snackbarService: SnackbarService
   ) { }
 
   ngOnInit() {
@@ -89,8 +84,6 @@ export class ModalBuyPlotComponent implements IFormParent<ISale> {
     })
     return this.partialPaymentSub.pipe(take(1))
   }
-
-
 
   modalBuyPlotValuesSubscribe() {
     this.partialPaymentSub.pipe(combineLatestWith(this.modalBuyPlotValues)).subscribe(([partial, plotValues]) => {

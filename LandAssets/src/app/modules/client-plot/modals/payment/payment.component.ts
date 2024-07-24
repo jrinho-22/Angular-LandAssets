@@ -1,15 +1,11 @@
 import { Component, Inject, ViewChild, ViewContainerRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { ModalComponent } from 'src/app/components/modal/modal.component';
-import { FORM_SUBMIT } from 'src/app/tokens/formSubmitHandler';
-import { SalesModel } from '../../models/sales.service';
 import { InputmaskOptions } from '@ngneat/input-mask';
 import { cardNumberMask, cardValidadeMask, cardCodigoMask } from 'src/app/utils/masks/currency';
 import { MODAL_BUY_PLOT_VALUES } from 'src/app/tokens/modal-token';
-import IModalBuyPlotValues from 'src/app/interfaces/plot-actions/IModalBuyPlotValues';
 import ISale from 'src/app/interfaces/ISale';
 import { PaymentModel } from '../../models/payment.service';
 import IFormParent from 'src/app/interfaces/IFormParent';
@@ -27,7 +23,7 @@ export class ModalPaymentComponent implements IFormParent<{}> {
   cardNumberMask: InputmaskOptions<unknown> = cardNumberMask
   cardValidadeMask: InputmaskOptions<unknown> = cardValidadeMask
   cardCodigoMask: InputmaskOptions<unknown> = cardCodigoMask
-  radioValues = [{ value: true, label: 'Full Payment' }, { value: false, label: 'Installment Payment' }]
+  radioValues = [{ value: 'full_payment', label: 'Full Payment' }, { value: 'partial_payment', label: 'Installment Payment' }]
   @ViewChild('myForm', { read: ViewContainerRef }) myForm!: ViewContainerRef;
   plotId: any;
 
@@ -38,7 +34,6 @@ export class ModalPaymentComponent implements IFormParent<{}> {
     private formBuilder: FormBuilder,
     private snackbarService: SnackbarService,
     public dialog: MatDialog,
-    private router: Router,
   ) {
     this.modalForm = this.formBuilder.group({
       plotNumber: [{ value: '', disabled: true }],
@@ -63,14 +58,26 @@ export class ModalPaymentComponent implements IFormParent<{}> {
   }
 
   async submit() {
-    let modalFormValues = this.modalForm.value
+    let modalFormValues = {
+      ...this.modalForm.value,
+      fullPayment: this.modalForm.controls['fullPayment'].value == 'full_payment' ? true : false
+    }
     this.paymentModel.makePayment({
       plotId: this.plotId, fullPayment: modalFormValues.fullPayment
     }).subscribe({
-      complete: () => this.snackbarService.openSnack({
-        panel: 'success', message: 'Pagamento realizado com SUCESSO', menuMargin: false
-      })
+      complete: () => {
+        this.snackbarService.openSnack({
+          panel: 'success', message: 'Pagamento realizado com SUCESSO', menuMargin: false
+        })
+        this.reload()
+      }
     }
     )
+  }
+
+  reload() {
+    setTimeout(() => {
+      window.location.reload()
+    }, 1200);
   }
 }

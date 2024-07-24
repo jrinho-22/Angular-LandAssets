@@ -25,14 +25,12 @@ export class FormComponent<T extends { [key: string]: any; }> {
   @Input() model!: HttpRequestService<T>;
   @Input() parent!: IFormParent<T>;
   paramId!: number;
-  formType!: 'cadastro' | 'edicao' | 'view';
+  formType!: 'cadastro' | 'edicao' | 'view' ;
   old: any
 
   constructor(
     private snackbarService: SnackbarService,
-    private router: Router,
     private activatedRoute: ActivatedRoute,
-    private _snackBar: MatSnackBar,
     @Inject(FORM_SUBMIT)
     private formSubmitted: BehaviorSubject<{formSubmitted: boolean}>
   ) { }
@@ -49,7 +47,10 @@ export class FormComponent<T extends { [key: string]: any; }> {
     else if (currentRoute?.includes('vizualizar')) {
       this.formType = 'view';
       this.formGroup.disable();
-    } else this.formType = 'cadastro';
+    } else if (currentRoute?.includes('cadastro')) {
+      this.formType = 'cadastro'
+    };
+
   }
 
   getCollection() {
@@ -96,9 +97,9 @@ export class FormComponent<T extends { [key: string]: any; }> {
   sendData = (data: FormGroup | FormData | Record<string, any>) => {
     if (data instanceof FormGroup) data = data.value
     if (this.formType === 'edicao') {
-      return this.model.putData(this.paramId, data).subscribe({complete: () => this.snackbarService.openSnack({panel:'success', message: 'Item editado com SUCESSO', menuMargin: true }) });
+      return this.model.putData(this.paramId, data).subscribe({complete: () => this.snackbarService.openSnack({panel:'success', message: 'Item editado com SUCESSO', menuMargin: !!this.formType }) });
     } else {
-      return this.model.postData(data).subscribe({complete: () => this.snackbarService.openSnack({panel:'success', message: 'Item cadastrado com SUCESSO' }) });
+      return this.model.postData(data).subscribe({complete: () => this.snackbarService.openSnack({panel:'success', message: 'Item cadastrado com SUCESSO',  menuMargin: !!this.formType }) });
     }
   };
 }

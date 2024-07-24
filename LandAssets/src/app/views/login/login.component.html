@@ -7,7 +7,14 @@
           maxLenght="5" />
         <app-textfield [ngStyle]="{'margin-top': '13px', 'margin-bottom': '13px'}" formControlName="password"
           appearance="outline" [password]="true" class="fullwidth" placeholder="Password" />
-        <app-flat-button [ngStyle]="{'margin-bottom': '10px'}" type="submit" text="LOGIN" />
+        <div class="submit-wrapper">
+          <app-flat-button type="submit" text="LOGIN" />
+          <span class="i-exclamation"></span>
+          <div class="credentials">
+            <span>email: <span style="font-style: italic">admin@gmail.com | client@gmail.com</span></span>
+            <span>password: <span style="font-style: italic">123</span> </span>
+          </div>
+        </div>
         <span>or</span>
         <span class="sign-link" (click)="change()">Signup</span>
       </form>

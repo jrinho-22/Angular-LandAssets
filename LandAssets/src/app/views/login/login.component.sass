@@ -9,7 +9,35 @@
     left: 0
     right: 0
 
+.submit-wrapper
+    cursor: default
+    margin-bottom: 10px
+    position: relative
+    > span
+        position: absolute
+        border: 1px solid
+        left: 110%
+        top: 17%
+        border-radius: 30px
+        margin-left: 20px
+        &:hover
+            ~ div.credentials
+                opacity: 1 !important
+    div.credentials
+            margin-left: 90px
+            opacity: 0
+            border-radius: 10px
+            background-color: rgb(217, 235, 232)
+            display: flex
+            width: max-content
+            flex-direction: column
+            z-index: 999
+            box-shadow: rgba(50, 50, 93, 0.25) -10px 10px 12px -2px
+            padding: 25px
+            position: absolute
+
 .container
+    overflow: visible 
     position: absolute
     display: flex
     flex-direction: column
@@ -26,7 +54,6 @@
     min-height: 60%
     height: fit-content
     max-height: 750px
-    overflow: auto
     width: 400px
 
     form

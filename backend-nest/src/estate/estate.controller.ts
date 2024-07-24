@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   Res,
-  HttpStatus,
   UploadedFile,
   UseInterceptors,
   Put,
@@ -18,7 +17,6 @@ import { UpdateEstateDto } from './dto/update-estate.dto';
 import * as fs from 'fs';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { json } from 'stream/consumers';
 
 @Controller('estate')
 export class EstateController {
@@ -27,13 +25,12 @@ export class EstateController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   create( @Body() body: CreateEstateDto, @UploadedFile() file: Express.Multer.File) {
-    // const json = JSON.stringify.parse(body.stateFields)
     return this.estateService.create(body, file);
   }
 
   @Get()
-  findAll() {
-    return this.estateService.findAll();
+  async findAll() {
+    return await this.estateService.findAll();
   }
 
   @Get('/img')

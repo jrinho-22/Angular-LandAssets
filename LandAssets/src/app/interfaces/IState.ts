@@ -3,8 +3,9 @@ import IPlot from "./IPlot";
 export default interface IState {
   estateId: number
   name: string;
-  imgName: string;
-  map: string;
+  imgName?: string;
+  mapId: string;
+  mapName: string;
   size: string;
   oceanDistance: string;
   plotsAvailable: number;

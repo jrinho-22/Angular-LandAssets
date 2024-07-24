@@ -3,7 +3,8 @@ import { Estate } from '../../../estate/estate.entity';
 export const estateSeed: Estate[] = [
     {
       name: 'New York',
-      map: 'src\\assets\\imgs\\estateMap.png',
+      mapId: 'mapa2_ycw9k5',
+      mapName: 'mapa2',
       size: 54552,
       oceanDistance: 50,
       plotsAvailable: 0,
@@ -15,7 +16,8 @@ export const estateSeed: Estate[] = [
     },
     {
       name: "California",
-      map: "src\\assets\\imgs\\Kansas.png",
+      mapId: "kansas_ppfm8b",
+      mapName: "kansas.png",
       size: 163696,
       oceanDistance: 12,
       plotsAvailable: 0,
@@ -27,7 +29,8 @@ export const estateSeed: Estate[] = [
     },
     {
       name: "Texas",
-      map: "src\\assets\\imgs\\mapa1.jpg",
+      mapId: "estateMap_kxbunl",
+      mapName: "estateMap.png",
       size: 268536,
       oceanDistance: 55,
       plotsAvailable: 0,

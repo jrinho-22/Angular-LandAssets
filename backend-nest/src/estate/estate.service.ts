@@ -3,10 +3,12 @@ import { CreateEstateDto } from './dto/create-estate.dto';
 import { UpdateEstateDto } from './dto/update-estate.dto';
 import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { v2 as cloudinary } from 'cloudinary';
 import { Estate } from './estate.entity';
 import * as fs from 'fs';
 import { Response } from 'express';
 import * as path from 'node:path';
+import { ImgUploadService } from 'src/services/img-upload.service';
 
 @Injectable()
 export class EstateService {
@@ -37,17 +39,14 @@ export class EstateService {
     createEstateDto: CreateEstateDto,
     file: Express.Multer.File,
   ): Promise<Estate> {
-    const pathSufix = path.join('src/assets/imgs', createEstateDto.imgName);
-    const assetsDir = path.join(process.cwd(), pathSufix);
     try {
-      await fs.promises.writeFile(assetsDir, file.buffer);
-      await fs.promises.writeFile(path.join(process.cwd(), 'dist/assets/imgs', pathSufix), file.buffer);
-
+      const res = await ImgUploadService.upload(file.buffer)
       const estate = {
         ...createEstateDto,
         plotsAvailable: Number(createEstateDto.plotsAvailable),
         counties: Number(createEstateDto.counties),
-        map: pathSufix,
+        mapId: res.display_name,
+        mapName: file.originalname,
       };
 
       return await this.estateRepository.save(estate);
@@ -62,117 +61,76 @@ export class EstateService {
     createEstateDto: CreateEstateDto,
     file: Express.Multer.File,
   ): Promise<UpdateResult> {
-    await this.estateRepository
+    return await this.estateRepository
       .findOne({
         where: {
           estateId: id,
         },
       })
-      .then((estate: Estate) => {
-        const filePath = estate.map;
+      .then(async (estate: Estate) => {
+        let res: any
+        try {
+          if (file.buffer.length) {
+            res = await ImgUploadService.upload(file.buffer)
+            await ImgUploadService.remove(estate.mapId)
+          }
+          const newEstate = this.estateRepository.create({
+            ...createEstateDto,
+            mapName: file.buffer.length ? file.originalname : estate.mapName,
+            mapId: res ? res.display_name : estate.mapId,
+          });
+          return await this.estateRepository.update(id, newEstate);
 
-        if (process.env.NODE_ENV == 'development') {
-          fs.unlink(filePath, (err) => {
-            if (err) {
-              console.error('Error deleting the file:', err);
-            }
-          });
-        } else {
-          fs.unlink(path.join(__dirname, '..', 'assets', 'imgs', filePath.split('\\').pop()), (err) => {
-            if (err) {
-              console.error('Error deleting the file:', err);
-            }
-          });
+        } catch (err) {
+          console.error('Error:', err);
+          throw new Error('Error creating estate');
         }
+
       });
-
-    const pathSufix = path.join('src/assets/imgs', createEstateDto.imgName);
-    const assetsDir = path.join(process.cwd(), pathSufix);
-    try {
-      if (process.env.NODE_ENV == 'development') {
-        await fs.promises.writeFile(assetsDir, file.buffer);
-        console.log('fell', assetsDir, file.buffer)
-      } else {
-        await fs.promises.writeFile(path.join(process.cwd(), 'dist/assets/imgs', pathSufix), file.buffer);
-      }
-
-      const estate = this.estateRepository.create({
-        ...createEstateDto,
-        map: pathSufix,
-      });
-
-      return await this.estateRepository.update(id, estate);
-    } catch (err) {
-      console.error('Error:', err);
-      throw new Error('Error creating estate');
-    }
   }
 
   async findAll(): Promise<Estate[]> {
-    return this.estateRepository.find({ relations: ['plots'] }).then((v) => {
-      return Promise.all(
-        v.map((v) => {
-          const chunks: any[] = [];
-          const imgPath = v.map;
-          let readStream: fs.ReadStream
-          if (process.env.NODE_ENV == 'development') {
-            readStream = fs.createReadStream(imgPath);
-          } else {
-            readStream = fs.createReadStream(path.join(__dirname, '..', 'assets', 'imgs', imgPath.split('\\').pop()));
-          }
-          return new Promise<Estate>((resolve, reject) => {
-            readStream.on('data', (chunk) => {
-              chunks.push(chunk);
-            });
+    return this.estateRepository.find({ relations: ['plots'] })
+    // .then((v) => {
+    //   return Promise.all(
+    //     v.map((v) => {
+    //       const chunks: any[] = [];
+    //       const imgPath = v.map;
+    //       let readStream: fs.ReadStream
+    //       if (process.env.NODE_ENV == 'development') {
+    //         readStream = fs.createReadStream('src/assets/imgs/mapa1.jpg');
+    //       } else {
+    //         readStream = fs.createReadStream(path.join(__dirname, '..', 'assets', 'imgs', imgPath.split('\\').pop()));
+    //       }
+    //       return new Promise<Estate>((resolve, reject) => {
+    //         readStream.on('data', (chunk) => {
+    //           chunks.push(chunk);
+    //         });
 
-            readStream.on('end', () => {
-              const imageData = Buffer.concat(chunks);
-              const base64Image = imageData.toString('base64');
-              resolve({ ...v, map: base64Image });
-            });
+    //         readStream.on('end', () => {
+    //           const imageData = Buffer.concat(chunks);
+    //           const base64Image = imageData.toString('base64');
+    //           resolve({ ...v, map: base64Image });
+    //         });
 
-            readStream.on('error', (error) => {
-              reject(error);
-            });
-          });
-        }),
-      );
-    });
+    //         readStream.on('error', (error) => {
+    //           reject(error);
+    //         });
+    //       });
+    //     }),
+    //   );
+    // });
   }
 
   async findOne(
     estateId: number,
-  ): Promise<(Estate & { imgName: string }) | null> {
+  ): Promise<Estate | null> {
     return this.estateRepository
       .findOne({
         where: {
           estateId: estateId,
         },
       })
-      .then((state: Estate) => {
-        const readStream = fs.createReadStream(state.map);
-        const chunks: any[] = [];
-        return new Promise<Estate & { imgName: string }>((resolve, reject) => {
-          readStream.on('data', (chunk) => {
-            chunks.push(chunk);
-          });
-
-          readStream.on('end', () => {
-            const imageData = Buffer.concat(chunks);
-            const base64Image = imageData.toString('base64');
-            const imgName = state.map.split('\\');
-            resolve({
-              ...state,
-              imgName: imgName[imgName.length - 1],
-              map: base64Image,
-            });
-          });
-
-          readStream.on('error', (error) => {
-            reject(error);
-          });
-        });
-      });
   }
 
   update(id: number, updateEstateDto: UpdateEstateDto) {

@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { ShortSummaryComponent } from './short-summary/short-summary.component';
-// import { PlotActionsComponent } from './plot-actions/plot-actions.component';
 import { EstateModel } from './models/estate.service';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ShortSummaryComponent } from './components/short-summary/short-summary.component';
 import { PlotActionsComponent } from './components/plot-actions/plot-actions.component';
 import { CarouselComponent } from 'src/app/components/carousel/carousel.component';
@@ -25,19 +23,19 @@ import { ChartComponent } from 'src/app/components/chart/chart.component';
 import { MatInputModule } from '@angular/material/input';
 import { FormSelectComponent } from 'src/app/components/inputs/form-select/form-select.component';
 import ISale from 'src/app/interfaces/ISale';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CloudinaryModule } from '@cloudinary/ng';
 
 @NgModule({
   declarations: [
     ShortSummaryComponent,
     PlotActionsComponent,
-    // FormErrorDirective,
     DashboardComponent,
     ModalBuyPlotComponent,
   ],
   imports: [
-    // SharedModule    MatFormFieldModule,
-    MatInputModule, 
+    CloudinaryModule,
+    MatInputModule,
     MatTooltipModule,
     MatDialogModule,
     SelectComponent,
@@ -53,7 +51,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     TextfieldComponent,
     ChartComponent
   ],
-  exports: [ MatProgressSpinnerModule, FormSelectComponent, MatTooltipModule],
+  exports: [MatProgressSpinnerModule, FormSelectComponent, MatTooltipModule, CloudinaryModule],
   providers: [
     EstateModel,
     DashboardService,
@@ -64,4 +62,4 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     },
   ],
 })
-export class DashboardModule {}
+export class DashboardModule { }

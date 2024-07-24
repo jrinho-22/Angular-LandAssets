@@ -18,16 +18,16 @@ import { convertMoneyFormat } from 'src/app/helpers/inputs/moneyMaskConverter';
   styleUrls: ['./cadastro-estado.component.sass'],
   providers: [EstateModel],
 })
-export class CadastroEstadoComponent implements IFormParent<IState>{
+export class CadastroEstadoComponent implements IFormParent<IState> {
   stateForm: FormGroup;
   name: any = '';
-  formData: FormData = new FormData(); 
+  formData: FormData = new FormData();
   paymentTermValues = [
     { value: 'Bi-annual Payments', label: 'Annual Payment' },
     { value: 'Flexible', label: 'Flexible' },
     { value: 'Monthly Installments', label: 'Monthly Payment' }
   ]
-  @ViewChild('fileInput') fileInput!: any; 
+  @ViewChild('fileInput') fileInput!: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,19 +48,25 @@ export class CadastroEstadoComponent implements IFormParent<IState>{
   }
 
   onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.readFile(file).then((result: ArrayBuffer | null) => {
-        if (result) {
-          const blob = new Blob([new Uint8Array(result)]);
-          
-          this.formData.set('file', blob, file.name)
-          this.stateForm.patchValue({ 
-            imgName: file.name
-          });
-        } else {
-          console.error('Failed to read file');
-        }
+    if (event.target.files.length) {
+      const file: File = event.target.files[0];
+      if (file) {
+        this.readFile(file).then((result: ArrayBuffer | null) => {
+          if (result) {
+            const blob = new Blob([new Uint8Array(result)]);
+
+            this.formData.set('file', blob, file.name)
+            this.stateForm.patchValue({
+              imgName: file.name
+            });
+          } else {
+            console.error('Failed to read file');
+          }
+        });
+      }
+    } else {
+      this.stateForm.patchValue({
+        imgName: ''
       });
     }
   }
@@ -81,7 +87,7 @@ export class CadastroEstadoComponent implements IFormParent<IState>{
     });
   }
 
-  beforePost(data: FormGroup){
+  beforePost(data: FormGroup) {
     // if text field has been edited will be string, if not it will be what came from back
     const newData = {
       ...data.value,
@@ -94,37 +100,19 @@ export class CadastroEstadoComponent implements IFormParent<IState>{
     return this.formData
   }
 
-  // submit() {
-  //   const sendData = (data: FormGroup | FormData): any => {
-  //       return this.EstateModel.putData(2, data).subscribe();
-  //     }
-  //       sendData(this.stateForm);
-  // }
-
-  beforeLoad(data: IState){
-    const blob = this.createBlobFile(data['map'])
-    let file = new File([blob], data['imgName']);
-    this.formData.append('file', blob, file.name)
+  beforeLoad(data: IState) {
+    const emptyBlob = new Blob([]);
+    const emptyFile = new File([], data['mapName']);
+    this.formData.append('file', emptyBlob, emptyFile.name);
     this.stateForm.patchValue({
-      imgName: file.name
+      imgName: emptyFile.name
     });
-    
-    let container = new DataTransfer(); 
-    container.items.add(file);
+
+    let container = new DataTransfer();
+    container.items.add(emptyFile);
     const fileInputElement = this.fileInput.nativeElement as HTMLInputElement;
     fileInputElement.files = container.files;
-    
+
     return data
-  }
-
-  createBlobFile(base64Image: string) {
-    const byteCharacters = atob(base64Image);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-
-    return new Blob([byteArray]);
   }
 }

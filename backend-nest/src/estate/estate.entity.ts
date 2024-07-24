@@ -10,7 +10,10 @@ export class Estate {
     name: string;
 
     @Column()
-    map: string;
+    mapId: string;
+
+    @Column()
+    mapName: string;
 
     @Column()
     size: number;

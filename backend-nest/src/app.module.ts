@@ -13,6 +13,7 @@ import { Plot } from './plot/plot.entity';
 import { AuthModule } from './auth/auth.module';
 import { SaleModule } from './sale/sale.module';
 import { Sale } from './sale/entities/sale.entity';
+import { ImgUploadService } from './services/img-upload.service';
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import { Sale } from './sale/entities/sale.entity';
     })
   ],
   controllers: [],
-  providers: [Seeder, Logger],
+  providers: [Seeder, Logger, ImgUploadService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}

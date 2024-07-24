@@ -10,7 +10,7 @@ import { SnackbarService } from './snackbar.service';
 
 @Injectable()
 export abstract class HttpRequestService<T> {
-  protected _apiUrl: string = `https://angular-landassets.onrender.com`;
+  protected _apiUrl: string = `http://localhost:3002`;
   private _params: string = '';
   // protected _resource: String = '';
   private _config: { resource: string } = { resource: '' };

@@ -49,16 +49,14 @@ export class PlotActionsComponent {
   ) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
       this.authService.authenticated$.subscribe(({ user }) => {
         this.user = user;
       });
-      setTimeout(() => {
       this.getStates();
       this.subscribeToDashboardService();
       this.modalBuyPlotValues.subscribe((v: IModalBuyPlotValues) => {
       });
-    }, 500);
   }
 
   tootipText() {

@@ -4,10 +4,11 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import resources from '../config/resources';
 import { SnackbarService } from './snackbar.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export abstract class HttpRequestService<T> {
-  protected _apiUrl: string = `https://angular-landassets.onrender.com`;
+  protected _apiUrl: string = environment.API_URL;
   private _config: { resource: string } = { resource: '' };
   private _token: string | null;
   protected _headers: HttpHeaders | undefined;

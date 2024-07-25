@@ -1,2 +1,3 @@
 # Angular Aplication With Nest
-under development
+app v1 = https://angular-land-assets-rumz.vercel.app/
+

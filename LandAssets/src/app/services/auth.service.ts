@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { SnackbarService } from './snackbar.service';
 import IUser from '../interfaces/IUser';
+import { authUrl } from '../helpers/urls';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class AuthService extends HttpRequestService<String> {
     authenticated: 'conceded' | 'denied' | null;
     user: IUser | null;
   }>({ authenticated: null, user: null });
-  
+
   private _authenticated$ = this.authenticatedSubject.asObservable();
 
   constructor(http: HttpClient, snackbarService: SnackbarService) {
@@ -38,11 +39,12 @@ export class AuthService extends HttpRequestService<String> {
   config() {
     return {
       resource: getPropertyFromResource('LOGIN'),
+      apiUrl: authUrl,
     };
   }
 
   getUser(userId: number | string): Observable<IUser> {
-    return this.http.get<IUser>(`${this._apiUrl}/user/${userId}`, {
+    return this.http.get<IUser>(`${authUrl}/user/${userId}`, {
       headers: this._headers,
     }).pipe(
       catchError((errorResponse: HttpErrorResponse) => {

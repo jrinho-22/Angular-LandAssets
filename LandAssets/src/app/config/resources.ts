@@ -5,9 +5,8 @@ interface Config {
 const config = {
   PLOT: "plot",
   ESTATE: "estate",
-  LOGIN: "auth/login",
-  SALE: "sale",
-  PAYMENT: "sale/payment"
+  LOGIN: "login",
+  PAYMENT: "payment"
 };
 
 export default config

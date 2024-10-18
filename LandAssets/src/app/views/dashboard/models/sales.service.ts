@@ -4,6 +4,7 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import resources from 'src/app/config';
 import { HttpRequestService } from 'src/app/services/HttpRequest.service';
 import ISale from 'src/app/interfaces/ISale';
+import { saleUrl } from 'src/app/helpers/urls';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class SalesService extends HttpRequestService<ISale> {
 
   config() {
     return {
-      resource: resources.SALE,
+      resource: '',
+      apiUrl: saleUrl
     };
   }
 }

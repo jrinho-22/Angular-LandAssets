@@ -1,8 +1,9 @@
 import { Plot } from '../../plot/plot.entity';
 import { Users } from "../../users/user.entity";
-import { Entity, PrimaryColumn, ManyToOne, JoinColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, ManyToOne, JoinColumn, Column, Unique } from "typeorm";
 
 @Entity('sale')
+@Unique(['plotId'])
 export class Sale {
     @PrimaryColumn({ name: 'userId' })
     userId: number;

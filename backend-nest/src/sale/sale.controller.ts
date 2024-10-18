@@ -3,8 +3,9 @@ import { SaleService } from './sale.service';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
 import { PaymentSaleDto } from './dto/payment-sale-dto';
+import { Public } from 'src/auth/auth.contants';
 
-@Controller('sale')
+@Controller('sales')
 export class SaleController {
   constructor(private readonly saleService: SaleService) {}
 
@@ -18,6 +19,7 @@ export class SaleController {
     return this.saleService.makePayment(paymentSaleDto, +userId);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.saleService.findAll();

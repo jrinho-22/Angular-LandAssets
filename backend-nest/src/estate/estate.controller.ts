@@ -17,6 +17,7 @@ import { UpdateEstateDto } from './dto/update-estate.dto';
 import * as fs from 'fs';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Public } from 'src/auth/auth.contants';
 
 @Controller('estate')
 export class EstateController {
@@ -28,6 +29,7 @@ export class EstateController {
     return this.estateService.create(body, file);
   }
 
+  @Public()
   @Get()
   async findAll() {
     return await this.estateService.findAll();

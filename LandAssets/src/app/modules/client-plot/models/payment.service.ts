@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { catchError, Observable, throwError } from 'rxjs';
 import resources from 'src/app/config';
+import { saleUrl } from 'src/app/helpers/urls';
 import ISale from 'src/app/interfaces/ISale';
 import IUser from 'src/app/interfaces/IUser';
 import { HttpRequestService } from 'src/app/services/HttpRequest.service';
@@ -34,6 +35,7 @@ export class PaymentModel extends HttpRequestService<any> {
   config() {
     return {
       resource: resources.PAYMENT,
+      apiUrl: saleUrl,
     };
   }
 }

@@ -47,9 +47,19 @@ export class PlotService {
       .catch((error) => Promise.reject(error));
   }
 
-  createSeed(plotSeed: CreatePlotDto[]): Array<Promise<Plot>> {
+  createSeed(plotSeed: CreatePlotDto[]): Array<Promise<Plot | null>> {
     return plotSeed.map(async (plot: CreatePlotDto) => {
-      return this.create(plot);
+      return await this.plotRepository
+      .findOne({
+        where: {
+          estate: { estateId: plot.estateId },
+          number: plot.number,
+        },
+      }).then(dbplot => {
+        if (dbplot) {
+          return null
+        } else this.create(plot)
+      });
     });
   }
 

@@ -8,8 +8,9 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export abstract class HttpRequestService<T> {
-  protected _apiUrl: string = environment.API_URL;
-  private _config: { resource: string } = { resource: '' };
+  // protected _apiUrl: string = environment.API_URL;
+  // protected _apiUrl: string
+  private _config: { resource: string, apiUrl: string } = { resource: '', apiUrl: '' };
   private _token: string | null;
   protected _headers: HttpHeaders | undefined;
 
@@ -25,11 +26,13 @@ export abstract class HttpRequestService<T> {
   }
 
   get updatedUrl() {
-    return `${this._apiUrl}/${this._config.resource}`;
+    return this._config.resource.length ?
+      `${this._config.apiUrl}/${this._config.resource}` :
+      `${this._config.apiUrl}`
   }
 
   // typeof resources[keyof typeof resources] accept all return types containning in resources
-  abstract config(): { resource: (typeof resources)[keyof typeof resources] };
+  abstract config(): { resource: (typeof resources)[keyof typeof resources], apiUrl: string };
 
   getData(params?: any): Observable<T[]> {
     return this.http.get<T[]>(`${this.updatedUrl}`, {
@@ -54,7 +57,7 @@ export abstract class HttpRequestService<T> {
       headers: this._headers,
     }).pipe(
       catchError((error: HttpErrorResponse) => {
-        this.snackbarService.openSnack({panel: 'error', message: error.error.message})
+        this.snackbarService.openSnack({ panel: 'error', message: error.error.message })
         return throwError(() => new Error('Error from catchError'));
       })
     );
@@ -67,7 +70,7 @@ export abstract class HttpRequestService<T> {
       catchError((error: HttpErrorResponse) => {
         // Here we log the error to verify it is caught
         console.log('Caught in catchError', error);
-        this.snackbarService.openSnack({panel: 'error', message: error.error.message})
+        this.snackbarService.openSnack({ panel: 'error', message: error.error.message })
         return throwError(() => new Error('Error from catchError'));
       })
     );
@@ -78,7 +81,7 @@ export abstract class HttpRequestService<T> {
       headers: this._headers,
     }).pipe(
       catchError((error: HttpErrorResponse) => {
-        this.snackbarService.openSnack({panel: 'error', message: error.error.message})
+        this.snackbarService.openSnack({ panel: 'error', message: error.error.message })
         return throwError(() => new Error('error'));
       })
     );;

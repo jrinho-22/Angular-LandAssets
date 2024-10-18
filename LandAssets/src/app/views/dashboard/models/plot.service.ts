@@ -5,6 +5,7 @@ import resources from '../../../config';
 import IPlot from 'src/app/interfaces/IPlot';
 import { Observable } from 'rxjs';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { service1Url } from 'src/app/helpers/urls';
 
 @Injectable()
 export class PlotModel extends HttpRequestService<IPlot> {
@@ -16,6 +17,7 @@ export class PlotModel extends HttpRequestService<IPlot> {
   config() {
     return {
       resource: resources.PLOT,
+      apiUrl: service1Url
     };
   }
 

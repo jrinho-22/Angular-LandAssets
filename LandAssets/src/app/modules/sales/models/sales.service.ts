@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import resources from 'src/app/config';
+import { saleUrl } from 'src/app/helpers/urls';
 import ISale from 'src/app/interfaces/ISale';
 import IUser from 'src/app/interfaces/IUser';
 import { HttpRequestService } from 'src/app/services/HttpRequest.service';
@@ -20,7 +21,8 @@ export class SalesModel extends HttpRequestService<ISale> {
 
   config() {
     return {
-      resource: resources.SALE,
+      resource: '',
+      apiUrl: saleUrl
     };
   }
 }
